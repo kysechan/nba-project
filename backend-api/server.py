@@ -4,7 +4,8 @@ import os, json, sys, pickle, time, re, requests
 import logging, coloredlogs
 import sys, pprint, traceback
 
-from lib import settings
+from app import settings
+from app.views.main import nba_blueprint
 
 # Set up Logger
 logging.basicConfig(stream=sys.stdout, level=settings.LOGGING_LEVEL)
@@ -20,7 +21,8 @@ if os.getenv('ENV_TYPE') != 'PROD':
     # if locally testing, you can use colors in logging
     coloredlogs.install()
 
-
+# register main slack routes
+app.register_blueprint(nba_blueprint)
 
 def start_server(f_host=settings.FLASK_HOST, f_port=settings.FLASK_PORT):
     """
