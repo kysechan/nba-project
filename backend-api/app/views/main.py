@@ -110,7 +110,24 @@ def find_basic_team_data():
         mimetype='application/json'
     )
 
+@nba_blueprint.route('/api/teams/players', methods=['GET'])
+def find_players_by_team():
+    if not request.args.get('team') or request.args.get('team') == '':
+        return Response(
+            json.dumps({'ok':False, 'message':'Team name missing or empty'}),
+            status=400,
+            mimetype='application/json'
+        )
+    team_name = request.args.get('team')
 
+    result = gamedb.find_one_fulltext('teams', team_name)
+    players = gamedb.mfind('players', {"team_id":result['team_id']})
+
+    return Response(
+        json.dumps(players),
+        status=200,
+        mimetype='application/json'
+    )
 
 
 

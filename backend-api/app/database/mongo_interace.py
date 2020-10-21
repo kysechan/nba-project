@@ -196,6 +196,15 @@ class MongoInterface:
             nba_logger.info("Could not find item in mongo db. Error: {}".format(e))
             return None
 
+    def mfind(self, collection, obj):
+        try:
+            result=list(self.db[collection].find(obj, {'_id': False}))
+            return result
+        except Exception as e:
+            nba_logger.error("Could not find item in mongo db. Error: {}".format(e))
+            return []
+
+
     def get_collection(self, collection):
         """
             dump contents of collection into a list.
