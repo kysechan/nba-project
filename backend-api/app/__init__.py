@@ -23,6 +23,12 @@ try:
     if not playerdb or playerdb.test_connection() == None:
         raise Exception("No playerdb object or could not connect to db")
 except Exception as e:
-    nba_logger.error(f"Could not connect to db. Error: {e}")
+    nba_logger.error(f"Could not connect to PLAYER db. Error: {e}")
 
+try:
+    gamedb = MongoInterface(settings.MONGO_URL,'nba-1')
+    if not gamedb or gamedb.test_connection() == None:
+        raise Exception("No playerdb object or could not connect to db")
+except Exception as e:
+    nba_logger.error(f"Could not connect to GAME db. Error: {e}")
 

@@ -3,7 +3,7 @@ from flask import Response, make_response
 import os, json, sys, pickle, time, re
 import requests
 
-from app import nba_logger, playerdb
+from app import nba_logger, playerdb, gamedb
 
 from flask import Blueprint
 nba_blueprint = Blueprint('nba_blueprint', __name__) #save all routes under a blueprint to be used by other modules
@@ -88,3 +88,31 @@ def player_season_data():
         status=200,
         mimetype='application/json'
     )
+
+#############################################################
+# Team searching api endpoints
+#############################################################
+
+@nba_blueprint.route('/api/teams/basic', methods=['GET'])
+def find_basic_team_data():
+    if not request.args.get('team') or request.args.get('team') == '':
+        return Response(
+            json.dumps({'ok':False, 'message':'Team name missing or empty'}),
+            status=400,
+            mimetype='application/json'
+        )
+    team_name = request.args.get('team')
+
+    result = gamedb.find_one_fulltext('teams', team_name)
+    return Response(
+        json.dumps(result),
+        status=200,
+        mimetype='application/json'
+    )
+
+
+
+
+
+
+

@@ -90,6 +90,8 @@ class MongoInterface:
 
         return result
 
+    def find_one_fulltext(self, collection, query):
+        return self.db[collection].find_one({"$text": {"$search":query}}, {'_id': False})
 
 
     def mfind_one(self, obj, collection):
