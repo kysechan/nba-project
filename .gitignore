@@ -134,4 +134,5 @@ test.py
 .vscode/
 .ipynb
 notebooks/
+.DS_Store
 nba-mongo/*
