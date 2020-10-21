@@ -21,6 +21,9 @@ MONGO_DB = 'nba' # Database used by Odin
 MONGO_USER = os.getenv('MONGO_USER')
 MONGO_PASS = os.getenv('MONGO_PASS')
 
+
+PLAYER_COLLECTIONS = ['players','player_data','season_stats']
+
 # Colors for printing
 class bcolors:
     HEADER = '\033[95m'

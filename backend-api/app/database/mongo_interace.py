@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from . import settings
+from app import settings
 import logging, sys
 
 from app import nba_logger
@@ -41,6 +41,56 @@ class MongoInterface:
             :returns: integer of whether or not status is up
         """
         return self.db.command("serverStatus")
+
+    def find_player(self, collection, player_name):
+        """
+            Uses full text search to search for a player name
+        """
+        return self.db[collection].find_one({"$text": {"$search":player_name}})
+
+    def find_all_player_data(self, player_name):
+        """
+            Uses full text search to search for a player name
+        """
+        basic_player = self.db['players'].find_one({"$text": {"$search":player_name}}, {'_id': False})
+        player_stats = self.db['player_data'].find_one({"$text": {"$search":player_name}}, {'_id': False})
+        season_stats = self.db['season_stats'].find({"$text": {"$search":player_name}}, {'_id': False})
+
+        result = {}
+        missing = []
+        correct_player = ""
+        if basic_player and basic_player != {}:
+            result['basic'] = basic_player
+            correct_player = basic_player['player']
+        else:
+            result['basic'] = {}
+            missing.append('basic')
+
+        if player_stats and player_stats != {}:
+            result['stats'] = player_stats
+        else:
+            result['stats'] = {}
+            missing.append('stats')
+
+        if season_stats and season_stats != []:
+            result['seasons'] = []
+            for doc in season_stats:
+                if doc['player'] == correct_player:
+                    result['seasons'].append(doc)
+            nba_logger.info("Length of season stats: {}".format(len(result['seasons'])))
+        else:
+            result['seasons'] = []
+            missing.append('seasons')
+
+        result['ok'] = True
+
+        if len(missing) != 0:
+            result['ok'] = False
+            result['missing'] = missing
+
+        return result
+
+
 
     def mfind_one(self, obj, collection):
         try:

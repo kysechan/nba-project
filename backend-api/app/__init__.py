@@ -17,3 +17,12 @@ logging.Formatter.converter = time.localtime
 nba_logger = logging.getLogger('nba_app')
 nba_logger.setLevel(settings.LOGGING_LEVEL)
 
+from app.database.mongo_interace import MongoInterface
+try:
+    playerdb = MongoInterface(settings.MONGO_URL,'nba-players')
+    if not playerdb or playerdb.test_connection() == None:
+        raise Exception("No playerdb object or could not connect to db")
+except Exception as e:
+    nba_logger.error(f"Could not connect to db. Error: {e}")
+
+
