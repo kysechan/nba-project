@@ -55,32 +55,32 @@ CSE115
 ## API Documentation
 
 ### Player Data Endpoints
-#### /api/player/basic?player=<player_name>
+#### 1. /api/player/basic?player=<player_name>
 * Required Parameters:
     1. player (string of player name)
 * Request types: GET
 * Returns: json object of player info
 
-#### /api/player/stats?player=<player_name>
+#### 2. /api/player/stats?player=<player_name>
 * Required Parameters:
     1. player (string of player name)
 * Request types: GET
 * Returns: json object of player info
 
-#### /api/player/seasons?player=<player_name>
+#### 3. /api/player/seasons?player=<player_name>
 * Required Parameters:
     1. player (string of player name)
 * Request types: GET
 * Returns: json object of player info
 
 ### Team Data Endpoints
-#### /api/teams/basic?team=<team_name>
+#### 1. /api/teams/basic?team=<team_name>
 * Required Parameters:
     1. team (string of team name)
 * Request types: GET
 * Returns: json object of team info
 
-#### /api/teams/players?team=<team_name>
+#### 2. /api/teams/players?team=<team_name>
 * Required Parameters:
     1. team (string of team name)
 * Request types: GET
