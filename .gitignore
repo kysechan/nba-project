@@ -135,7 +135,12 @@ test.py
 .ipynb
 notebooks/
 .DS_Store
+
+# Why wont this stop being uploaded!
 nba-mongo/*
 nba-mongo/
+nba-mongo.zip
 *.zip
+
+# Other
 .DS_Store
