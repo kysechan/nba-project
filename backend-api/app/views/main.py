@@ -4,6 +4,7 @@ import os, json, sys, pickle, time, re
 import requests
 
 from app import nba_logger, playerdb, gamedb
+from app.utils.flask_utils import required_parameters_check
 
 from flask import Blueprint
 nba_blueprint = Blueprint('nba_blueprint', __name__) #save all routes under a blueprint to be used by other modules
@@ -32,12 +33,10 @@ def index():
 
 @nba_blueprint.route('/api/player/basic', methods=['GET'])
 def get_player():
-    if not request.args.get('player') or request.args.get('player') == '':
-        return Response(
-            json.dumps({'ok':False, 'message':'Player name either not specified or not empty'}),
-            status=400,
-            mimetype='application/json'
-        )
+    param_check = required_parameters_check(request, ['player'])
+    if param_check != True:
+        return param_check
+
     player = request.args.get('player')
 
     result = playerdb.find_player('players', player)
@@ -52,12 +51,10 @@ def get_player():
 
 @nba_blueprint.route('/api/player/stats', methods=['GET'])
 def get_player_stats():
-    if not request.args.get('player') or request.args.get('player') == '':
-        return Response(
-            json.dumps({'ok':False, 'message':'Player name either not specified or not empty'}),
-            status=400,
-            mimetype='application/json'
-        )
+    param_check = required_parameters_check(request, ['player'])
+    if param_check != True:
+        return param_check
+
     player = request.args.get('player')
 
     result = playerdb.find_player('player_data', player)
@@ -73,12 +70,10 @@ def get_player_stats():
 
 @nba_blueprint.route('/api/player/seasons', methods=['GET'])
 def player_season_data():
-    if not request.args.get('player') or request.args.get('player') == '':
-        return Response(
-            json.dumps({'ok':False, 'message':'Player name either not specified or not empty'}),
-            status=400,
-            mimetype='application/json'
-        )
+    param_check = required_parameters_check(request, ['player'])
+    if param_check != True:
+        return param_check
+
     player = request.args.get('player')
 
     result = playerdb.find_all_player_data(player)
@@ -93,14 +88,13 @@ def player_season_data():
 # Team searching api endpoints
 #############################################################
 
+
 @nba_blueprint.route('/api/teams/basic', methods=['GET'])
 def find_basic_team_data():
-    if not request.args.get('team') or request.args.get('team') == '':
-        return Response(
-            json.dumps({'ok':False, 'message':'Team name missing or empty'}),
-            status=400,
-            mimetype='application/json'
-        )
+    param_check = required_parameters_check(request, ['team'])
+    if param_check != True:
+        return param_check
+
     team_name = request.args.get('team')
 
     result = gamedb.find_one_fulltext('teams', team_name)
@@ -112,12 +106,10 @@ def find_basic_team_data():
 
 @nba_blueprint.route('/api/teams/players', methods=['GET'])
 def find_players_by_team():
-    if not request.args.get('team') or request.args.get('team') == '':
-        return Response(
-            json.dumps({'ok':False, 'message':'Team name missing or empty'}),
-            status=400,
-            mimetype='application/json'
-        )
+    param_check = required_parameters_check(request, ['team'])
+    if param_check != True:
+        return param_check
+
     team_name = request.args.get('team')
 
     result = gamedb.find_one_fulltext('teams', team_name)
