@@ -16,6 +16,8 @@ CSE115
 3. Run ./start-mongo.sh
 4. Should now be accessible under this uri:
     1. mongodb://localhost:27017
+5. To view the data using a GUI I would recommend compass:
+    1. https://www.mongodb.com/products/compass
 
 [Release Plan Doc](https://docs.google.com/document/d/1Gi5N25cxH5tdHwD4RcxDuTLrFQG7naUqsnnJQdIfxS8/edit)
 
