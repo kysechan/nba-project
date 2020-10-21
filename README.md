@@ -4,8 +4,9 @@ CSE115
 # Resources:
 * Any resources that are too large for github can be uploaded here:
     * https://drive.google.com/drive/folders/1moXjdrTpaoFEKnBINRneiClz7n2kDPku?usp=sharing
-* Trello is being used for sprint/story management
-    * https://trello.com/invite/b/DTwVTQJb/4f8e8f927f27e82ddff1a968f02fa8da/cse115-nba-project
+* [Trello (Sprint/Story Management)](https://trello.com/invite/b/DTwVTQJb/4f8e8f927f27e82ddff1a968f02fa8da/cse115-nba-project)
+* [Release Plan Doc](https://docs.google.com/document/d/1Gi5N25cxH5tdHwD4RcxDuTLrFQG7naUqsnnJQdIfxS8/edit)
+* [Initial Presentation Google Slides](https://docs.google.com/document/d/1Gi5N25cxH5tdHwD4RcxDuTLrFQG7naUqsnnJQdIfxS8/edit)
 
 # Getting Mongo working with Data:
 1. Download mongo db volume from here:
@@ -19,7 +20,3 @@ CSE115
 5. To view the data using a GUI I would recommend compass:
     1. https://www.mongodb.com/products/compass
 
-[Release Plan Doc](https://docs.google.com/document/d/1Gi5N25cxH5tdHwD4RcxDuTLrFQG7naUqsnnJQdIfxS8/edit)
-
-
-[Initial Presentation Google Slides](https://docs.google.com/document/d/1Gi5N25cxH5tdHwD4RcxDuTLrFQG7naUqsnnJQdIfxS8/edit)
