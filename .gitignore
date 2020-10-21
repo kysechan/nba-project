@@ -136,3 +136,6 @@ test.py
 notebooks/
 .DS_Store
 nba-mongo/*
+nba-mongo/
+*.zip
+.DS_Store
