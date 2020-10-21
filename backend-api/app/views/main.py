@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, abort, redirect,send_from_directory
 from flask import Response, make_response
 import os, json, sys, pickle, time, re
 import requests
+from app import nba_logger
 
 from flask import Blueprint
 nba_blueprint = Blueprint('nba_blueprint', __name__) #save all routes under a blueprint to be used by other modules

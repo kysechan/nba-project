@@ -142,5 +142,6 @@ nba-mongo/
 nba-mongo.zip
 *.zip
 
+nc_notes.md
 # Other
 .DS_Store
