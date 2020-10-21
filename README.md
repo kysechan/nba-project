@@ -20,3 +20,31 @@ CSE115
 5. To view the data using a GUI I would recommend compass:
     1. https://www.mongodb.com/products/compass
 
+    
+### Mongo Databases
+1. nba-1
+    * Source: https://www.kaggle.com/nathanlauga/nba-games
+    * Collections:
+        1. game_details: details of games dataset, all statistics of players for a given game
+        2. games: all games from 2004 season to last update with the date, teams and some details like number of points, etc
+        3. players: players details (name)
+        4. rankings: ranking of NBA given a day (split into west and east on CONFERENCE column)
+        5. teams: all teams of NBA
+2. nba-players
+    * Source: https://www.kaggle.com/drgilermo/nba-players-stats
+    * Description: The data-set contains aggregate individual statistics for 67 NBA seasons. from basic box-score attributes such as points, assists, rebounds etc., to more advanced money-ball like features such as Value Over Replacement.
+    * Collections:
+        1. player_data
+        2. players
+        3. season stats
+3. nba-betting
+    * Source: https://www.kaggle.com/ehallmar/nba-historical-stats-and-betting-data
+    * Description: Match stats and betting odds for a large number of historical NBA games
+    * Collections:
+        1. betting_money_line
+        2. betting_spread
+        3. betting_totals
+        4. games_all
+        5. players_all
+        6. player_game_stats
+        7. teams_all
