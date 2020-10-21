@@ -4,6 +4,8 @@ CSE115
 # Resources:
 * Any resources that are too large for github can be uploaded here:
     * https://drive.google.com/drive/folders/1moXjdrTpaoFEKnBINRneiClz7n2kDPku?usp=sharing
+* Trello is being used for sprint/story management
+    * https://trello.com/invite/b/DTwVTQJb/4f8e8f927f27e82ddff1a968f02fa8da/cse115-nba-project
 
 # Getting Mongo working with Data:
 1. Download mongo db volume from here:
