@@ -7,7 +7,8 @@ CSE115
 * [JIRA (Sprint/Story Management)](https://nbadb.atlassian.net/secure/RapidBoard.jspa?projectKey=NBA)
 * [Release Plan Doc](https://docs.google.com/document/d/1Gi5N25cxH5tdHwD4RcxDuTLrFQG7naUqsnnJQdIfxS8/edit)
 * [Initial Presentation Google Slides](https://docs.google.com/document/d/1Gi5N25cxH5tdHwD4RcxDuTLrFQG7naUqsnnJQdIfxS8/edit)
-
+* [Sprint 1 Plan](https://docs.google.com/document/d/1vhGEjX9edBMyNXJ1CU2zA4r9vIr3i6M9A2rFQYs-AD8/edit?usp=sharing)
+* [Sprint 1 Report](https://docs.google.com/document/d/1b-AZ1sWr0hPJQJBzr8ktH7feTw9IG9P5ZyXByoQW3g0/edit?usp=sharing)
 ## Getting Mongo working with Data:
 1. Download mongo db volume from here:
     1. https://drive.google.com/file/d/1J7lcHTjlDeZyeXdaP5C21VQUcboC3ide/view?usp=sharing
