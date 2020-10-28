@@ -4,7 +4,7 @@ CSE115
 ## Resources:
 * Any resources that are too large for github can be uploaded here:
     * https://drive.google.com/drive/folders/1moXjdrTpaoFEKnBINRneiClz7n2kDPku?usp=sharing
-* [Trello (Sprint/Story Management)](https://trello.com/invite/b/DTwVTQJb/4f8e8f927f27e82ddff1a968f02fa8da/cse115-nba-project)
+* [JIRA (Sprint/Story Management)](https://nbadb.atlassian.net/secure/RapidBoard.jspa?projectKey=NBA)
 * [Release Plan Doc](https://docs.google.com/document/d/1Gi5N25cxH5tdHwD4RcxDuTLrFQG7naUqsnnJQdIfxS8/edit)
 * [Initial Presentation Google Slides](https://docs.google.com/document/d/1Gi5N25cxH5tdHwD4RcxDuTLrFQG7naUqsnnJQdIfxS8/edit)
 
