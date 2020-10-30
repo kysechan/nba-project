@@ -13,19 +13,19 @@ function App() {
 
 
 
-class EssayForm extends React.Component {
-  render() {
-    return (
-      <form>
-        <label>
-          Name:
-          <input type="text" name="name" />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-    );
-  }
-}
+// class EssayForm extends React.Component {
+//   render() {
+//     return (
+//       <form>
+//         <label>
+//           Name:
+//           <input type="text" name="name" />
+//         </label>
+//         <input type="submit" value="Submit" />
+//       </form>
+//     );
+//   }
+// }
 
 
 export default App;
