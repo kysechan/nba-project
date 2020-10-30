@@ -17,6 +17,13 @@ function App() {
         >
           Learn React
         </a>
+        <form>
+          <label>
+            Name:
+            <input type="text" name="name" />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
       </header>
     </div>
   );
