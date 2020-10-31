@@ -1,7 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import React, {Component} from 'react';
-
+import Center from 'react-center';
+import ReactDOM from 'react-dom';
 
 class Simpletextarea extends Component {
   constructor() {
@@ -17,18 +18,15 @@ class Simpletextarea extends Component {
 
   render() {
     return (
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        alignSelf: 'center',
-      }}>
-        <label>Enter value : </label>
-        <input type="textarea" 
-          name="textValue"
-          onChange={this.handleChange}
-        />
-      </div>
+      <Center>
+        <div>
+          <label>Enter value : </label>
+          <input type="textarea" 
+            name="textValue"
+            onChange={this.handleChange}
+          />
+        </div>
+      </Center>
     );
   }
 }
