@@ -11,22 +11,31 @@ function App() {
 }
 
 
+class Simpletextarea extends Component {
+  constructor() {
+    super();
+    this.state = {
+      name: "React"
+    };
+  }
 
+  handleChange(event) {
+    console.log(event.target.value)
+  }
 
-
-// class EssayForm extends React.Component {
-//   render() {
-//     return (
-//       <form>
-//         <label>
-//           Name:
-//           <input type="text" name="name" />
-//         </label>
-//         <input type="submit" value="Submit" />
-//       </form>
-//     );
-//   }
-// }
+  render() {
+    return (
+      <div>
+        <label>Enter value : </label>
+        <input type="textarea" 
+          name="textValue"
+          onChange={this.handleChange}
+        />
+      </div>
+    );
+  }
+}
 
 
 export default App;
+export default Simpletextarea;
