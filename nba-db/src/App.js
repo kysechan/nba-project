@@ -21,6 +21,7 @@ class Simpletextarea extends Component {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        alignSelf: 'center',
       }}>
         <label>Enter value : </label>
         <input type="textarea" 
