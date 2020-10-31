@@ -1,8 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import React, {Component} from 'react';
-import Center from 'react-center';
 import ReactDOM from 'react-dom';
+import Center from 'react-center';
 
 class Simpletextarea extends Component {
   constructor() {
