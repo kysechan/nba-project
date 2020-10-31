@@ -2,14 +2,6 @@ import logo from './logo.svg';
 import './App.css';
 import React, {Component} from 'react';
 
-function App() {
-  return (
-    <div className="App">
-       Hello World !
-    </div>
- );
-}
-
 
 class Simpletextarea extends Component {
   constructor() {
@@ -25,7 +17,11 @@ class Simpletextarea extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
         <label>Enter value : </label>
         <input type="textarea" 
           name="textValue"
@@ -37,5 +33,4 @@ class Simpletextarea extends Component {
 }
 
 
-// export default App;
 export default Simpletextarea;
