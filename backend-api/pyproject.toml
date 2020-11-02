@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "backend-api"
+version = "0.1.0"
+description = "CSE115 NBA flask backend api"
+authors = ["Noah Cover <ncover@ucsc.edu>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+Flask = "^1.1.2"
+Flask-RESTful = "^0.3.8"
+pymongo = "^3.11.0"
+coloredlogs = "^14.0"
+requests = "^2.24.0"
+python-dotenv = "^0.14.0"
+Flask-Cors = "^3.0.9"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
