@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Center from "react-center";
 import ReactDOM from "react-dom";
 import { Redirect } from "react-router-dom";
+import ReactJson from 'react-json-view'
 
 class Player extends Component {
   constructor() {
@@ -14,6 +15,7 @@ class Player extends Component {
     this.search_player = this.search_player.bind(this);
     this.search_team = this.search_team.bind(this);
     this.response = ""
+    this.json = ""
   }
 
   handleChange(event) {
@@ -26,6 +28,7 @@ class Player extends Component {
       .then((response) => response.json())
       .then((response) => {
         console.log(response)
+        this.json = response
         this.response = JSON.stringify(response)
         alert(this.response)
         this.forceUpdate()
@@ -44,6 +47,7 @@ class Player extends Component {
       .then((response) => {
         console.log(response)
         this.response = JSON.stringify(response)
+        this.json = response
         alert(this.response)
         this.forceUpdate()
       })
@@ -55,6 +59,10 @@ class Player extends Component {
 }
 
   render() {
+    let element;
+    if (this.json !== "") {
+      element = <ReactJson src={this.json} />
+    }
     return (
       <Center>
         <label>
@@ -67,7 +75,7 @@ class Player extends Component {
         <button onClick={this.search_team}>
           Team
         </button>
-        <h4>{this.response}</h4>
+        {element}
       </Center>
     );
   }
