@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/bash
 
 # docker run --name mongo -d \
 #    -e MONGO_INITDB_DATABASE=nba \
