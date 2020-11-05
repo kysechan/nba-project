@@ -30,7 +30,7 @@ class Player extends Component {
         console.log(response)
         this.json = response
         this.response = JSON.stringify(response)
-        alert(this.response)
+        // alert(this.response)
         this.forceUpdate()
       })
       .catch((error) => {
@@ -48,7 +48,7 @@ class Player extends Component {
         console.log(response)
         this.response = JSON.stringify(response)
         this.json = response
-        alert(this.response)
+        // alert(this.response)
         this.forceUpdate()
       })
       .catch((error) => {
