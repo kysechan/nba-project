@@ -20,6 +20,9 @@ import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import PropTypes from 'prop-types';
 
+import axios from 'axios';
+import https from 'https'
+
 
 const drawerWidth = 255;
 
@@ -63,9 +66,15 @@ class App extends Component {
     event.preventDefault();
   }
 
+
+
+
   // Get request API player endpoint
   search_player(event) {
-    fetch("https://164.90.149.249:8080/api/player/basic?player=" + this.state.value)
+    const agent = new https.Agent({  
+      rejectUnauthorized: false
+    });
+    axios.get("https://164.90.149.249:8080/api/player/basic?player2=" + this.state.value, {httpsAgent: agent})
       .then((response) => response.json())
       .then((response) => {
         console.log(response)
