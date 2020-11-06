@@ -71,10 +71,7 @@ class App extends Component {
 
   // Get request API player endpoint
   search_player(event) {
-    const agent = new https.Agent({  
-      rejectUnauthorized: false
-    });
-    axios.get("https://164.90.149.249:8080/api/player/basic?player2=" + this.state.value, {httpsAgent: agent})
+    fetch("https://164.90.149.249:8080/api/player/basic?player=" + this.state.value)
       .then((response) => response.json())
       .then((response) => {
         console.log(response)
