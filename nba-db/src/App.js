@@ -20,8 +20,6 @@ import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import PropTypes from 'prop-types';
 
-import axios from 'axios';
-import https from 'https'
 
 
 const drawerWidth = 255;
