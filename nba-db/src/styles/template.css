@@ -1,0 +1,31 @@
+.App {
+    width: 100%;
+    padding: 0;
+    height: 100% !important;
+  }
+  
+  .App .navbar-brand {
+  }
+  body { padding-right: 0 !important }
+  html, body, #app, #app>div {
+    height: 100%
+  }
+  .heading-text{
+      font-size: 16px;
+      text-align: left;
+      float: left;
+      padding-left: 15px;
+      padding-top: 15px;
+      margin-top: 0;
+  
+  }
+  .side-heading{
+      margin:0;
+      background-color: #29A1E6;
+      color: white;
+      height: 50px;
+  }
+  .main-container{
+  
+  }
+  

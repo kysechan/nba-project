@@ -4,14 +4,47 @@ import Center from "react-center";
 import ReactDOM from "react-dom";
 import { Redirect } from "react-router-dom";
 import ReactJson from 'react-json-view'
+import { Element } from 'react-scroll'
+// Routes
+import { withRouter } from "react-router-dom";
+import Routes from "./Routes";
 
-class Player extends Component {
+// Material UI
+import { withStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import Link from '@material-ui/core/Link';
+import Navbar from "./components/Navbar";
+import Drawer from '@material-ui/core/Drawer';
+import AppBar from '@material-ui/core/AppBar';
+import PropTypes from 'prop-types';
+
+
+const drawerWidth = 255;
+
+const styles = theme => ({
+  root: {
+    backgroundColor:'#4d4d4d',
+  },
+  appBar: {
+    backgroundColor:'#222D3B',
+    height: 64,
+    display:'block',
+  },
+  routeResults:{
+    display:'block',
+  },
+});
+
+class App extends Component {
   constructor() {
     super();
     this.state = {
       name: "React",
     };
     this.handleChange = this.handleChange.bind(this);
+    //this.handleSubmit = this.handleSubmit(this);
     this.search_player = this.search_player.bind(this);
     this.search_team = this.search_team.bind(this);
     this.response = ""
@@ -20,6 +53,14 @@ class Player extends Component {
 
   handleChange(event) {
     this.setState({ value: event.target.value });
+  }
+
+  handleSubmit(event) {
+    
+    if(this.state.searchValue != "") {
+      console.log('A name was submitted: ' + this.state.searchValue);
+    }
+    event.preventDefault();
   }
 
   // Get request API player endpoint
@@ -56,30 +97,43 @@ class Player extends Component {
         alert("Could not find team: " + this.state.value)
       })
     event.preventDefault()
-}
-
+  }
   render() {
+    const { classes } = this.props;
+    const childProps = {
+    
+    };
     let element;
     if (this.json !== "") {
       element = <ReactJson src={this.json} />
     }
     return (
-      <Center>
-        <label>
-          Search:
-          <input value={this.state.value} onChange={this.handleChange} />
-        </label>
-        <button onClick={this.search_player}>
-          Player
-        </button>
-        <button onClick={this.search_team}>
-          Team
-        </button>
-        {element}
-      </Center>
+      <div className={classes.root}>
+        <AppBar position="absolute" className={classes.appBar}>
+          <Navbar />
+        </AppBar>
+        <Element className="element" id="containerElement" 
+            style={{
+              position: 'relative',
+              overflow: 'hidden',
+              width: '100%',
+              marginTop: '64px',
+            }}>
+          <div className={classes.routeResults}>
+            <Routes childProps={this.childProps}/>
+          </div>
+        </Element>
+        
+      </div>
+
+      
     );
   }
 }
 
-export default Player;
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(App);
 
