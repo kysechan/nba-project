@@ -65,7 +65,7 @@ class App extends Component {
 
   // Get request API player endpoint
   search_player(event) {
-    fetch("http://164.90.149.249:8080/api/player/basic?player=" + this.state.value)
+    fetch("https://164.90.149.249:8080/api/player/basic?player=" + this.state.value)
       .then((response) => response.json())
       .then((response) => {
         console.log(response)
@@ -83,7 +83,7 @@ class App extends Component {
 
   // Get request API player endpoint
   search_team(event) {
-    fetch("http://164.90.149.249:8080/api/teams/basic?team=" + this.state.value)
+    fetch("https://164.90.149.249:8080/api/teams/basic?team=" + this.state.value)
       .then((response) => response.json())
       .then((response) => {
         console.log(response)
