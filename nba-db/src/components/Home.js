@@ -33,6 +33,7 @@ const styles = theme => ({
     minWidth: 650,
   },
 });
+
 class Home extends Component {
   constructor() {
     super();
@@ -41,9 +42,9 @@ class Home extends Component {
       showMe:false
     };
     this.handleChange = this.handleChange.bind(this);
-    //this.handleSubmit = this.handleSubmit(this);
     this.search_player = this.search_player.bind(this);
     this.search_team = this.search_team.bind(this);
+    this.show_table = false;
     this.response = ""
     this.json = ""
   }
@@ -52,24 +53,7 @@ class Home extends Component {
     this.setState({ value: event.target.value });
   }
 
-  showTable() {
-    if(this.json == ""){
-      this.setState({
-        showMe: true
-      })
-    }
-  }
-  // handleSubmit(event) {
-
-
-  //   if (this.state.searchValue !== "") {
-  //     console.log('A name was submitted: ' + this.state.searchValue);
-  //   }
-  //   event.preventDefault();
-  // }
-
   // Get request API player endpoint
-  
   search_player(event) {
     fetch("https://164.90.149.249:8080/api/player/basic?player=" + this.state.value)
       .then((response) => response.json())
@@ -77,14 +61,14 @@ class Home extends Component {
         console.log(response)
         this.json = response
         this.response = JSON.stringify(response)
-        //alert(this.response)
+        this.show_table = true
         this.forceUpdate()
       })
       .catch((error) => {
         console.error("Error: ", error)
         alert("Could not find player: " + this.state.value)
+        this.show_table = false
       })
-    this.showTable();
     event.preventDefault()
   }
 
@@ -94,31 +78,27 @@ class Home extends Component {
       .then((response) => response.json())
       .then((response) => {
         console.log(response)
-        this.response = JSON.stringify(response)
         this.json = response
-        //alert(this.response)
-        this.forceUpdate()
+        this.response = JSON.stringify(response)
+        this.show_table = true
+        this.forceUpdate();
       })
       .catch((error) => {
         console.error("Error: ", error)
         alert("Could not find team: " + this.state.value)
+        this.show_table = false
       })
-    this.showTable();
     event.preventDefault()
   }
-
 
 
   render() {
     const { classes, theme } = this.props;
     let element;
-    // if (this.json !== "") {
-    //   element = <ReactJson src={this.json} />
-    // }
     return (
       <div className={classes.root}>
         {/* <Home /> */}
-        <Element className="element" id="containerElement" 
+        <Element className="element" id="containerElement"
             style={{
               position: 'relative',
               overflow: 'hidden',
@@ -141,7 +121,7 @@ class Home extends Component {
             </Button>
           </Center>
           {
-            this.state.showMe?
+            this.show_table?
             <div>
               <Center>
               <TableContainer component={Paper}>
@@ -180,4 +160,5 @@ class Home extends Component {
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
 };
+
 export default withStyles(styles)(Home);
