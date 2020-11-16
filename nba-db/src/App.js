@@ -18,15 +18,24 @@ import Link from '@material-ui/core/Link';
 import Navbar from "./components/Navbar";
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
+import Home from "./components/Home"
+import SearchResults from "./components/SearchResults"
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 
 
 const drawerWidth = 255;
-
 const styles = theme => ({
   root: {
-    backgroundColor:'#4d4d4d',
+    backgroundColor:'#93abd3',
   },
   appBar: {
     backgroundColor:'#222D3B',
@@ -39,98 +48,17 @@ const styles = theme => ({
 });
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      name: "React",
-    };
-    this.handleChange = this.handleChange.bind(this);
-    //this.handleSubmit = this.handleSubmit(this);
-    this.search_player = this.search_player.bind(this);
-    this.search_team = this.search_team.bind(this);
-    this.response = ""
-    this.json = ""
-  }
 
-  handleChange(event) {
-    this.setState({ value: event.target.value });
-  }
-
-  handleSubmit(event) {
-    
-    if(this.state.searchValue != "") {
-      console.log('A name was submitted: ' + this.state.searchValue);
-    }
-    event.preventDefault();
-  }
-
-
-
-
-  // Get request API player endpoint
-  search_player(event) {
-    fetch("https://164.90.149.249:8080/api/player/basic?player=" + this.state.value)
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response)
-        this.json = response
-        this.response = JSON.stringify(response)
-        // alert(this.response)
-        this.forceUpdate()
-      })
-      .catch((error) => {
-        console.error("Error: ", error)
-        alert("Could not find player: " + this.state.value)
-      })
-    event.preventDefault()
-  }
-
-  // Get request API player endpoint
-  search_team(event) {
-    fetch("https://164.90.149.249:8080/api/teams/basic?team=" + this.state.value)
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response)
-        this.response = JSON.stringify(response)
-        this.json = response
-        // alert(this.response)
-        this.forceUpdate()
-      })
-      .catch((error) => {
-        console.error("Error: ", error)
-        alert("Could not find team: " + this.state.value)
-      })
-    event.preventDefault()
-  }
   render() {
     const { classes } = this.props;
-    const childProps = {
-    
-    };
-    let element;
-    if (this.json !== "") {
-      element = <ReactJson src={this.json} />
-    }
+
     return (
       <div className={classes.root}>
         <AppBar position="absolute" className={classes.appBar}>
           <Navbar />
         </AppBar>
-        <Element className="element" id="containerElement" 
-            style={{
-              position: 'relative',
-              overflow: 'hidden',
-              width: '100%',
-              marginTop: '64px',
-            }}>
-          <div className={classes.routeResults}>
-            <Routes childProps={this.childProps}/>
-          </div>
-        </Element>
-        
+        <Home />
       </div>
-
-      
     );
   }
 }

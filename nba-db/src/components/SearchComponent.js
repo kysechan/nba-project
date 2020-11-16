@@ -47,7 +47,6 @@ class SearchComponent extends Component {
       searchValue: "",
     }
     this.handleChange = this.handleChange.bind(this);
-    
   }
 
   handleChange(event) {
