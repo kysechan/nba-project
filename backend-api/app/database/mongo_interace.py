@@ -2,12 +2,13 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 from app import settings
 import logging, sys
+from pprint import pprint
 
 from app import nba_logger
 
 
 class MongoInterface:
-    def __init__(self, connection_url, database ,port=27017):
+    def __init__(self, connection_url, database ,port=27069):
         """
             MongoInterface is the interface for mongo databases using pymongo. Used for
             nba_logger, storage of feedback, and storage of all other resources needed such
@@ -46,7 +47,8 @@ class MongoInterface:
         """
             Uses full text search to search for a player name
         """
-        return self.db[collection].find_one({"$text": {"$search":player_name}})
+        print(player_name)
+        return self.db[collection].find_one({"$text": {"$search": "'\"" + player_name + "\"'"}})
 
     def find_all_player_data(self, player_name):
         """

@@ -41,6 +41,13 @@ def get_player():
 
     result = playerdb.find_player('players', player)
 
+    if not result:
+        return Response(
+            f"Could not find player '{player}'",
+            status=404,
+            mimetype='application/json'
+        )
+
     del result['_id'] # Remove _id because it should not be sent back to the user
 
     return Response(
@@ -98,6 +105,13 @@ def find_basic_team_data():
     team_name = request.args.get('team')
 
     result = gamedb.find_one_fulltext('teams', team_name)
+
+    if not result:
+        return Response(
+            f"Could not find team '{team_name}'",
+            status=404,
+            mimetype='application/json'
+        )
     return Response(
         json.dumps(result),
         status=200,
