@@ -95,6 +95,9 @@ class MongoInterface:
     def find_one_fulltext(self, collection, query):
         return self.db[collection].find_one({"$text": {"$search":query}}, {'_id': False})
 
+    def find_by_year(self, collection, query, year=2019, player=None, team=None):
+        return
+
 
     def mfind_one(self, obj, collection):
         try:

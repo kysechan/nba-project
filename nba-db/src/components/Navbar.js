@@ -81,7 +81,7 @@ class ReactTemplate extends Component {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Nba DB
+            NBA DB
           </Typography>
           {/* <SearchContainer handleSubmit={this.props.handleSubmit}/> */}
         </Toolbar>

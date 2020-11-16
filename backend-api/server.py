@@ -31,7 +31,12 @@ def start_server(f_host=settings.FLASK_HOST, f_port=settings.FLASK_PORT):
     if os.getenv('ENV_TYPE') != 'PROD':
         # Enable debug and reloader for development
         nba_logger.info("Starting Development Server")
+<<<<<<< HEAD
         app.run(debug=True, host=f_host, port=f_port, threaded=True, use_reloader=True, ssl_context=context)
+=======
+        app.run(debug=True, host=f_host, port=f_port, threaded=True,
+                use_reloader=True, ssl_context=('cert.pem', 'key.pem'))
+>>>>>>> 43631e6f4b771b8af15ae1137e02f706d3726ce2
     else:
         nba_logger.info("Starting Production Type Flask Server, However it is recommended to use gunicorn inside of running python script directly")
         app.run(debug=False, host=settings.FLASK_HOST, port=settings.FLASK_PORT, threaded=True, use_reloader=False)

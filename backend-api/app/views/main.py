@@ -3,7 +3,7 @@ from flask import Response, make_response
 import os, json, sys, pickle, time, re
 import requests
 
-from app import nba_logger, playerdb, gamedb
+from app import nba_logger, playerdb, gamedb, games_all
 from app.utils.flask_utils import required_parameters_check
 
 from flask import Blueprint
@@ -131,6 +131,25 @@ def find_players_by_team():
 
     return Response(
         json.dumps(players),
+        status=200,
+        mimetype='application/json'
+    )
+
+
+
+
+@nba_blueprint.route('/api/teams/test', methods=['GET'])
+def filter_by_year():
+    param_check = required_parameters_check(request, ['year'])
+    if param_check != True:
+        return param_check
+
+    team_name = request.args.get('year')
+
+    result = games_all.find_one_fulltext('games_all', year=2012)
+
+    return Response(
+        json.dumps(),
         status=200,
         mimetype='application/json'
     )
