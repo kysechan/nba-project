@@ -3,6 +3,7 @@ from bson.objectid import ObjectId
 from app import settings
 import logging, sys
 from pprint import pprint
+import json
 
 from app import nba_logger
 
@@ -96,7 +97,10 @@ class MongoInterface:
         return self.db[collection].find_one({"$text": {"$search":query}}, {'_id': False})
 
     def find_by_year(self, collection, query, year=2019, player=None, team=None):
-        return
+        player = "stephen curry"
+        a = self.db[collection].find_one({"Player": player})
+        return a
+
 
 
     def mfind_one(self, obj, collection):

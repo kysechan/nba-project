@@ -33,7 +33,7 @@ except Exception as e:
     nba_logger.error(f"Could not connect to GAME db. Error: {e}")
 
 try:
-    games_all = MongoInterface(settings.MONGO_URL, 'nba-betting')
+    games_all = MongoInterface(settings.MONGO_URL, 'official_complete')
     if not games_all or games_all.test_connection() == None:
         raise Exception("No games_all object or could not connect to db")
 except Exception as e:

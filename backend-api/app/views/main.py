@@ -138,18 +138,18 @@ def find_players_by_team():
 
 
 
-@nba_blueprint.route('/api/teams/test', methods=['GET'])
+@nba_blueprint.route('/api/players/test', methods=['GET'])
 def filter_by_year():
-    param_check = required_parameters_check(request, ['year'])
+    param_check = required_parameters_check(request, ['player'])
     if param_check != True:
         return param_check
 
-    team_name = request.args.get('year')
+    # team_name = request.args.get('year')
 
-    result = games_all.find_one_fulltext('games_all', year=2012)
+    result = games_all.find_by_year('general', 'stephen curry', year=2012)
 
     return Response(
-        json.dumps(),
+        json.dumps(result),
         status=200,
         mimetype='application/json'
     )
