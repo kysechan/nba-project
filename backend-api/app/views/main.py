@@ -148,6 +148,8 @@ def filter_by_year():
 
     result = games_all.find_by_year('general', 'stephen curry', year=2012)
 
+    print(result)
+
     return Response(
         json.dumps(result),
         status=200,

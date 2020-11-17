@@ -97,8 +97,8 @@ class MongoInterface:
         return self.db[collection].find_one({"$text": {"$search":query}}, {'_id': False})
 
     def find_by_year(self, collection, query, year=2019, player=None, team=None):
-        player = "stephen curry"
-        a = self.db[collection].find_one({"Player": player})
+        player = "James Harden"
+        a = self.db[collection].find_one({"Player": {"$eq": "\"James Harden\""}})
         return a
 
 
