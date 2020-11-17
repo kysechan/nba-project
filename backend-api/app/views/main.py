@@ -3,7 +3,7 @@ from flask import Response, make_response
 import os, json, sys, pickle, time, re
 import requests
 
-from app import nba_logger, playerdb, gamedb
+from app import nba_logger, playerdb, gamedb, games_all
 from app.utils.flask_utils import required_parameters_check
 
 from flask import Blueprint
@@ -40,6 +40,13 @@ def get_player():
     player = request.args.get('player')
 
     result = playerdb.find_player('players', player)
+
+    if not result:
+        return Response(
+            f"Could not find player '{player}'",
+            status=404,
+            mimetype='application/json'
+        )
 
     del result['_id'] # Remove _id because it should not be sent back to the user
 
@@ -98,6 +105,13 @@ def find_basic_team_data():
     team_name = request.args.get('team')
 
     result = gamedb.find_one_fulltext('teams', team_name)
+
+    if not result:
+        return Response(
+            f"Could not find team '{team_name}'",
+            status=404,
+            mimetype='application/json'
+        )
     return Response(
         json.dumps(result),
         status=200,
@@ -117,6 +131,25 @@ def find_players_by_team():
 
     return Response(
         json.dumps(players),
+        status=200,
+        mimetype='application/json'
+    )
+
+
+
+
+@nba_blueprint.route('/api/teams/test', methods=['GET'])
+def filter_by_year():
+    param_check = required_parameters_check(request, ['year'])
+    if param_check != True:
+        return param_check
+
+    team_name = request.args.get('year')
+
+    result = games_all.find_one_fulltext('games_all', year=2012)
+
+    return Response(
+        json.dumps(),
         status=200,
         mimetype='application/json'
     )

@@ -15,7 +15,8 @@ FLASK_PORT = 8080 # Flask Port of main Odin Slack Server
 FLASK_HOST = '0.0.0.0' #Odin Flask Port
 
 #Mongo
-MONGO_URL = os.getenv('MONGO_URL') # Mongo connection URL exported by Kubernetes Secret
+#MONGO_URL = os.getenv('MONGO_URL') # Mongo connection URL exported by Kubernetes Secret
+MONGO_URL = '127.0.0.1:27069'
 MONGO_HOST = os.getenv('MONGO_HOST')
 MONGO_DB = 'nba' # Database used by Odin
 MONGO_USER = os.getenv('MONGO_USER')
