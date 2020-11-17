@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import {
   Toolbar, IconButton, Typography,
 } from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/MenuOutlined';
+import MenuIcon from '@material-ui/icons/MenuOutlined'
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles'
 import SearchContainer from './SearchComponent'
+import Menu from './Menu'
 
 const styles = theme => ({
   root: {
@@ -13,7 +14,7 @@ const styles = theme => ({
     flexWrap: 'wrap',
   },
   menuButton: {
-
+    
   },
   title:{
 
@@ -63,7 +64,7 @@ class ReactTemplate extends Component {
     }
     this.handleChange = this.handleChange.bind(this);
   }
-
+  
   handleChange(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -72,6 +73,7 @@ class ReactTemplate extends Component {
       [name]: value
     });
   }
+
   render() {
     const { classes, theme } = this.props;
     return (

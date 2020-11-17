@@ -5,6 +5,7 @@ import ReactDOM from "react-dom";
 import { Redirect } from "react-router-dom";
 import ReactJson from 'react-json-view'
 import { Element } from 'react-scroll'
+import Header from './components/Header.jsx'
 // Routes
 import { withRouter } from "react-router-dom";
 import Routes from "./Routes";
@@ -54,9 +55,7 @@ class App extends Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="absolute" className={classes.appBar}>
-          <Navbar />
-        </AppBar>
+        <Header />
         <Home />
       </div>
     );

@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import SearchComponent from './SearchComponent';
 import Center from "react-center";
 import { Element } from 'react-scroll'
+import TextField from '@material-ui/core/TextField'
 
 //Material UI
 import Button from '@material-ui/core/Button';
@@ -129,10 +130,14 @@ class Home extends Component {
             <Routes childProps={this.childProps}/>
           </div> */}
             <Center>
-            <label>
-              Search:
-              <input value={this.state.value} onChange={this.handleChange} />
-            </label>
+            <TextField  
+            className="Search-bar" 
+            id="standard-basic" 
+            label="SEARCH FOR A PLAYER OR TEAM e.g Lebron James or Lakers" 
+            type="search" 
+            value={this.state.value} 
+            onChange={this.handleChange}
+            />
             <Button variant="contained" onClick={this.search_player}>
               Player
             </Button>
@@ -154,20 +159,20 @@ class Home extends Component {
                   </TableHead>
                   <TableBody>
                     {
-                    Object.keys(this.json).map((key, i) => (
-                      <TableRow key={i}>
-                        <TableCell >{key}</TableCell>
-                        <TableCell align="right">{this.json[key]}</TableCell>
-                      </TableRow>
-                    ))
+                      Object.keys(this.json).map((key, i) => (
+                        <TableRow key={i}>
+                          <TableCell >{key}</TableCell>
+                          <TableCell align="right">{this.json[key]}</TableCell>
+                        </TableRow>
+                      ))
                     }
                   </TableBody>
                 </Table>
               </TableContainer>
             </Center>
-            <Center className={classes.resultsContainer}>
+            {/* <Center className={classes.resultsContainer}>
               {element}
-            </Center>
+            </Center> */}
             </div>
             :null
         }
