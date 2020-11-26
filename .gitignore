@@ -145,5 +145,8 @@ nba-mongo.zip
 nc_notes.md
 # Other
 .DS_Store
-archive/
-node_modules/
+node_modules
+__MACOSX/
+__MACOSX
+.DS_Store
+._*
