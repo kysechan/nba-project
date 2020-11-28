@@ -202,22 +202,22 @@ class Home extends Component {
                   <TableHead>
                     <TableRow>
                       <TableCell>Player Name</TableCell>
-                      <TableCell align="right">Calories</TableCell>
-                      <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                      <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                      <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                      <TableCell align="right">Team</TableCell>
+                      <TableCell align="right">Season</TableCell>
+                      <TableCell align="right">Total Points</TableCell>
+                      <TableCell align="right">Assists</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {this.player_list.map((player) => (
-                      <TableRow key={player.player_name}>
+                      <TableRow key={player.Player}>
                         <TableCell component="th" scope="row">
-                          {player.player_name}
+                          {player.Player}
                         </TableCell>
-                        <TableCell align="right">{player.fat}</TableCell>
-                        <TableCell align="right">{player.calories}</TableCell>
-                        <TableCell align="right">{player.carbs}</TableCell>
-                        <TableCell align="right">{player.protein}</TableCell>
+                        <TableCell align="right">{player.Team}</TableCell>
+                        <TableCell align="right">{player.Season}</TableCell>
+                        <TableCell align="right">{player.PTS}</TableCell>
+                        <TableCell align="right">{player.AST}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
