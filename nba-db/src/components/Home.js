@@ -24,6 +24,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import { DataGrid } from "@material-ui/data-grid";
 
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
@@ -51,6 +52,8 @@ const styles = (theme) => ({
     minWidth: 100,
   },
 });
+
+
 
 class Home extends Component {
   constructor() {
@@ -194,29 +197,32 @@ class Home extends Component {
           </Center>
           {this.show_table ? (
             <div>
-              <Center>
-                <TableContainer component={Paper}>
-                  <Table className={classes.table} aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Statistic</TableCell>
-                        <TableCell align="right">Value</TableCell>
+              <TableContainer component={Paper}>
+                <Table className={classes.table} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Player Name</TableCell>
+                      <TableCell align="right">Calories</TableCell>
+                      <TableCell align="right">Fat&nbsp;(g)</TableCell>
+                      <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+                      <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {this.player_list.map((player) => (
+                      <TableRow key={player.player_name}>
+                        <TableCell component="th" scope="row">
+                          {player.player_name}
+                        </TableCell>
+                        <TableCell align="right">{player.fat}</TableCell>
+                        <TableCell align="right">{player.calories}</TableCell>
+                        <TableCell align="right">{player.carbs}</TableCell>
+                        <TableCell align="right">{player.protein}</TableCell>
                       </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {Object.keys(this.json).map((key, i) => (
-                        <TableRow key={i}>
-                          <TableCell>{key}</TableCell>
-                          <TableCell align="right">{this.json[key]}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Center>
-              {/* <Center className={classes.resultsContainer}>
-              {element}
-            </Center> */}
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </div>
           ) : null}
         </Element>

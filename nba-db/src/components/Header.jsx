@@ -72,7 +72,7 @@ export default function MenuAppBar() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Players</MenuItem>
-                <MenuItem onClick={handleClose}>Teams</MenuItem>
+                <MenuItem onClick={handleClose}>Visualize</MenuItem>
               </Menu>
             </div>
         </Toolbar>
