@@ -204,8 +204,17 @@ class Home extends Component {
                       <TableCell>Player Name</TableCell>
                       <TableCell align="right">Team</TableCell>
                       <TableCell align="right">Season</TableCell>
-                      <TableCell align="right">Total Points</TableCell>
+                      <TableCell align="right">Stage</TableCell>
+                      <TableCell align="right">Points Scored</TableCell>
                       <TableCell align="right">Assists</TableCell>
+                      <TableCell align="right">Games Played</TableCell>
+                      <TableCell align="right">Minutes Played</TableCell>
+                      <TableCell align="right">FG Made</TableCell>
+                      <TableCell align="right">FG Attempted</TableCell>
+                      <TableCell align="right">3-Pointers Made</TableCell>
+                      <TableCell align="right">3-Pointers Attempted</TableCell>
+                      <TableCell align="right">Free Throws Made</TableCell>
+                      <TableCell align="right">Free Throws Attempted</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -216,8 +225,17 @@ class Home extends Component {
                         </TableCell>
                         <TableCell align="right">{player.Team}</TableCell>
                         <TableCell align="right">{player.Season}</TableCell>
+                        <TableCell align="right">{player.Stage}</TableCell>
                         <TableCell align="right">{player.PTS}</TableCell>
                         <TableCell align="right">{player.AST}</TableCell>
+                        <TableCell align="right">{player.GP}</TableCell>
+                        <TableCell align="right">{player.MIN}</TableCell>
+                        <TableCell align="right">{player.FGM}</TableCell>
+                        <TableCell align="right">{player.FGA}</TableCell>
+                        <TableCell align="right">{player["3PM"]}</TableCell>
+                        <TableCell align="right">{player["3PA"]}</TableCell>
+                        <TableCell align="right">{player.FTM}</TableCell>
+                        <TableCell align="right">{player.FTA}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
