@@ -108,7 +108,7 @@ class Home extends Component {
       .catch((error) => {
         console.error("Error: ", error)
         alert("Could not find player: " + this.state.value)
-        this.show_table = false
+        // this.show_table = false
       })
     event.preventDefault()
   }
@@ -127,7 +127,7 @@ class Home extends Component {
       .catch((error) => {
         console.error("Error: ", error)
         alert("Could not find team: " + this.state.value)
-        this.show_table = false
+        // this.show_table = false
       })
     event.preventDefault()
   }
