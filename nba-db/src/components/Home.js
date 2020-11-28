@@ -20,7 +20,7 @@ import Paper from '@material-ui/core/Paper';
 
 
 import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenufdropItem";
+import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -188,9 +188,9 @@ class Home extends Component {
             <Button variant="contained" onClick={this.search_player}>
               Player
             </Button>
-            <Button variant="contained" onClick={this.search_team}>
+            {/* <Button variant="contained" onClick={this.search_team}>
               Team
-            </Button>
+            </Button> */}
             <Button variant="contained" onClick={this.clear_json}>
               Clear
             </Button>
