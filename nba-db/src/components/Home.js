@@ -40,9 +40,10 @@ class Home extends Component {
     super();
     this.state = {
       name: "React",
-      showMe:false
+      showMe:false,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleYear = this.handleYear.bind(this);
     this.search_player = this.search_player.bind(this);
     this.search_team = this.search_team.bind(this);
     this.show_table = false;
@@ -54,9 +55,13 @@ class Home extends Component {
     this.setState({ value: event.target.value });
   }
 
+  handleYear(event){
+    this.setState({ year: event.target.value });
+  }
+
   // Get request API player endpoint
   search_player(event) {
-    fetch("https://164.90.149.249:8080/api/player/basic?player=" + this.state.value)
+    fetch("https://164.90.149.249:8080/api/player/basic?player=" + this.state.value + "&year=" + this.state.year)
       .then((response) => response.json())
       .then((response) => {
         console.log(response)
@@ -110,13 +115,21 @@ class Home extends Component {
             <Routes childProps={this.childProps}/>
           </div> */}
             <Center>
-            <TextField  
-            className="Search-bar" 
-            id="standard-basic" 
-            label="SEARCH FOR A PLAYER OR TEAM e.g Lebron James or Lakers" 
-            type="search" 
-            value={this.state.value} 
+            <TextField
+            className="Search-bar"
+            id="standard-basic"
+            label="SEARCH FOR A PLAYER OR TEAM e.g Lebron James or Lakers"
+            type="search"
+            value={this.state.value}
             onChange={this.handleChange}
+            />
+            <TextField
+            className="year"
+            id="standard-basic"
+            label="Year"
+            type="search"
+            value={this.state.year}
+            onChange={this.handleYear}
             />
             <Button variant="contained" onClick={this.search_player}>
               Player
