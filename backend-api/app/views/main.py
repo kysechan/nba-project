@@ -91,6 +91,17 @@ def player_season_data():
         mimetype='application/json'
     )
 
+@nba_blueprint.route('/api/player/all', methods=['GET'])
+def retrieve_unique_players():
+
+    result = playerdb.get_unique_players()
+
+    return Response(
+        json.dumps(result),
+        status=200,
+        mimetype='application/json'
+    )
+
 #############################################################
 # Team searching api endpoints
 #############################################################
