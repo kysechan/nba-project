@@ -19,19 +19,36 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 
-const styles = theme => ({
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
+
+const stage_options = ["regular", "playoffs"];
+const default_stage = stage_options[0];
+
+
+const styles = (theme) => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexWrap: "wrap",
   },
   resultsContainer: {
-    marginTop: '30px',
+    marginTop: "30px",
   },
   homeContainer: {
-    marginTop: '30px'
+    marginTop: "30px",
   },
   table: {
     minWidth: 650,
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 100,
   },
 });
 
@@ -44,11 +61,14 @@ class Home extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleYear = this.handleYear.bind(this);
+    this.handleStage = this.handleStage.bind(this);
     this.search_player = this.search_player.bind(this);
     this.search_team = this.search_team.bind(this);
+    this.clear_json = this.clear_json.bind(this);
     this.show_table = false;
     this.response = ""
     this.json = ""
+    this.player_list = []
   }
 
   handleChange(event) {
@@ -59,13 +79,25 @@ class Home extends Component {
     this.setState({ year: event.target.value });
   }
 
+  handleStage(event){
+    this.setState({stage: event.target.value});
+  }
+
+  clear_json(){
+    this.player_list = []
+    this.show_table = false;
+    this.forceUpdate()
+  }
+
   // Get request API player endpoint
   search_player(event) {
-    fetch("https://164.90.149.249:8080/api/player/basic?player=" + this.state.value + "&year=" + this.state.year)
+    fetch("https://164.90.149.249:8080/api/player/basic?player=" + this.state.value + "&year=" + this.state.year + "&stage=" + this.state.stage)
       .then((response) => response.json())
       .then((response) => {
         console.log(response)
         this.json = response
+        this.player_list.push(this.json)
+        console.log(this.player_list)
         this.response = JSON.stringify(response)
         this.show_table = true
         this.forceUpdate()
@@ -104,71 +136,89 @@ class Home extends Component {
     return (
       <div className={classes.root}>
         {/* <Home /> */}
-        <Element className="element" id="containerElement"
-            style={{
-              position: 'relative',
-              overflow: 'hidden',
-              width: '100%',
-              marginTop: '65px',
-            }}>
+        <Element
+          className="element"
+          id="containerElement"
+          style={{
+            position: "relative",
+            overflow: "hidden",
+            width: "100%",
+            marginTop: "65px",
+          }}
+        >
           {/* /* <div className={classes.routeResults}>
             <Routes childProps={this.childProps}/>
           </div> */}
-            <Center>
+          <Center>
             <TextField
-            className="Search-bar"
-            id="standard-basic"
-            label="SEARCH FOR A PLAYER OR TEAM e.g Lebron James or Lakers"
-            type="search"
-            value={this.state.value}
-            onChange={this.handleChange}
+              className="Search-bar"
+              id="standard-basic"
+              label="SEARCH FOR A PLAYER OR TEAM e.g Lebron James or Lakers"
+              type="search"
+              value={this.state.value}
+              onChange={this.handleChange}
             />
             <TextField
-            className="year"
-            id="standard-basic"
-            label="Year"
-            type="search"
-            value={this.state.year}
-            onChange={this.handleYear}
+              className="year"
+              id="standard-basic"
+              label="Year"
+              type="search"
+              value={this.state.year}
+              onChange={this.handleYear}
             />
+            <FormControl required className={classes.formControl}>
+              <InputLabel id="demo-simple-select-required-label">
+                Stage
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-required-label"
+                id="demo-simple-select-required"
+                value={this.state.stage}
+                onChange={this.handleStage}
+                className={classes.selectEmpty}
+              >
+                <MenuItem value={"regular"}>Regular Season</MenuItem>
+                <MenuItem value={"playoffs"}>Playoffs</MenuItem>
+              </Select>
+              <FormHelperText>Required</FormHelperText>
+            </FormControl>
             <Button variant="contained" onClick={this.search_player}>
               Player
             </Button>
             <Button variant="contained" onClick={this.search_team}>
               Team
             </Button>
+            <Button variant="contained" onClick={this.clear_json}>
+              Clear
+            </Button>
           </Center>
-          {
-            this.show_table?
+          {this.show_table ? (
             <div>
               <Center>
-              <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Statistic</TableCell>
-                      <TableCell align="right">Value</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {
-                      Object.keys(this.json).map((key, i) => (
+                <TableContainer component={Paper}>
+                  <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Statistic</TableCell>
+                        <TableCell align="right">Value</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {Object.keys(this.json).map((key, i) => (
                         <TableRow key={i}>
-                          <TableCell >{key}</TableCell>
+                          <TableCell>{key}</TableCell>
                           <TableCell align="right">{this.json[key]}</TableCell>
                         </TableRow>
-                      ))
-                    }
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Center>
-            {/* <Center className={classes.resultsContainer}>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Center>
+              {/* <Center className={classes.resultsContainer}>
               {element}
             </Center> */}
             </div>
-            :null
-        }
+          ) : null}
         </Element>
       </div>
     );
