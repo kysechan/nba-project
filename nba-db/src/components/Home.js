@@ -20,7 +20,7 @@ import Paper from '@material-ui/core/Paper';
 
 
 import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
+import MenuItem from "@material-ui/core/MenufdropItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -211,10 +211,10 @@ class Home extends Component {
                       <TableCell align="right">Minutes Played</TableCell>
                       <TableCell align="right">FG Made</TableCell>
                       <TableCell align="right">FG Attempted</TableCell>
-                      <TableCell align="right">3-Pointers Made</TableCell>
-                      <TableCell align="right">3-Pointers Attempted</TableCell>
-                      <TableCell align="right">Free Throws Made</TableCell>
-                      <TableCell align="right">Free Throws Attempted</TableCell>
+                      <TableCell align="right">3-P Made</TableCell>
+                      <TableCell align="right">3-P Attempted</TableCell>
+                      <TableCell align="right">FT Made</TableCell>
+                      <TableCell align="right">FT Attempted</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
