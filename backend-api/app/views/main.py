@@ -3,7 +3,7 @@ from flask import Response, make_response
 import os, json, sys, pickle, time, re
 import requests
 
-from app import nba_logger, playerdb, gamedb, games_all
+from app import nba_logger, playerdb, gamedb, official_complete
 from app.utils.flask_utils import required_parameters_check
 
 from flask import Blueprint
@@ -38,8 +38,10 @@ def get_player():
         return param_check
 
     player = request.args.get('player')
+    year = request.args.get('year')
+    stage = request.args.get('stage')
 
-    result = playerdb.find_player('players', player)
+    result = official_complete.find_player_advanced('advanced_players', player, year, stage)
 
     if not result:
         return Response(

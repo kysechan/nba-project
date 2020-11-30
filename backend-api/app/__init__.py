@@ -33,8 +33,9 @@ except Exception as e:
     nba_logger.error(f"Could not connect to GAME db. Error: {e}")
 
 try:
-    games_all = MongoInterface(settings.MONGO_URL, 'official_complete')
-    if not games_all or games_all.test_connection() == None:
-        raise Exception("No games_all object or could not connect to db")
+    official_complete = MongoInterface(settings.MONGO_URL, 'official_complete')
+    if not official_complete or official_complete.test_connection() == None:
+        raise Exception("No official_complete object or could not connect to db")
 except Exception as e:
-    nba_logger.error(f"Could not connect to GAMES_ALL db. Error: {e}")
+    nba_logger.error(f"Could not connect to OFFICIAL_COMPLETE db. Error: {e}")
+
