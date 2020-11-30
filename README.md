@@ -15,7 +15,22 @@ CSE115
 * [Sprint 3 Plan](https://docs.google.com/document/d/1KXc_8nbs-cNGViP5YPqUC7lDmhc00pSWgkuNrT-BJ9I/edit)
 * [Sprint 3 Report](https://docs.google.com/document/d/18Ub32gAbnZThY7ou6OQW-b6G4yuQ51BQShq6zSCOeOs/edit)
 * [Sprint 4 Plan](https://docs.google.com/document/d/1IfShkFGDsBJxwENH3YJHX-mHAv_gbGYDHvGnGnQR3d4/edit?usp=sharing)
-## Getting Mongo working with Data:
+
+## Getting Mongo working [as a CLIENT]"
+1. With Homebrew:
+`brew tap mongodb/brew`
+`brew install mongodb-community-shell`
+
+2. Connect to the server:
+`mongo --host 165.227.31.0:27069`
+
+```
+
+```
+
+
+
+## Getting Mongo working with Data [on the SERVER]:
 1. Download mongo db volume from here:
     1. https://drive.google.com/file/d/1J7lcHTjlDeZyeXdaP5C21VQUcboC3ide/view?usp=sharing
     2. Unzip into nba-project dir
