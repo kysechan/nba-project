@@ -24,8 +24,10 @@ CSE115
 2. Connect to the server:
 `mongo --host 165.227.31.0:27069`
 
-```
 
+Analytics:
+```
+https://cloud.mongodb.com/freemonitoring/cluster/JAK4WVTHJE5UVK66DW6GHWUB4RMGXJSE
 ```
 
 
