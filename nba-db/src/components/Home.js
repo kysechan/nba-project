@@ -34,7 +34,7 @@ import "react-dropdown/style.css";
 const stage_options = ["regular", "playoffs"];
 const default_stage = stage_options[0];
 
-const API_IP = '164.90.149.249'
+const API_IP = '165.227.31.0'
 
 const styles = (theme) => ({
   root: {
