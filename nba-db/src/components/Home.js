@@ -4,6 +4,7 @@ import ReactJson from 'react-json-view'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import SearchComponent from './SearchComponent';
+import static_players from './StaticPlayerList';
 import Center from "react-center";
 import { Element } from 'react-scroll'
 import TextField from '@material-ui/core/TextField'
@@ -17,6 +18,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
 import InputLabel from "@material-ui/core/InputLabel";
@@ -32,6 +34,7 @@ import "react-dropdown/style.css";
 const stage_options = ["regular", "playoffs"];
 const default_stage = stage_options[0];
 
+const API_IP = '164.90.149.249'
 
 const styles = (theme) => ({
   root: {
@@ -51,7 +54,24 @@ const styles = (theme) => ({
     margin: theme.spacing(1),
     minWidth: 100,
   },
+  autcomplete:{
+    minWidth: "300px",
+  }
 });
+
+
+async function get_autcompete_props () {
+  try {
+    const resp = await fetch("https://localhost:8080/api/player/all")
+    const data = await resp.json()
+    console.log(data.players)
+    return data.players
+  } catch (err) {
+       console.log(err)
+    }
+}
+console.log(static_players.static_players);
+
 
 
 
@@ -68,12 +88,18 @@ class Home extends Component {
     this.search_player = this.search_player.bind(this);
     this.search_team = this.search_team.bind(this);
     this.clear_json = this.clear_json.bind(this);
+    this.handleAutoCompleteChange = this.handleAutoCompleteChange.bind(this);
     this.show_table = false;
     this.response = ""
     this.json = ""
     this.player_list = []
-  }
+    this.autocompleteProps = {
+      options: static_players.static_players,
+      getOptionLabel: (option) => option.player,
+    }
 
+  }
+  
   handleChange(event) {
     this.setState({ value: event.target.value });
   }
@@ -86,6 +112,18 @@ class Home extends Component {
     this.setState({stage: event.target.value});
   }
 
+  handleAutoCompleteChange = (event, values) => {
+    if (values != null){
+      this.setState({
+        value: values.player
+      }, () => {
+        // This will output an array of objects
+        // given by Autocompelte options property.
+        console.log(this.state.value);
+      });
+    }
+  }
+
   clear_json(){
     this.player_list = []
     this.show_table = false;
@@ -94,7 +132,7 @@ class Home extends Component {
 
   // Get request API player endpoint
   search_player(event) {
-    fetch("https://164.90.149.249:8080/api/player/basic?player=" + this.state.value + "&year=" + this.state.year + "&stage=" + this.state.stage)
+    fetch("https://" + API_IP + ":8080/api/player/basic?player=" + this.state.value + "&year=" + this.state.year + "&stage=" + this.state.stage)
       .then((response) => response.json())
       .then((response) => {
         console.log(response)
@@ -115,7 +153,7 @@ class Home extends Component {
 
   // Get request API player endpoint
   search_team(event) {
-    fetch("https://164.90.149.249:8080/api/teams/basic?team=" + this.state.value)
+    fetch("https://" + API_IP + ":8080/api/teams/basic?team=" + this.state.value)
       .then((response) => response.json())
       .then((response) => {
         console.log(response)
@@ -153,14 +191,26 @@ class Home extends Component {
             <Routes childProps={this.childProps}/>
           </div> */}
           <Center>
-            <TextField
+            <Autocomplete
+              {...this.autocompleteProps}
+              id="standard-basic"
+              className="Search-bar"
+              autoComplete
+              type="search"
+              className={classes.autcomplete}
+              onChange={this.handleAutoCompleteChange}
+              renderInput={(params) => <TextField {...params} 
+                label="Player Search"
+                />}
+            />
+            {/* <TextField
               className="Search-bar"
               id="standard-basic"
               label="SEARCH FOR A PLAYER OR TEAM e.g Lebron James or Lakers"
               type="search"
               value={this.state.value}
               onChange={this.handleChange}
-            />
+            /> */}
             <TextField
               className="year"
               id="standard-basic"

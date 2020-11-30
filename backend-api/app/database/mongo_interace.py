@@ -43,6 +43,12 @@ class MongoInterface:
             :returns: integer of whether or not status is up
         """
         return self.db.command("serverStatus")
+    
+    def get_unique_players(self):
+        result = set(list(self.db['players'].find({}, {'_id': False}).distinct('player')))
+        nba_logger.info(f"Getting Unique Players, length: {len(result)}")
+        success_var = True if len(result) > 0 else False
+        return {"success":success_var, "length":len(result), "players":[{"player":x} for x in list(result)]}
 
     def find_player(self, collection, player_name):
         """
