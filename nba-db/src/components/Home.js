@@ -132,7 +132,7 @@ class Home extends Component {
 
   // Get request API player endpoint
   search_player(event) {
-    fetch("https://" + API_IP + ":8080/api/player/basic?player=\\" + this.state.value + "&year=\\" + this.state.year + "&stage=\\" + this.state.stage)
+    fetch("https://" + API_IP + ":8080/api/player/basic?player=" + this.state.value + "&year=" + this.state.year + "&stage=" + this.state.stage)
       .then((response) => response.json())
       .then((response) => {
         console.log(response)
@@ -145,7 +145,17 @@ class Home extends Component {
       })
       .catch((error) => {
         console.error("Error: ", error)
-        alert("Could not find player: " + this.state.value)
+        console.log(
+          "https://" +
+            API_IP +
+            ":8080/api/player/basic?player=" +
+            this.state.value +
+            "&year=" +
+            this.state.year +
+            "&stage=" +
+            this.state.stage
+        );
+        alert("Could not find player: " + this.state.value + this.state.year + this.state.stage)
         // this.show_table = false
       })
     event.preventDefault()
