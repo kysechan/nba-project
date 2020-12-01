@@ -65,7 +65,8 @@ class MongoInterface:
         print(year)
         print(stage)
         year = int(year)
-        return self.db[collection].find_one({"$text": {"$search": f"\"{player_name}\" \"{stage}\" \"{year}\" \"{year+1}\""}})
+        # player_name = player_name.replace(' ', '%20')
+        return self.db[collection].find_one({"$text": {"$search": "\""+ player_name + "\"" + "\""+ str(year) + "\"" + "\""+ stage + "\"" + "\""+ str(year+1) + "\""}})
 
     def find_all_player_data(self, player_name):
         """
