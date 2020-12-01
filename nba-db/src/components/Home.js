@@ -132,7 +132,7 @@ class Home extends Component {
 
   // Get request API player endpoint
   search_player(event) {
-    fetch("https://" + API_IP + ":8080/api/player/basic?player=" + this.state.value + "&year=" + this.state.year + "&stage=" + this.state.stage)
+    fetch("https://" + API_IP + ":8080/api/player/basic?player=\\" + this.state.value + "&year=\\" + this.state.year + "&stage=\\" + this.state.stage)
       .then((response) => response.json())
       .then((response) => {
         console.log(response)
