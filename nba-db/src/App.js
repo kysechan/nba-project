@@ -35,7 +35,7 @@ import Paper from '@material-ui/core/Paper';
 const drawerWidth = 255;
 const styles = (theme) => ({
   root: {
-    backgroundColor: "#393e46",
+    backgroundColor: "#212121",
   },
   appBar: {
     backgroundColor: "#222D3B",
