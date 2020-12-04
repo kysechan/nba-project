@@ -38,13 +38,13 @@ const default_stage = stage_options[0];
 
 const API_IP = "165.227.31.0";
 
-const useStyles = makeStyles({
-  "@global": {
-    '.MuiAutocomplete-option[data-focus="true"]': {
-      color: "white",
-    },
-  },
-});
+// const useStyles = makeStyles({
+//   "@global": {
+//     '.MuiAutocomplete-option[data-focus="true"]': {
+//       color: "white",
+//     },
+//   },
+// });
 
 const styles = (theme) => ({
   root: {
