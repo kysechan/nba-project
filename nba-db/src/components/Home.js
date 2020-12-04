@@ -31,10 +31,13 @@ import { DataGrid } from "@material-ui/data-grid";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 
+import Chart from './Recharts'
+
 const stage_options = ["regular", "playoffs"];
 const default_stage = stage_options[0];
 
 const API_IP = '165.227.31.0'
+
 
 const styles = (theme) => ({
   root: {
@@ -209,9 +212,9 @@ class Home extends Component {
               type="search"
               className={classes.autcomplete}
               onChange={this.handleAutoCompleteChange}
-              renderInput={(params) => <TextField {...params} 
-                label="Player Search"
-                />}
+              renderInput={(params) => (
+                <TextField {...params} label="Player Search" />
+              )}
             />
             {/* <TextField
               className="Search-bar"
@@ -304,6 +307,7 @@ class Home extends Component {
             </div>
           ) : null}
         </Element>
+        <Chart></Chart>
       </div>
     );
   }
