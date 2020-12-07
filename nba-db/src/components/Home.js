@@ -248,62 +248,6 @@ class Home extends Component {
     // this.props.data = this.data;
     let element;
     return (
-<<<<<<< HEAD
-      <div className={classes.root}>
-        {/* <Home /> */}
-        <Element
-          className="element"
-          id="containerElement"
-          style={{
-            position: "relative",
-            overflow: "hidden",
-            width: "100%",
-            marginTop: "65px",
-          }}
-        >
-          {/* /* <div className={classes.routeResults}>
-            <Routes childProps={this.childProps}/>
-          </div> */}
-          <Center>
-            <Autocomplete
-              {...this.autocompleteProps}
-              id="standard-basic"
-              className="Search-bar"
-              autoComplete
-              type="search"
-              className={classes.autcomplete}
-              onChange={this.handleAutoCompleteChange}
-              renderInput={(params) => <TextField {...params}
-                label="Player Search"
-                />}
-            />
-            {/* <TextField
-              className="Search-bar"
-              id="standard-basic"
-              label="SEARCH FOR A PLAYER OR TEAM e.g Lebron James or Lakers"
-              type="search"
-              value={this.state.value}
-              onChange={this.handleChange}
-            /> */}
-            <TextField
-              className="year"
-              id="standard-basic"
-              label="Year"
-              type="search"
-              value={this.state.year}
-              onChange={this.handleYear}
-            />
-            <FormControl required className={classes.formControl}>
-              <InputLabel id="demo-simple-select-required-label">
-                Stage
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-required-label"
-                id="demo-simple-select-required"
-                value={this.state.stage}
-                onChange={this.handleStage}
-                className={classes.selectEmpty}
-=======
       <ThemeProvider theme={Theme}>
         <div className={classes.root}>
           {/* <Home /> */}
@@ -385,7 +329,6 @@ class Home extends Component {
                 required
                 className={classes.filter_select}
                 disabled={this.state.disable_filter}
->>>>>>> 20fe94d7ca4ac61c1b173a28821695b8d1238d04
               >
                 <InputLabel id="filter-select">Filter</InputLabel>
                 <Select
