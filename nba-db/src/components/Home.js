@@ -8,6 +8,10 @@ import SearchComponent from "./SearchComponent";
 import static_players from "./StaticPlayerList";
 import Center from "react-center";
 import { Element } from "react-scroll";
+import Theme from "./theme";
+import { ThemeProvider } from "@material-ui/core/styles";
+import parse from "autosuggest-highlight/parse";
+import match from "autosuggest-highlight/match";
 
 //Material UI
 import TextField from "@material-ui/core/TextField";
@@ -33,24 +37,45 @@ import Chart from "./Recharts";
 import dynamicData from "./Recharts.js";
 import SelectStage from "./SelectStage";
 
+import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
+
+import Typography from "@material-ui/core/Typography";
+
+const WhiteTextTypography = withStyles({
+  root: {
+    color: "#FFFFFF",
+  },
+})(Typography);
+
 const stage_options = ["regular", "playoffs"];
 const default_stage = stage_options[0];
 
 const API_IP = "165.227.31.0";
 
-// const useStyles = makeStyles({
-//   "@global": {
-//     '.MuiAutocomplete-option[data-focus="true"]': {
-//       color: "white",
-//     },
-//   },
-// });
+let theme = createMuiTheme();
+theme = responsiveFontSizes(theme);
 
 const styles = (theme) => ({
+  inputRoot: {
+    // color: "purple",
+    // ".MuiOutlinedInput-notchedOutline": {
+    //   borderColor: "green",
+    // },
+    // ".MuiOutlinedInput-notchedOutline": {
+    //   borderColor: "red",
+    // },
+    // ".MuiOutlinedInput-notchedOutline": {
+    //   borderColor: "purple",
+    // },
+    // ".MuiAutocomplete": {
+    //   color: "black",
+    // },
+  },
   root: {
     display: "flex",
     flexWrap: "wrap",
   },
+
   resultsContainer: {
     marginTop: "30px",
   },
@@ -74,6 +99,10 @@ const styles = (theme) => ({
   },
   autocomplete: {
     minWidth: "300px",
+    // text: "color",
+    // background: 'white'
+  },
+  multilineColor: {
     color: "white",
   },
 });
@@ -113,6 +142,7 @@ class Home extends Component {
     this.clear_search = false;
 
     this.player_list = [];
+
     this.autocompleteProps = {
       options: static_players.static_players,
       getOptionLabel: (option) => option.player,
@@ -133,25 +163,20 @@ class Home extends Component {
 
   handleFilter(event) {
     this.setState({ filter: event.target.value });
-    this.forceUpdate()
+    this.forceUpdate();
   }
 
   toggleTable() {
     this.show_table = true;
-    // this.setState({ disable_filter: true });
-    // this.player_list = []
   }
 
   handleAutoCompleteChange = (event, values) => {
-    // this.clear_search = false;
     if (values != null) {
       this.setState(
         {
           value: values.player,
         },
         () => {
-          // This will output an array of objects
-          // given by Autocompelte options property.
           console.log(this.state.value);
         }
       );
@@ -193,11 +218,6 @@ class Home extends Component {
         console.log(this.player_list);
         this.response = JSON.stringify(response);
         this.toggleTable();
-        // response["Player"] =
-        //   response["Player"] +
-        //   `\n(${String(this.state.year)} - ${String(
-        //     parseInt(this.state.year) + 1
-        //   )})`;
         this.state.data = this.state.data.concat(response);
         this.forceUpdate();
       })
@@ -228,157 +248,186 @@ class Home extends Component {
     // this.props.data = this.data;
     let element;
     return (
-      <div className={classes.root}>
-        {/* <Home /> */}
-        <Element
-          className="element"
-          id="containerElement"
-          style={{
-            position: "relative",
-            overflow: "hidden",
-            width: "100%",
-            marginTop: "65px",
-          }}
-        >
-          <Center>
-            <Autocomplete
-              {...this.autocompleteProps}
-              id="standard-basic"
-              className="Search-bar"
-              autoComplete
-              type="search"
-              className={classes.autocomplete}
-              onChange={this.handleAutoCompleteChange}
-              clearOnEscape={true}
-              clearOnBlur={true}
-              selectOnFocus="true"
-              value={this.clear_search ? "" : this.value}
-              renderInput={(params) => (
-                <TextField {...params} label="Player Search" />
-              )}
-            />
-            <TextField
-              className="year"
-              id="standard-basic"
-              label="Year"
-              type="search"
-              value={this.state.year}
-              onChange={this.handleYear}
-            />
-            <FormControl
-              required
-              className={classes.stage_select}
-              disabled={this.state.disable_filter}
-            >
-              <InputLabel id="stage-select">Stage</InputLabel>
-              <Select
-                labelId="stage-select"
-                id="stage"
-                value={this.state.stage}
-                onChange={this.handleStage}
-                className={classes.selectEmpty}
+      <ThemeProvider theme={Theme}>
+        <div className={classes.root}>
+          {/* <Home /> */}
+          <Element
+            className="element"
+            id="containerElement"
+            style={{
+              position: "relative",
+              overflow: "hidden",
+              width: "100%",
+              marginTop: "65px",
+            }}
+          >
+            <Center>
+              <Autocomplete
+                {...this.autocompleteProps}
+                // id="standard-basic"
+                className={classes.autocomplete}
+                autoComplete
+                type="search"
+                classes={{ inputRoot: classes.inputRoot }}
+                onChange={this.handleAutoCompleteChange}
+                clearOnEscape={true}
+                clearOnBlur={true}
+                selectOnFocus="true"
+                value={this.clear_search ? "" : this.value}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Player Search"
+                    variant="outlined"
+                  />
+                )}
+                renderOption={(option, { inputValue }) => {
+                  const matches = match(option.player, inputValue);
+                  const parts = parse(option.player, matches);
+
+                  return (
+                    <div>
+                      {parts.map((part, index) => (
+                        <span
+                          key={index}
+                          style={{ fontWeight: part.highlight ? 700 : 400 }}
+                        >
+                          {part.text}
+                        </span>
+                      ))}
+                    </div>
+                  );
+                }}
+              />
+              <TextField
+                className="year"
+                // id="standard-basic"
+                label="Year"
+                type="search"
+                value={this.state.year}
+                onChange={this.handleYear}
+                variant="outlined"
+              />
+              <FormControl
+                required
+                className={classes.stage_select}
+                disabled={this.state.disable_filter}
               >
-                <MenuItem value={"regular"}>Regular Season</MenuItem>
-                <MenuItem value={"playoffs"}>Playoffs</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl
-              required
-              className={classes.filter_select}
-              disabled={this.state.disable_filter}
-            >
-              <InputLabel id="filter-select">Filter</InputLabel>
-              <Select
-                labelId="filter-select"
-                id="filter"
-                value={this.state.filter}
-                onChange={this.handleFilter}
-                className={classes.selectEmpty}
+                <InputLabel id="stage-select">Stage</InputLabel>
+                <Select
+                  labelId="stage-select"
+                  id="stage"
+                  value={this.state.stage}
+                  onChange={this.handleStage}
+                  className={classes.selectEmpty}
+                >
+                  <MenuItem value={"regular"}>Regular Season</MenuItem>
+                  <MenuItem value={"playoffs"}>Playoffs</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl
+                required
+                className={classes.filter_select}
+                disabled={this.state.disable_filter}
               >
-                <MenuItem value={"GP"}>GP</MenuItem>
-                <MenuItem value={"MIN"}>MIN</MenuItem>
-                <MenuItem value={"FGM"}>FGM</MenuItem>
-                <MenuItem value={"FGA"}>FGA</MenuItem>
-                <MenuItem value={"3PM"}>3PM</MenuItem>
-                <MenuItem value={"3PA"}>3PA</MenuItem>
-                <MenuItem value={"FTM"}>FTM</MenuItem>
-                <MenuItem value={"FTA"}>FTA</MenuItem>
-                <MenuItem value={"TOV"}>TOV</MenuItem>
-                <MenuItem value={"PF"}>PF</MenuItem>
-                <MenuItem value={"ORB"}>ORB</MenuItem>
-                <MenuItem value={"DRB"}>DRB</MenuItem>
-                <MenuItem value={"REB"}>REB</MenuItem>
-                <MenuItem value={"AST"}>AST</MenuItem>
-                <MenuItem value={"STL"}>STL</MenuItem>
-                <MenuItem value={"BLK"}>BLK</MenuItem>
-                <MenuItem value={"PTS"}>PTS</MenuItem>
-              </Select>
-            </FormControl>
-            <div>
-              <Button variant="contained" onClick={this.search_player}>
-                Player
-              </Button>
-              <Button variant="contained" onClick={this.clear}>
-                Clear
-              </Button>
-            </div>
-          </Center>
-          {this.show_table ? (
-            <div>
-              <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Player Name</TableCell>
-                      <TableCell align="right">Team</TableCell>
-                      <TableCell align="right">Season</TableCell>
-                      <TableCell align="right">Stage</TableCell>
-                      <TableCell align="right">Points Scored</TableCell>
-                      <TableCell align="right">Assists</TableCell>
-                      <TableCell align="right">Games Played</TableCell>
-                      <TableCell align="right">Minutes Played</TableCell>
-                      <TableCell align="right">FG Made</TableCell>
-                      <TableCell align="right">FG Attempted</TableCell>
-                      <TableCell align="right">3-P Made</TableCell>
-                      <TableCell align="right">3-P Attempted</TableCell>
-                      <TableCell align="right">FT Made</TableCell>
-                      <TableCell align="right">FT Attempted</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {this.player_list.map((player) => (
-                      <TableRow key={player.Player}>
-                        <TableCell component="th" scope="row">
-                          {player.Player}
-                        </TableCell>
-                        <TableCell align="right">{player.Team}</TableCell>
-                        <TableCell align="right">{player.Season}</TableCell>
-                        <TableCell align="right">{player.Stage}</TableCell>
-                        <TableCell align="right">{player.PTS}</TableCell>
-                        <TableCell align="right">{player.AST}</TableCell>
-                        <TableCell align="right">{player.GP}</TableCell>
-                        <TableCell align="right">{player.MIN}</TableCell>
-                        <TableCell align="right">{player.FGM}</TableCell>
-                        <TableCell align="right">{player.FGA}</TableCell>
-                        <TableCell align="right">{player["3PM"]}</TableCell>
-                        <TableCell align="right">{player["3PA"]}</TableCell>
-                        <TableCell align="right">{player.FTM}</TableCell>
-                        <TableCell align="right">{player.FTA}</TableCell>
+                <InputLabel id="filter-select">Filter</InputLabel>
+                <Select
+                  labelId="filter-select"
+                  id="filter"
+                  value={this.state.filter}
+                  onChange={this.handleFilter}
+                  className={classes.selectEmpty}
+                >
+                  <MenuItem value={"PTS"}>PTS</MenuItem>
+                  <MenuItem value={"AST"}>AST</MenuItem>
+                  <MenuItem value={"STL"}>STL</MenuItem>
+                  <MenuItem value={"BLK"}>BLK</MenuItem>
+                  <MenuItem value={"MIN"}>MIN</MenuItem>
+                  <MenuItem value={"FGM"}>FGM</MenuItem>
+                  <MenuItem value={"FGA"}>FGA</MenuItem>
+                  <MenuItem value={"3PM"}>3PM</MenuItem>
+                  <MenuItem value={"3PA"}>3PA</MenuItem>
+                  <MenuItem value={"FTM"}>FTM</MenuItem>
+                  <MenuItem value={"FTA"}>FTA</MenuItem>
+                  <MenuItem value={"TOV"}>TOV</MenuItem>
+                  <MenuItem value={"PF"}>PF</MenuItem>
+                  <MenuItem value={"REB"}>REB</MenuItem>
+                  <MenuItem value={"ORB"}>ORB</MenuItem>
+                  <MenuItem value={"DRB"}>DRB</MenuItem>
+                  <MenuItem value={"GP"}>GP</MenuItem>
+                </Select>
+              </FormControl>
+              <div>
+                <Button variant="contained" onClick={this.search_player}>
+                  Player
+                </Button>
+                <Button variant="contained" onClick={this.clear}>
+                  Clear
+                </Button>
+              </div>
+            </Center>
+            {this.show_table ? (
+              <div>
+                <TableContainer component={Paper}>
+                  <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Player Name</TableCell>
+                        <TableCell align="right">Team</TableCell>
+                        <TableCell align="right">Season</TableCell>
+                        <TableCell align="right">Stage</TableCell>
+                        <TableCell align="right">Points Scored</TableCell>
+                        <TableCell align="right">Assists</TableCell>
+                        <TableCell align="right">Games Played</TableCell>
+                        <TableCell align="right">Minutes Played</TableCell>
+                        <TableCell align="right">FG Made</TableCell>
+                        <TableCell align="right">FG Attempted</TableCell>
+                        <TableCell align="right">3-P Made</TableCell>
+                        <TableCell align="right">3-P Attempted</TableCell>
+                        <TableCell align="right">FT Made</TableCell>
+                        <TableCell align="right">FT Attempted</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <Center>
-                <h1 class="whiteTextOverride">{this.state.filter}</h1>
-              </Center>
-              <Center>
-                <Chart data={this.state.data} filter={this.state.filter} />
-              </Center>
-            </div>
-          ) : null}
-        </Element>
-      </div>
+                    </TableHead>
+                    <TableBody>
+                      {this.player_list.map((player) => (
+                        <TableRow key={player.Player}>
+                          <TableCell component="th" scope="row">
+                            {player.Player}
+                          </TableCell>
+                          <TableCell align="right">{player.Team}</TableCell>
+                          <TableCell align="right">{player.Season}</TableCell>
+                          <TableCell align="right">{player.Stage}</TableCell>
+                          <TableCell align="right">{player.PTS}</TableCell>
+                          <TableCell align="right">{player.AST}</TableCell>
+                          <TableCell align="right">{player.GP}</TableCell>
+                          <TableCell align="right">{player.MIN}</TableCell>
+                          <TableCell align="right">{player.FGM}</TableCell>
+                          <TableCell align="right">{player.FGA}</TableCell>
+                          <TableCell align="right">{player["3PM"]}</TableCell>
+                          <TableCell align="right">{player["3PA"]}</TableCell>
+                          <TableCell align="right">{player.FTM}</TableCell>
+                          <TableCell align="right">{player.FTA}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <Center>
+                  <h1 style={{ color: "white" }}>{this.state.filter}</h1>
+                </Center>
+                <Center>
+                  <Chart data={this.state.data} filter={this.state.filter} />
+                </Center>
+                <div class="space"></div>
+                <Center>
+                  
+                  <Chart data={this.state.data} filter={this.state.filter} />
+                </Center>
+              </div>
+            ) : null}
+          </Element>
+        </div>
+      </ThemeProvider>
     );
   }
 }

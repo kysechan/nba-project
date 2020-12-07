@@ -46,6 +46,10 @@
   }
 }
 
-body {
-  color: white;
+.space {
+  margin-top: 200px;
+}
+
+.MuiTextField-root {
+  color: "black";
 }
