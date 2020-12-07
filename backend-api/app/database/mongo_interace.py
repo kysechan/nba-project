@@ -57,6 +57,17 @@ class MongoInterface:
         print(player_name)
         return self.db[collection].find_one({"$text": {"$search": "'\"" + player_name + "\"'"}})
 
+    def find_player_advanced(self, collection, player_name, year, stage):
+        """
+            Uses full text search to search for a player name
+        """
+        print(player_name)
+        print(year)
+        print(stage)
+        year = int(year)
+        # player_name = player_name.replace(' ', '%20')
+        return self.db[collection].find_one({"$text": {"$search": "\""+ player_name + "\"" + "\""+ str(year) + "\"" + "\""+ stage + "\"" + "\""+ str(year+1) + "\""}})
+
     def find_all_player_data(self, player_name):
         """
             Uses full text search to search for a player name

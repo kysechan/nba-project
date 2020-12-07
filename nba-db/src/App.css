@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  color: white;
 }
 
 .App-logo {
@@ -43,4 +44,12 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.space {
+  margin-top: 200px;
+}
+
+.MuiTextField-root {
+  color: "black";
 }

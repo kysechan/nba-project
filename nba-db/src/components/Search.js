@@ -22,6 +22,7 @@ const styles = theme => ({
 })
 
 class Search extends Component {
+
   state = {
     value: null,
     suggestions: [],
