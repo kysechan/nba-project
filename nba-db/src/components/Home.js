@@ -62,7 +62,7 @@ const styles = (theme) => ({
 
 async function get_autcompete_props () {
   try {
-    const resp = await fetch("https://localhost:8080/api/player/all")
+    const resp = await fetch("https://" + API_IP + ":8080/api/player/all")
     const data = await resp.json()
     console.log(data.players)
     return data.players
@@ -99,7 +99,7 @@ class Home extends Component {
     }
 
   }
-  
+
   handleChange(event) {
     this.setState({ value: event.target.value });
   }
@@ -199,7 +199,7 @@ class Home extends Component {
               type="search"
               className={classes.autcomplete}
               onChange={this.handleAutoCompleteChange}
-              renderInput={(params) => <TextField {...params} 
+              renderInput={(params) => <TextField {...params}
                 label="Player Search"
                 />}
             />
