@@ -10,12 +10,13 @@ from app import settings, nba_logger
 from app.views.main import nba_blueprint
 
 app = Flask(__name__)
-CORS(app)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+# CORS(app)
 
-context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+# context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
 # context.verify_mode = ssl.CERT_REQUIRED
 # context.load_verify_locations("ca.crt")
-context.load_cert_chain("root_ca.pem", "root_ca.key")
+# context.load_cert_chain("root_ca.pem", "root_ca.key")
 
 # register main slack routes
 app.register_blueprint(nba_blueprint)
@@ -31,9 +32,9 @@ def start_server(f_host=settings.FLASK_HOST, f_port=settings.FLASK_PORT):
     if os.getenv('ENV_TYPE') != 'PROD':
         # Enable debug and reloader for development
         nba_logger.info("Starting Development Server")
-        # app.run(debug=True, host=f_host, port=f_port, threaded=True, use_reloader=True, ssl_context=context)
-        app.run(debug=True, host=f_host, port=f_port, threaded=True,
-                use_reloader=True, ssl_context=('cert.pem', 'key.pem'))
+        app.run(debug=True, host=f_host, port=f_port, threaded=True, use_reloader=True)
+        # app.run(debug=True, host=f_host, port=f_port, threaded=True,
+                # use_reloader=True, ssl_context=('cert.pem', 'key.pem'))
     else:
         nba_logger.info("Starting Production Type Flask Server, However it is recommended to use gunicorn inside of running python script directly")
         app.run(debug=False, host=settings.FLASK_HOST, port=settings.FLASK_PORT, threaded=True, use_reloader=False)
