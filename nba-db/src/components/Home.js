@@ -36,6 +36,7 @@ import "react-dropdown/style.css";
 import Chart from "./Recharts";
 import dynamicData from "./Recharts.js";
 import SelectStage from "./SelectStage";
+import Visualize from "./Visualize";
 
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 
@@ -420,7 +421,7 @@ class Home extends Component {
                 </Center>
                 <div class="space"></div>
                 <Center>
-                  <Chart data={this.state.data} filter={this.state.filter} />
+                  <Visualize value = {this.state.value} stage = {this.state.stage} filter = {this.state.filter} />
                 </Center>
               </div>
             ) : null}
