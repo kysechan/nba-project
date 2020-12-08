@@ -71,11 +71,11 @@ class MongoInterface:
             Uses full text search to search for a player name
         """
         # print(player_name)
-        # print(year)
+        print(year)
         # print(stage)
-        year = int(year)
+        #year = int(year)
         # player_name = player_name.replace(' ', '%20')
-        return self.db[collection].find_one({"$text": {"$search": "\""+ player_name + "\"" + "\""+ str(year) + "\"" + "\""+ stage + "\"" + "\""+ str(year+1) + "\""}})
+        return self.db[collection].find_one({"$text": {"$search": "\""+ str(player_name) + "\"" + "\""+ str(year) + "\"" + "\""+ str(stage) + "\"" + "\""+ str(year+1) + "\""}})
 
     def find_all_player_data(self, player_name):
         """
