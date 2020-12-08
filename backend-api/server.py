@@ -31,7 +31,7 @@ def start_server(f_host=settings.FLASK_HOST, f_port=settings.FLASK_PORT):
     if os.getenv('ENV_TYPE') != 'PROD':
         # Enable debug and reloader for development
         nba_logger.info("Starting Development Server")
-        app.run(debug=True, host=f_host, port=f_port, threaded=True, use_reloader=True, ssl_context=context)
+        # app.run(debug=True, host=f_host, port=f_port, threaded=True, use_reloader=True, ssl_context=context)
         app.run(debug=True, host=f_host, port=f_port, threaded=True,
                 use_reloader=True, ssl_context=('cert.pem', 'key.pem'))
     else:
