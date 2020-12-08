@@ -30,10 +30,7 @@ Example request (curl): `curl -k https://165.227.31.0:8080/api/player/basic\?pla
 
 Example Mongo shell query: `db.advanced_players.find({$text: {$search: "\"curry\" \"playoffs\" \"2017\" \"2018\""}})`
 
-Analytics:
-```
-https://cloud.mongodb.com/freemonitoring/cluster/JAK4WVTHJE5UVK66DW6GHWUB4RMGXJSE
-```
+MongoDB Analytics: `https://cloud.mongodb.com/freemonitoring/cluster/JAK4WVTHJE5UVK66DW6GHWUB4RMGXJSE`
 
 
 
