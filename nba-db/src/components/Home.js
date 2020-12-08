@@ -420,7 +420,6 @@ class Home extends Component {
                 </Center>
                 <div class="space"></div>
                 <Center>
-                  
                   <Chart data={this.state.data} filter={this.state.filter} />
                 </Center>
               </div>
