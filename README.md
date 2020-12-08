@@ -112,7 +112,7 @@ MongoDB Analytics: `https://cloud.mongodb.com/freemonitoring/cluster/JAK4WVTHJE5
 * Request types: GET
 * Returns: json object of player info
 
-
+---
 
 ### [DEPRECATED] Team Data Endpoints
 #### 1. /api/teams/basic?team=<team_name>
