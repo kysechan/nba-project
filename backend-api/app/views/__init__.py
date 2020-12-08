@@ -1,5 +1,6 @@
 import logging
-import sys, time
+import sys
+import time
 from app import settings
 
 logging.basicConfig(stream=sys.stdout, level=settings.LOGGING_LEVEL)

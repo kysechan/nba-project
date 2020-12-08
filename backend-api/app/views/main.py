@@ -1,13 +1,19 @@
-from flask import Flask, jsonify, request, abort, redirect,send_from_directory
+from flask import Flask, jsonify, request, abort, redirect, send_from_directory
 from flask import Response, make_response
-import os, json, sys, pickle, time, re
+import os
+import json
+import sys
+import pickle
+import time
+import re
 import requests
 
 from app import nba_logger, playerdb, gamedb, official_complete
 from app.utils.flask_utils import required_parameters_check
 
 from flask import Blueprint
-nba_blueprint = Blueprint('nba_blueprint', __name__) #save all routes under a blueprint to be used by other modules
+# save all routes under a blueprint to be used by other modules
+nba_blueprint = Blueprint('nba_blueprint', __name__)
 
 
 @nba_blueprint.route('/api/', methods=['GET'])
@@ -19,7 +25,7 @@ def index():
         :returns: Flask Response Object
     """
     return Response(
-        json.dumps({'system':'nba-api', 'version':'1.0.0'}),
+        json.dumps({'system': 'nba-api', 'version': '1.0.0'}),
         status=200,
         mimetype='application/json'
     )
@@ -33,6 +39,12 @@ def index():
 
 @nba_blueprint.route('/api/player/basic', methods=['GET'])
 def get_player():
+    """
+        Main api route used for searching through databases. 
+        Parameters specified include: player, year, and stage.
+        Returns a 404 if player could not be found and if it can, it
+        send the json object back.
+    """
     param_check = required_parameters_check(request, ['player'])
     if param_check != True:
         return param_check
@@ -41,7 +53,9 @@ def get_player():
     year = request.args.get('year')
     stage = request.args.get('stage')
 
-    result = official_complete.find_player_advanced('advanced_players', player, year, stage)
+    # Find all information for given player with specified fields.
+    result = official_complete.find_player_advanced(
+        'advanced_players', player, year, stage)
 
     if not result:
         return Response(
@@ -50,7 +64,8 @@ def get_player():
             mimetype='application/json'
         )
 
-    del result['_id'] # Remove _id because it should not be sent back to the user
+    # Remove _id because it should not be sent back to the user
+    #del result['_id']
 
     return Response(
         json.dumps(result),
@@ -58,8 +73,12 @@ def get_player():
         mimetype='application/json'
     )
 
+
 @nba_blueprint.route('/api/player/stats', methods=['GET'])
 def get_player_stats():
+    """
+        Returns the players game stats for a given player.
+    """
     param_check = required_parameters_check(request, ['player'])
     if param_check != True:
         return param_check
@@ -68,7 +87,8 @@ def get_player_stats():
 
     result = playerdb.find_player('player_data', player)
 
-    del result['_id'] # Remove _id because it should not be sent back to the user
+    # Remove _id because it should not be sent back to the user
+    del result['_id']
 
     return Response(
         json.dumps(result),
@@ -93,9 +113,9 @@ def player_season_data():
         mimetype='application/json'
     )
 
+
 @nba_blueprint.route('/api/player/all', methods=['GET'])
 def retrieve_unique_players():
-
 
     print('getting unique players')
 
@@ -111,6 +131,8 @@ def retrieve_unique_players():
 
 #############################################################
 # Team searching api endpoints
+# DEPRECIATED: No longer searching teams. Main focus is
+#       on player data.
 #############################################################
 
 
@@ -136,6 +158,7 @@ def find_basic_team_data():
         mimetype='application/json'
     )
 
+
 @nba_blueprint.route('/api/teams/players', methods=['GET'])
 def find_players_by_team():
     param_check = required_parameters_check(request, ['team'])
@@ -145,15 +168,13 @@ def find_players_by_team():
     team_name = request.args.get('team')
 
     result = gamedb.find_one_fulltext('teams', team_name)
-    players = gamedb.mfind('players', {"team_id":result['team_id']})
+    players = gamedb.mfind('players', {"team_id": result['team_id']})
 
     return Response(
         json.dumps(players),
         status=200,
         mimetype='application/json'
     )
-
-
 
 
 @nba_blueprint.route('/api/players/test', methods=['GET'])
@@ -173,8 +194,3 @@ def filter_by_year():
         status=200,
         mimetype='application/json'
     )
-
-
-
-
-

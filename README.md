@@ -16,25 +16,36 @@ CSE115
 * [Sprint 3 Report](https://docs.google.com/document/d/18Ub32gAbnZThY7ou6OQW-b6G4yuQ51BQShq6zSCOeOs/edit)
 * [Sprint 4 Plan](https://docs.google.com/document/d/1IfShkFGDsBJxwENH3YJHX-mHAv_gbGYDHvGnGnQR3d4/edit?usp=sharing)
 
-## Getting Mongo working [as a CLIENT]"
+## Getting Mongo shell working [CLIENT]
 1. With Homebrew:
+
 `brew tap mongodb/brew`
+
 `brew install mongodb-community-shell`
 
 2. Connect to the server:
 `mongo --host 165.227.31.0:27069`
 
-`curl -k https://165.227.31.0:8080/api/player/basic\?player\=lebron\&year\=2017\&stage\=playoffs`
-`db.advanced_players.find({$text: {$search: "\"curry\" \"playoffs\" \"2017\" \"2018\""}})`
+Example Mongo shell query: 
 
-Analytics:
 ```
-https://cloud.mongodb.com/freemonitoring/cluster/JAK4WVTHJE5UVK66DW6GHWUB4RMGXJSE
+db.use(official_complete)
+db.advanced_players.find({$text: {$search: "\"curry\" \"playoffs\" \"2017\" \"2018\""}})
 ```
 
+--- 
 
 
-## Getting Mongo working with Data [on the SERVER]:
+Example request (curl): `curl -k https://165.227.31.0:8080/api/player/basic\?player\=lebron\&year\=2017\&stage\=playoffs`
+
+
+
+
+MongoDB Analytics: `https://cloud.mongodb.com/freemonitoring/cluster/JAK4WVTHJE5UVK66DW6GHWUB4RMGXJSE`
+
+
+
+## Getting Mongo working with Data [SERVER]:
 1. Download mongo db volume from here:
     1. https://drive.google.com/file/d/1J7lcHTjlDeZyeXdaP5C21VQUcboC3ide/view?usp=sharing
     2. Unzip into nba-project dir
@@ -42,7 +53,7 @@ https://cloud.mongodb.com/freemonitoring/cluster/JAK4WVTHJE5UVK66DW6GHWUB4RMGXJS
 2. Make sure you have docker installed and running
 3. Run ./start-mongo.sh
 4. Should now be accessible under this uri:
-    1. mongodb://localhost:27017
+    1. mongodb://localhost:27069
 5. To view the data using a GUI I would recommend compass:
     1. https://www.mongodb.com/products/compass
     
@@ -83,7 +94,9 @@ https://cloud.mongodb.com/freemonitoring/cluster/JAK4WVTHJE5UVK66DW6GHWUB4RMGXJS
 ### Player Data Endpoints
 #### 1. /api/player/basic?player=<player_name>
 * Required Parameters:
-    1. player (string of player name)
+    1. player (string of player name
+    2. year (desired year)
+    3. stage ('regular' or 'playoffs')
 * Request types: GET
 * Returns: json object of player info
 
@@ -99,7 +112,9 @@ https://cloud.mongodb.com/freemonitoring/cluster/JAK4WVTHJE5UVK66DW6GHWUB4RMGXJS
 * Request types: GET
 * Returns: json object of player info
 
-### Team Data Endpoints
+---
+
+### [DEPRECATED] Team Data Endpoints
 #### 1. /api/teams/basic?team=<team_name>
 * Required Parameters:
     1. team (string of team name)
