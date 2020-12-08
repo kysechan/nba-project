@@ -50,7 +50,7 @@ const WhiteTextTypography = withStyles({
 const stage_options = ["regular", "playoffs"];
 const default_stage = stage_options[0];
 
-const API_IP = "165.227.31.0";
+const API_IP = "165.227.31.0"; //"localhost";
 
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
@@ -127,7 +127,7 @@ class Home extends Component {
       showMe: false,
       data: [],
       disable_filter: false,
-
+      player_list: [],
       stats: [],
       i: 0,
     };
@@ -164,7 +164,7 @@ class Home extends Component {
       "2018",
       "2019",
     ];
-    this.player_list = [];
+    //this.player_list = [];
 
     this.autocompleteProps = {
       options: static_players.static_players,
@@ -209,8 +209,9 @@ class Home extends Component {
           console.log(this.state.value);
         }
       );
+      this.value = values.player;
     }
-    this.value = values.player;
+    
     // this.process();
     // this.forceUpdate();
   };
@@ -230,7 +231,7 @@ class Home extends Component {
       await fetch(
         "http://" +
           API_IP +
-          ":8080/api/player/basic?player=" +
+          ":8080/api/v2/player/basic?player=" +
           this.value +
           "&year=" +
           this.years[i] +
@@ -241,7 +242,7 @@ class Home extends Component {
           if (!response.ok) {
             throw new Error();
           }
-          return response.json();
+          return response.json().data;
         })
         .then((response) => {
           console.log(this.value);
@@ -290,6 +291,9 @@ class Home extends Component {
     // this.stats = this.state.stats;
     // this.process();
   }
+
+
+
   update() {
     this.setState({ value: this.state.value });
     this.process();
@@ -307,32 +311,45 @@ class Home extends Component {
   }
 
   // Get request API player endpoint
-  search_player(event) {
-    fetch(
+  async search_player(event) {
+    await fetch(
       "http://" +
         API_IP +
-        ":8080/api/player/basic?player=" +
-        this.state.value +
+        ":8080/api/v2/player/basic?player=" +
+        this.value +
         "&year=" +
         this.state.year +
         "&stage=" +
-        this.state.stage
-    )
+        this.stage
+      )
       .then((response) => response.json())
       .then((response) => {
-        // this.last = "search";
-        // this.stats = Array();
-        // this.setState({stats: Array()})
-        console.log(response);
-        this.json = response;
-        this.player_list.push(this.json);
-        console.log(this.player_list);
-        this.response = JSON.stringify(response);
+       
         this.toggleTable();
-        this.state.data = this.state.data.concat(response);
-        this.setState({ value: this.state.value });
-        this.process();
+        //this.state.data = this.state.data.concat(response.data);
+        //this.setState({ value: this.state.value });
+        console.log(`Response 1: ${response.data}`);
+        const filter_1 = this.state.filter;
+        //this.stats = Array();\
+        console.log(`Filter: ${filter_1}`);
+        var arr = Array();
+        var tmp_player_list = Array();
+        response.data.forEach(function (arrayItem) {
+          arr.push(
+            {
+              key: arrayItem.lower_year_bound.toString(),
+              data: arrayItem[filter_1],
+            });
+            tmp_player_list.push(arrayItem);
+        });
+        console.log(`Array after for loop: ${JSON.stringify(arr)}`);
+        this.setState({
+          stats: arr,
+          player_list: this.state.player_list.concat(tmp_player_list),
+        });
 
+        //this.process();
+        console.log(`stats state: ${JSON.stringify(this.state.stats)}`);
         this.forceUpdate();
       })
       .catch((error) => {
@@ -354,6 +371,7 @@ class Home extends Component {
             this.state.stage
         );
       });
+      
     event.preventDefault();
   }
 
@@ -509,7 +527,7 @@ class Home extends Component {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {this.player_list.map((player) => (
+                      {this.state.player_list.map((player) => (
                         <TableRow key={player.Player}>
                           <TableCell component="th" scope="row">
                             {player.Player}
@@ -536,7 +554,7 @@ class Home extends Component {
                   <h1 style={{ color: "white" }}>{this.state.filter}</h1>
                 </Center>
                 <Center>
-                  <Chart data={this.state.data} filter={this.state.filter} />
+                  {/* <Chart data={this.state.data} filter={this.state.filter} /> */}
                 </Center>
                 <div class="space"></div>
                 <Center>

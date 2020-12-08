@@ -58,7 +58,11 @@ class MongoTestFunctions(unittest.TestCase):
     def test_search_v2(self):
         advanced_m = MongoInterface(MONGO_URL, 'official_complete')
         player_name = 'Seth Curry'
-        player = advanced_m.search_v2('advanced_players', player_name)
+        stage="Regular"
+        year=""
+        player = advanced_m.search_v2('advanced_players', player_name, year=year, stage=stage)
+        print(f"Test Search V2 Output:\n{player}")
+        print(f"Num Results: {len(player)}")
 
 class APITestFunctions(unittest.TestCase):
     def setUp(self):

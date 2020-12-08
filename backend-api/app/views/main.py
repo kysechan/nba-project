@@ -73,6 +73,52 @@ def get_player():
         mimetype='application/json'
     )
 
+@nba_blueprint.route('/api/v2/player/basic', methods=['GET'])
+def get_player_v2():
+    """
+        Main api route used for searching through databases. 
+        Parameters specified include: player, year, and stage.
+        Returns a 404 if player could not be found and if it can, it
+        send the json object back.
+    """
+    param_check = required_parameters_check(request, ['player'])
+    if param_check != True:
+        return param_check
+
+    player = request.args.get('player')
+    year = request.args.get('year') if request.args.get('year') != None and request.args.get('year') != "undefined" else None
+    stage = request.args.get('stage') if request.args.get('stage') != None and request.args.get('stage') != "undefined" else None
+
+    # Find all information for given player with specified fields.
+    result = official_complete.search_v2(
+        'advanced_players', player, year=year, stage=stage)
+
+    if not result:
+        return Response(
+            json.dumps({
+                "success":False,
+                "reason":f"No player: {player}"
+            }),
+            status=404,
+            mimetype='application/json'
+        )
+
+    # Remove _id because it should not be sent back to the user
+    #del result['_id']
+
+    return Response(
+        json.dumps({
+            "success":True,
+            "length":len(result),
+            "player": player,
+            "year":year,
+            "stage":stage,
+            "data":result
+        }),
+        status=200,
+        mimetype='application/json'
+    )
+
 
 @nba_blueprint.route('/api/player/stats', methods=['GET'])
 def get_player_stats():
