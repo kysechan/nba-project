@@ -11,14 +11,13 @@ else:
 LOGGING_LEVEL=logging.DEBUG #Logging level for entire system
 
 # Flask Vars
-FLASK_PORT = 8080 # Flask Port of main Odin Slack Server
-FLASK_HOST = '0.0.0.0' #Odin Flask Port
+FLASK_PORT = 8080 # Flask Port
+FLASK_HOST = '0.0.0.0' # Flask host
 
 #Mongo
-#MONGO_URL = os.getenv('MONGO_URL') # Mongo connection URL exported by Kubernetes Secret
-MONGO_URL = '127.0.0.1:27069'
+MONGO_URL = '127.0.0.1:27069' #Main url being used for connecting.
 MONGO_HOST = os.getenv('MONGO_HOST')
-MONGO_DB = 'nba' # Database used by Odin
+MONGO_DB = 'nba' # Database used by NBA
 MONGO_USER = os.getenv('MONGO_USER')
 MONGO_PASS = os.getenv('MONGO_PASS')
 

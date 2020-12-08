@@ -7,6 +7,7 @@ if os.getenv('ENV_TYPE') != 'PROD':
     # if locally testing, you can use colors in logging
     coloredlogs.install()
 
+# Set the logging stream to stdout at the level set in settying.py
 logging.basicConfig(stream=sys.stdout, level=settings.LOGGING_LEVEL)
 logging.Formatter.converter = time.localtime
 # Setting up main logger
@@ -17,6 +18,10 @@ logging.Formatter.converter = time.localtime
 nba_logger = logging.getLogger('nba_app')
 nba_logger.setLevel(settings.LOGGING_LEVEL)
 
+
+#  tries to establish connections with each needed database on mongo
+# keeps connections open in seperate tunnels for speed and can be used
+# throughout the module once it is initialized.
 from app.database.mongo_interace import MongoInterface
 try:
     playerdb = MongoInterface(settings.MONGO_URL,'nba-players')
