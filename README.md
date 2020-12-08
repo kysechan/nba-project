@@ -35,8 +35,8 @@ db.advanced_players.find({$text: {$search: "\"curry\" \"playoffs\" \"2017\" \"20
 
 --- 
 
-Example request (curl): `curl -k https://165.227.31.0:8080/api/player/basic\?player\=lebron\&year\=2017\&stage\=playoffs`
 
+Example request (curl): `curl -k https://165.227.31.0:8080/api/player/basic\?player\=lebron\&year\=2017\&stage\=playoffs`
 
 
 

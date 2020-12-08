@@ -12,6 +12,7 @@ import Theme from "./theme";
 import { ThemeProvider } from "@material-ui/core/styles";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
+import { BarChart, LineChart, AreaChart } from "reaviz";
 
 //Material UI
 import TextField from "@material-ui/core/TextField";
@@ -36,6 +37,7 @@ import "react-dropdown/style.css";
 import Chart from "./Recharts";
 import dynamicData from "./Recharts.js";
 import SelectStage from "./SelectStage";
+// import Visualize from "./Visualize";
 
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 
@@ -127,20 +129,43 @@ class Home extends Component {
       showMe: false,
       data: [],
       disable_filter: false,
+
+      stats: [],
+      i: 0,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleYear = this.handleYear.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
     this.handleStage = this.handleStage.bind(this);
     this.search_player = this.search_player.bind(this);
+    this.update = this.update.bind(this);
     this.clear = this.clear.bind(this);
     this.handleAutoCompleteChange = this.handleAutoCompleteChange.bind(this);
     this.clearAutocomplete = this.clearAutocomplete.bind(this);
+    this.process = this.process.bind(this);
     this.show_table = false;
     this.response = "";
     this.json = "";
     this.clear_search = false;
-
+    this.stats = Array();
+    this.i = 0;
+    this.show_graph2 = false;
+    this.last = "none";
+    this.years = [
+      "2007",
+      "2008",
+      "2009",
+      "2010",
+      "2011",
+      "2012",
+      "2013",
+      "2014",
+      "2015",
+      "2016",
+      "2017",
+      "2018",
+      "2019",
+    ];
     this.player_list = [];
 
     this.autocompleteProps = {
@@ -151,18 +176,24 @@ class Home extends Component {
 
   handleChange(event) {
     this.setState({ value: event.target.value });
+    // this.value = event.target.value;
   }
 
   handleYear(event) {
     this.setState({ year: event.target.value });
+    // this.year = event.target.value;
   }
 
   handleStage(event) {
     this.setState({ stage: event.target.value });
+    this.stage = event.target.value;
   }
 
   handleFilter(event) {
     this.setState({ filter: event.target.value });
+    this.filter = event.target.value;
+    // this.last = "filter"
+    // if (this.last != "search") this.process();
     this.forceUpdate();
   }
 
@@ -170,8 +201,8 @@ class Home extends Component {
     this.show_table = true;
   }
 
-  handleAutoCompleteChange = (event, values) => {
-    if (values != null) {
+  handleAutoCompleteChange = (event, values, reason) => {
+    if (values != null && reason == "select-option") {
       this.setState(
         {
           value: values.player,
@@ -181,12 +212,90 @@ class Home extends Component {
         }
       );
     }
+    this.value = values.player;
+    // this.process();
+    // this.forceUpdate();
   };
 
   clearAutocomplete(event, values) {
     values.player = null;
   }
 
+  async process() {
+    // this.setState({ stats: [] });
+    // let accesstoRef = d3.select(this.myRef.current);
+    this.stats = Array();
+    var i;
+    // var j = 0;
+
+    for (i = 0; i < this.years.length; i++) {
+      await fetch(
+        "https://" +
+          API_IP +
+          ":8080/api/player/basic?player=" +
+          this.value +
+          "&year=" +
+          this.years[i] +
+          "&stage=" +
+          this.stage
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error();
+          }
+          return response.json();
+        })
+        .then((response) => {
+          console.log(this.value);
+          console.log("found good year" + this.years[this.i]);
+          this.stats = this.stats.concat([
+            {
+              key: this.years[this.i],
+              data: response[this.filter],
+            },
+          ]);
+          // this.state.stats = this.state.stats.concat([
+          //   {
+          //     key: this.state.years[this.state.i],
+          //     data: response[this.state.filter],
+          //   },
+          // ]);
+          // this.setState({
+          //   stats: this.state.stats.concat([
+          //     {
+          //       key: this.state.years[this.state.i],
+          //       data: response[this.state.filter],
+          //     },
+          //   ]),
+          // });
+          //   this.state.i = this.state.i + 1;
+          // this.setState({ i: this.state.i + 1 });
+          this.i = this.i + 1;
+          return;
+        })
+        .catch((err) => {
+          //   this.state.i = this.state.i + 1;
+          // this.setState({ i: this.state.i + 1 });
+          this.i = this.i + 1;
+          console.error("Error: ", err);
+
+          return;
+        });
+
+      console.log(this.stats);
+    }
+    this.i = 0;
+    console.log(this.stats);
+    this.setState({ stats: this.stats });
+    // console.log(";lajksdfl;akjsdkl;fjal;skdjfl;aksjdf;lkajsdf");
+    // this.setState({ stats: this.state.stats });
+    // this.stats = this.state.stats;
+    // this.process();
+  }
+  update() {
+    this.process();
+    this.forceUpdate();
+  }
   clear() {
     this.player_list = [];
     this.show_table = false;
@@ -212,6 +321,9 @@ class Home extends Component {
     )
       .then((response) => response.json())
       .then((response) => {
+        // this.last = "search";
+        // this.stats = Array();
+        // this.setState({stats: Array()})
         console.log(response);
         this.json = response;
         this.player_list.push(this.json);
@@ -219,6 +331,9 @@ class Home extends Component {
         this.response = JSON.stringify(response);
         this.toggleTable();
         this.state.data = this.state.data.concat(response);
+        this.setState({ value: this.state.value });
+        this.process();
+
         this.forceUpdate();
       })
       .catch((error) => {
@@ -244,7 +359,10 @@ class Home extends Component {
   }
 
   render() {
+    console.log(this.stats);
+    // this.setState({ stats: this.stats });
     const { classes, theme } = this.props;
+
     // this.props.data = this.data;
     let element;
     return (
@@ -272,7 +390,7 @@ class Home extends Component {
                 onChange={this.handleAutoCompleteChange}
                 clearOnEscape={true}
                 clearOnBlur={true}
-                selectOnFocus="true"
+                // selectOnFocus="true"
                 value={this.clear_search ? "" : this.value}
                 renderInput={(params) => (
                   <TextField
@@ -364,6 +482,9 @@ class Home extends Component {
                 <Button variant="contained" onClick={this.clear}>
                   Clear
                 </Button>
+                <Button variant="contained" onClick={this.update}>
+                  Update
+                </Button>
               </div>
             </Center>
             {this.show_table ? (
@@ -420,8 +541,18 @@ class Home extends Component {
                 </Center>
                 <div class="space"></div>
                 <Center>
-                  
-                  <Chart data={this.state.data} filter={this.state.filter} />
+                  <h1 style={{ color: "white" }}>
+                    Past 10 Seasons for {this.state.value} [{this.state.filter}]
+                  </h1>
+                </Center>
+                <Center>
+                  {/* <Visualize
+                    value={this.state.value}
+                    // stage={this.state.stage}
+                    // filter={this.state.filter}
+                    data={this.state.stats}
+                  /> */}
+                  <BarChart width={1450} height={350} data={this.state.stats} />
                 </Center>
               </div>
             ) : null}
