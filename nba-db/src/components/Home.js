@@ -111,7 +111,7 @@ const styles = (theme) => ({
 
 async function get_autcompete_props() {
   try {
-    const resp = await fetch("https://localhost:8080/api/player/all");
+    const resp = await fetch("http://localhost:8080/api/player/all");
     const data = await resp.json();
     console.log(data.players);
     return data.players;
@@ -230,7 +230,7 @@ class Home extends Component {
 
     for (i = 0; i < this.years.length; i++) {
       await fetch(
-        "https://" +
+        "http://" +
           API_IP +
           ":8080/api/player/basic?player=" +
           this.value +
@@ -310,7 +310,7 @@ class Home extends Component {
   // Get request API player endpoint
   search_player(event) {
     fetch(
-      "https://" +
+      "http://" +
         API_IP +
         ":8080/api/player/basic?player=" +
         this.state.value +
