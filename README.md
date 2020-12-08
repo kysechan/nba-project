@@ -16,7 +16,7 @@ CSE115
 * [Sprint 3 Report](https://docs.google.com/document/d/18Ub32gAbnZThY7ou6OQW-b6G4yuQ51BQShq6zSCOeOs/edit)
 * [Sprint 4 Plan](https://docs.google.com/document/d/1IfShkFGDsBJxwENH3YJHX-mHAv_gbGYDHvGnGnQR3d4/edit?usp=sharing)
 
-## Getting Mongo working [as a CLIENT]"
+## Getting Mongo shell working [CLIENT]"
 1. With Homebrew:
 
 `brew tap mongodb/brew`
@@ -31,14 +31,20 @@ CSE115
 Example request (curl): `curl -k https://165.227.31.0:8080/api/player/basic\?player\=lebron\&year\=2017\&stage\=playoffs`
 
 
-Example Mongo shell query: `db.advanced_players.find({$text: {$search: "\"curry\" \"playoffs\" \"2017\" \"2018\""}})`
+Example Mongo shell query: 
+
+
+```
+db.use(official_complete)
+db.advanced_players.find({$text: {$search: "\"curry\" \"playoffs\" \"2017\" \"2018\""}})
+```
 
 
 MongoDB Analytics: `https://cloud.mongodb.com/freemonitoring/cluster/JAK4WVTHJE5UVK66DW6GHWUB4RMGXJSE`
 
 
 
-## Getting Mongo working with Data [on the SERVER]:
+## Getting Mongo working with Data [SERVER]:
 1. Download mongo db volume from here:
     1. https://drive.google.com/file/d/1J7lcHTjlDeZyeXdaP5C21VQUcboC3ide/view?usp=sharing
     2. Unzip into nba-project dir
