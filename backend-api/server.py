@@ -28,7 +28,8 @@ cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 # context.load_cert_chain("root_ca.pem", "root_ca.key")
 
 # register main slack routes
-f_app.register_blueprint(nba_blueprint)
+app.register_blueprint(nba_blueprint)
+# f_app.register_blueprint(nba_blueprint)
 
 
 def start_server(f_host=settings.FLASK_HOST, f_port=settings.FLASK_PORT):
@@ -47,8 +48,8 @@ def start_server(f_host=settings.FLASK_HOST, f_port=settings.FLASK_PORT):
     else:
         nba_logger.info(
             "Starting Production Type Flask Server, However it is recommended to use gunicorn inside of running python script directly")
-        f_app.run(debug=False, host=settings.FLASK_HOST,
-                port=settings.FLASK_PORT, threaded=True, use_reloader=False)
+        # f_app.run(debug=False, host=settings.FLASK_HOST,
+        #         port=settings.FLASK_PORT, threaded=True, use_reloader=False)
 
 
 if __name__ == "__main__":

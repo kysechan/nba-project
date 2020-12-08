@@ -47,7 +47,6 @@ class MongoInterface:
 
     def get_unique_players(self):
         # print(list(self.db.distinct("Players"))
-<<<<<<< HEAD
         player_list = self.db['advanced_players'].distinct('Player', {'League': 'NBA'})
         print(player_list[0])
         master  = [{"player": player} for player in player_list]
@@ -61,20 +60,6 @@ class MongoInterface:
         # nba_logger.info(f"Getting Unique Players, length: {len(result)}")
         # success_var = True if len(result) > 0 else False
         # return {"success":success_var, "length":len(result), "players":[{"player":x} for x in list(result)]}
-=======
-        player_list = self.db['advanced_players'].distinct('Player')
-        master = [{"player": player} for player in player_list]
-        result = master
-        #with open('players.txt', 'w') as fp:
-        #    fp.write(str(master))
-
-        pprint(master)
-        # result = set(list(self.db['players'].find({}, {'_id': False}).distinct('player')))
-        # print(result)
-        nba_logger.info(f"Getting Unique Players, length: {len(result)}")
-        success_var = True if len(result) > 0 else False
-        return {"success": success_var, "length": len(result), "players": [{"player": x} for x in list(result)]}
->>>>>>> a74ce8c5081ed7c9514436b6c12c0af0f8590df6
 
     def find_player(self, collection, player_name):
         """
