@@ -50,7 +50,7 @@ const WhiteTextTypography = withStyles({
 const stage_options = ["regular", "playoffs"];
 const default_stage = stage_options[0];
 
-const API_IP = 'localhost'; //"165.227.31.0";
+const API_IP = "165.227.31.0";
 
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);

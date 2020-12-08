@@ -71,29 +71,38 @@ class MongoInterface:
         """
             Uses full text search to search for a player name
         """
-        # print(player_name)
+        print(player_name)
         print(year)
-        # print(stage)
-        #year = int(year)
-        #player_name = player_name.replace(' ', '%20')
-        if not player_name:
-            return {}
+        nba_logger.info(f"{player_name}\n {year}\n {stage}")
+        return self.db[collection].find_one({"$text": {"$search": "\""+ str(player_name) + "\"" + "\""+ str(year) + "\"" + "\""+ str(stage) + "\"" + "\""+ str(int(year)+1) + "\""}}, {'_id': False})
+    
+    # def find_player_advanced(self, collection, player_name, year, stage):
+    #     """
+    #         Uses full text search to search for a player name
+    #     """
+    #     # print(player_name)
+    #     print(year)
+    #     # print(stage)
+    #     #year = int(year)
+    #     #player_name = player_name.replace(' ', '%20')
+    #     if not player_name:
+    #         return {}
         
-        query_string = f'"{player_name}" '
-        query_obj = {"Player":{'$regex':f".*{player_name}.*"}}
-        if year and year != "" and year != "undefined":
-            query_string += f'"{year}" '
-            query_obj["Season"] = {'$regex':f".*{year}.*"}
-        if stage and stage != "" and stage != "undefined":
-            query_string += f'"{stage}"'
-            query_obj["Stage"] = {'$regex':f".*{stage}.*"}
+    #     query_string = f'"{player_name}" '
+    #     query_obj = {"Player":{'$regex':f".*{player_name}.*"}}
+    #     if year and year != "" and year != "undefined":
+    #         query_string += f'"{year}" '
+    #         query_obj["Season"] = {'$regex':f".*{year}.*"}
+    #     if stage and stage != "" and stage != "undefined":
+    #         query_string += f'"{stage}"'
+    #         query_obj["Stage"] = {'$regex':f".*{stage}.*"}
         
-        nba_logger.info(f"Query (find_player_advanced): {query_obj}")
+    #     nba_logger.info(f"Query (find_player_advanced): {query_obj}")
         
-        #return self.db[collection].find_one({"$text": {"$search": query_string}}) #Full Text
-        result = self.db[collection].find_one(query_obj, {'_id': False})
-        nba_logger.info(f"Result: {result}")
-        return result
+    #     #return self.db[collection].find_one({"$text": {"$search": query_string}}) #Full Text
+    #     result = self.db[collection].find_one(query_obj, {'_id': False})
+    #     nba_logger.info(f"Result: {result}")
+    #     return result
     
     def search_v2(self, collection, player_name, year=None, stage=None):
         nba_logger.info(f"Calling search v2 with params: {player_name}, {year}, {stage}")
