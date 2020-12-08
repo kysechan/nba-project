@@ -220,6 +220,7 @@ class Home extends Component {
         this.response = JSON.stringify(response);
         this.toggleTable();
         this.state.data = this.state.data.concat(response);
+        this.setState({value: this.state.value})
         this.forceUpdate();
       })
       .catch((error) => {
@@ -421,7 +422,7 @@ class Home extends Component {
                 </Center>
                 <div class="space"></div>
                 <Center>
-                  <Visualize value = {this.state.value} stage = {this.state.stage} filter = {this.state.filter} />
+                  <Visualize value={this.state.value} stage={this.state.stage} filter={this.state.filter} />
                 </Center>
               </div>
             ) : null}
