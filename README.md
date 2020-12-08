@@ -16,7 +16,7 @@ CSE115
 * [Sprint 3 Report](https://docs.google.com/document/d/18Ub32gAbnZThY7ou6OQW-b6G4yuQ51BQShq6zSCOeOs/edit)
 * [Sprint 4 Plan](https://docs.google.com/document/d/1IfShkFGDsBJxwENH3YJHX-mHAv_gbGYDHvGnGnQR3d4/edit?usp=sharing)
 
-## Getting Mongo shell working [CLIENT]"
+## Getting Mongo shell working [CLIENT]
 1. With Homebrew:
 
 `brew tap mongodb/brew`
