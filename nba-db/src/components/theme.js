@@ -1,8 +1,21 @@
-import { createMuiTheme } from '@material-ui/core/styles';
-import blue from '@material-ui/core/colors/blue';
+import { createMuiTheme } from "@material-ui/core/styles";
+import purple from "@material-ui/core/colors/purple";
+import green from "@material-ui/core/colors/green";
 
-const theme = createMuiTheme({
+const Theme = createMuiTheme({
   palette: {
-    primary: blue,
+    text: {
+      primary: "#456268",
+      secondary: "#FFFFFF",
+    },
+  },
+  props: {
+    // MuiAutocomplete: {
+    //   text: {
+    //     color: "red",
+    //   },
+    // },
   },
 });
+
+export default Theme;

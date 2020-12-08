@@ -33,17 +33,17 @@ import Paper from '@material-ui/core/Paper';
 
 
 const drawerWidth = 255;
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
-    backgroundColor:'#93abd3',
+    backgroundColor: "#212121",
   },
   appBar: {
-    backgroundColor:'#222D3B',
+    backgroundColor: "#222D3B",
     height: 64,
-    display:'block',
+    display: "block",
   },
-  routeResults:{
-    display:'block',
+  routeResults: {
+    display: "block",
   },
 });
 
