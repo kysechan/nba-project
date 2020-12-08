@@ -53,7 +53,7 @@ MongoDB Analytics: `https://cloud.mongodb.com/freemonitoring/cluster/JAK4WVTHJE5
 2. Make sure you have docker installed and running
 3. Run ./start-mongo.sh
 4. Should now be accessible under this uri:
-    1. mongodb://localhost:27017
+    1. mongodb://localhost:27069
 5. To view the data using a GUI I would recommend compass:
     1. https://www.mongodb.com/products/compass
     
@@ -94,7 +94,9 @@ MongoDB Analytics: `https://cloud.mongodb.com/freemonitoring/cluster/JAK4WVTHJE5
 ### Player Data Endpoints
 #### 1. /api/player/basic?player=<player_name>
 * Required Parameters:
-    1. player (string of player name)
+    1. player (string of player name
+    2. year (desired year)
+    3. stage ('regular' or 'playoffs')
 * Request types: GET
 * Returns: json object of player info
 
@@ -109,6 +111,9 @@ MongoDB Analytics: `https://cloud.mongodb.com/freemonitoring/cluster/JAK4WVTHJE5
     1. player (string of player name)
 * Request types: GET
 * Returns: json object of player info
+
+
+[DEPRECATED]
 
 ### Team Data Endpoints
 #### 1. /api/teams/basic?team=<team_name>
