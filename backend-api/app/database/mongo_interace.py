@@ -45,7 +45,16 @@ class MongoInterface:
         return self.db.command("serverStatus")
     
     def get_unique_players(self):
-        result = set(list(self.db['players'].find({}, {'_id': False}).distinct('player')))
+        # print(list(self.db.distinct("Players"))
+        player_list = self.db['advanced_players'].distinct('Player')
+        master  = [{"player": player} for player in player_list]
+
+        with open('players.txt', 'w') as fp:
+            fp.write(str(master))
+        
+        pprint(master)
+        # result = set(list(self.db['players'].find({}, {'_id': False}).distinct('player')))
+        # print(result)
         nba_logger.info(f"Getting Unique Players, length: {len(result)}")
         success_var = True if len(result) > 0 else False
         return {"success":success_var, "length":len(result), "players":[{"player":x} for x in list(result)]}
@@ -61,9 +70,9 @@ class MongoInterface:
         """
             Uses full text search to search for a player name
         """
-        print(player_name)
-        print(year)
-        print(stage)
+        # print(player_name)
+        # print(year)
+        # print(stage)
         year = int(year)
         # player_name = player_name.replace(' ', '%20')
         return self.db[collection].find_one({"$text": {"$search": "\""+ player_name + "\"" + "\""+ str(year) + "\"" + "\""+ stage + "\"" + "\""+ str(year+1) + "\""}})
