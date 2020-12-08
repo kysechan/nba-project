@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { LinkContainer } from "react-router-bootstrap";
-import ReactJson from "react-json-view";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core/styles";
@@ -12,7 +10,7 @@ import Theme from "./theme";
 import { ThemeProvider } from "@material-ui/core/styles";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
-import { BarChart, LineChart, AreaChart } from "reaviz";
+import { BarChart } from "reaviz";
 
 //Material UI
 import TextField from "@material-ui/core/TextField";
@@ -293,6 +291,7 @@ class Home extends Component {
     // this.process();
   }
   update() {
+    this.setState({ value: this.state.value });
     this.process();
     this.forceUpdate();
   }
@@ -301,7 +300,7 @@ class Home extends Component {
     this.show_table = false;
     this.state.data = [];
     this.state.disable_filter = false;
-    this.value = null;
+    // this.value = null;
     this.state.searchText = "";
     this.clear_search = true;
     this.forceUpdate();
@@ -546,13 +545,13 @@ class Home extends Component {
                   </h1>
                 </Center>
                 <Center>
-                  {/* <Visualize
-                    value={this.state.value}
-                    // stage={this.state.stage}
-                    // filter={this.state.filter}
-                    data={this.state.stats}
-                  /> */}
-                  <BarChart width={1450} height={350} data={this.state.stats} />
+                  <div style={{ margin: "10px", textAlign: "center" }}>
+                    <BarChart
+                      width={800}
+                      height={350}
+                      data={this.state.stats}
+                    />
+                  </div>
                 </Center>
               </div>
             ) : null}
