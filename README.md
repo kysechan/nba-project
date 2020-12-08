@@ -26,8 +26,9 @@ CSE115
 2. Connect to the server:
 `mongo --host 165.227.31.0:27069`
 
-`curl -k https://165.227.31.0:8080/api/player/basic\?player\=lebron\&year\=2017\&stage\=playoffs`
-`db.advanced_players.find({$text: {$search: "\"curry\" \"playoffs\" \"2017\" \"2018\""}})`
+Example request (curl): `curl -k https://165.227.31.0:8080/api/player/basic\?player\=lebron\&year\=2017\&stage\=playoffs`
+
+Example Mongo shell query: `db.advanced_players.find({$text: {$search: "\"curry\" \"playoffs\" \"2017\" \"2018\""}})`
 
 Analytics:
 ```
