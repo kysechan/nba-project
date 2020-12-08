@@ -19,6 +19,7 @@ CSE115
 ## Getting Mongo working [as a CLIENT]"
 1. With Homebrew:
 `brew tap mongodb/brew`
+
 `brew install mongodb-community-shell`
 
 2. Connect to the server:
