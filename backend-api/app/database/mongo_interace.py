@@ -73,9 +73,11 @@ class MongoInterface:
         """
         print(player_name)
         print(year)
-        nba_logger.info(f"{player_name}\n {year}\n {stage}")
-        return self.db[collection].find_one({"$text": {"$search": "\""+ str(player_name) + "\"" + "\""+ str(year) + "\"" + "\""+ str(stage) + "\"" + "\""+ str(int(year)+1) + "\""}}, {'_id': False})
-    
+        nba_logger.info(f"REQUEST INFO:\n\t{player_name}\n\t{year}\n\t{stage}")
+        result = self.db[collection].find_one({"$text": {"$search": "\""+ str(player_name) + "\"" + "\""+ str(year) + "\"" + "\""+ str(stage) + "\"" + "\""+ str(int(year)+1) + "\""}}, {'_id': False})
+        nba_logger.info(f"result: {result}")
+        return result
+
     # def find_player_advanced(self, collection, player_name, year, stage):
     #     """
     #         Uses full text search to search for a player name
@@ -109,13 +111,18 @@ class MongoInterface:
         if not player_name:
             nba_logger.info("No player specified")
             return {}
-        query_obj = {"Player":{'$regex': f".*{player_name}.*"}}
+        
+        #Similar Name
+        query_obj = {"Player":{'$regex': f".*{player_name}.*", "$options": "-i"}} 
+        # Exact Name
+        #query_obj = {"Player":{"$regex":player_name, "$options": "-i"}} 
+
         all_stats = list(self.db[collection].find(query_obj, {'_id': False}))
         nba_logger.info(len(all_stats))
         #nba_logger.info(all_stats)
         bool_year = True if year and year != '' and year != 'undefined' else False
         bool_stage = True if stage and stage != '' and stage != 'undefined' else False
-        nba_logger.info(f"bool_year: {bool_year} bool_stage: {bool_stage}")
+        
         if len(all_stats) > 0:
             filtered_obj = []
             for unfiltered in all_stats:
@@ -125,16 +132,38 @@ class MongoInterface:
                         processed_year = [int(year) for year in processed_year]
                     except:
                         bool_year = False
+                    if len(processed_year) == 2:
+                        unfiltered["lower_year_bound"] = processed_year[0]
+                        unfiltered["upper_year_bound"] = processed_year[1]
+                else:
+                    bool_year = False
                 
+                if not unfiltered.get("lower_year_bound") or not unfiltered.get("upper_year_bound"):
+                    unfiltered["lower_year_bound"] = None
+                    unfiltered["upper_year_bound"] = None
+
+                nba_logger.info(f"!! bool_year: {bool_year} bool_stage: {bool_stage}")
                 clean = True
-                if bool_year and str(year) not in unfiltered['Season']:
+                if bool_year:
+                    nba_logger.info(f"Given: {int(year)} -- comparing: {processed_year}")
+                    for raw_year in processed_year:
+                        if raw_year < int(year):
+                            clean = False
+                            nba_logger.info(f"Failed year comparison -> Given: {int(year)} -- comparing: {processed_year}")
+                            break
+                    if clean:
+                        nba_logger.info(f"Successful year comparison -> Given: {int(year)} -- comparing: {processed_year}")
+                if bool_stage and stage.lower() not in unfiltered['Stage'].lower():
+                    nba_logger.info(f"Failed stage comparison -> Given: {stage.lower()} -- comparing: {unfiltered['Stage'].lower()}")
                     clean = False
-                if bool_stage:
-                    if int(year) < any(processed_year):
-                        clean = False
+                
                 if clean:
                     filtered_obj.append(unfiltered)
-            nba_logger.info(f"filtered_obj: {filtered_obj}")
+                else:
+                    nba_logger.info(f"Not Clean: {unfiltered}")
+            nba_logger.info(f"filtered_obj len: {len(filtered_obj)}")
+            
+            filtered_obj.sort(key=lambda x: x.get('lower_year_bound'))
             return filtered_obj    
 
         else:
