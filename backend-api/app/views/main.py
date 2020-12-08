@@ -96,7 +96,12 @@ def player_season_data():
 @nba_blueprint.route('/api/player/all', methods=['GET'])
 def retrieve_unique_players():
 
-    result = playerdb.get_unique_players()
+
+    print('getting unique players')
+
+    result = official_complete.get_unique_players()
+
+    print('done getting unique players')
 
     return Response(
         json.dumps(result),
