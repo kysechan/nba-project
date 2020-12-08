@@ -35,10 +35,13 @@ class Visualize extends Component {
         "2019",
       ],
       stats: [],
+      i: 0,
     };
     //this.handleChange = this.handleChange.bind(this);
     this.showData = this.showData.bind(this);
     this.showGraph = this.showGraph.bind(this);
+    // this.componentDidMount = this.componentDidMount(this);
+    // this.process = this.process.bind(this);
 
     // var svg = d3.select("#player_trend_graph").append("svg").append("g")
   }
@@ -51,80 +54,195 @@ class Visualize extends Component {
   //     [name]: value
   //   });
   // }
-  async componentDidMount() {
-    this.setState({ stats: [] });
-    // let accesstoRef = d3.select(this.myRef.current);
+//   async process() {
+//     // this.setState({ stats: [] });
+//     // let accesstoRef = d3.select(this.myRef.current);
 
-    var i;
-    var j = 0;
+//     var i;
+//     // var j = 0;
 
-    this.setState({ j: 0 });
-    this.setState({ i: 0 });
+//     var d = Array();
 
-    for (i = 0; i < this.state.years.length; i++) {
-      await fetch(
-        "https://" +
-          API_IP +
-          ":8080/api/player/basic?player=" +
-          this.props.value +
-          "&year=" +
-          this.state.years[i] +
-          "&stage=" +
-          this.props.stage
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error();
-          }
-          return response.json();
-        })
-        .then((response) => {
-          console.log(this.props.value);
-          console.log("found good year" + this.state.years[this.state.i]);
+//     for (i = 0; i < this.state.years.length; i++) {
+//       await fetch(
+//         "https://" +
+//           API_IP +
+//           ":8080/api/player/basic?player=" +
+//           this.props.value +
+//           "&year=" +
+//           this.state.years[i] +
+//           "&stage=" +
+//           this.props.stage
+//       )
+//         .then((response) => {
+//           if (!response.ok) {
+//             throw new Error();
+//           }
+//           return response.json();
+//         })
+//         .then((response) => {
+//           console.log(this.props.value);
+//           console.log("found good year" + this.state.years[this.state.i]);
 
-          this.state.stats = this.state.stats.concat([
-            {
-              key: this.state.years[this.state.i],
-              data: response[this.props.filter],
-            },
-          ]);
-          this.setState({ i: this.state.i + 1 });
-          return;
-        })
-        .catch((err) => {
-          this.setState({ i: this.state.i + 1 });
-          console.error("Error: ", err);
+//           this.state.stats = this.state.stats.concat([
+//             {
+//               key: this.state.years[this.state.i],
+//               data: response[this.props.filter],
+//             },
+//           ]);
+//           //   this.state.i = this.state.i + 1;
+//           this.setState({ i: this.state.i + 1 });
+//           return;
+//         })
+//         .catch((err) => {
+//           //   this.state.i = this.state.i + 1;
+//           this.setState({ i: this.state.i + 1 });
+//           console.error("Error: ", err);
 
-          return;
-        });
-    }
-  }
+//           return;
+//         });
+//     }
+//     console.log(";lajksdfl;akjsdkl;fjal;skdjfl;aksjdf;lkajsdf");
+//     return this.state.stats;
+//     // this.process();
+//   }
+  //   async componentDidUpdate() {
+  //     // this.setState({ stats: [] });
+  //     // let accesstoRef = d3.select(this.myRef.current);
 
-  showData(event) {
-    console.log(this.state.stats);
-    return (
-      <div>
-        <BarChart width={1450} height={350} data={this.state.stats} />
-      </div>
-    );
-  }
+  //     var i;
+  //     var j = 0;
 
-  showGraph(event) {
-    var x = d3.scaleTime().domain();
-  }
+  //     // this.setState({ j: 0 });
+
+  //     for (i = 0; i < this.state.years.length; i++) {
+  //       await fetch(
+  //         "https://" +
+  //           API_IP +
+  //           ":8080/api/player/basic?player=" +
+  //           this.props.value +
+  //           "&year=" +
+  //           this.state.years[i] +
+  //           "&stage=" +
+  //           this.props.stage
+  //       )
+  //         .then((response) => {
+  //           if (!response.ok) {
+  //             throw new Error();
+  //           }
+  //           return response.json();
+  //         })
+  //         .then((response) => {
+  //           console.log(this.props.value);
+  //           console.log("found good year" + this.state.years[this.state.i]);
+
+  //           this.state.stats = this.state.stats.concat([
+
+  //             {
+  //               key: this.state.years[this.state.i],
+  //               data: response[this.props.filter],
+  //             },
+  //           ]);
+  //           this.setState({ i: this.state.i + 1 });
+  //           //   this.state.i = this.state.i + 1;
+  //           return;
+  //         })
+  //         .catch((err) => {
+  //           this.setState({ i: this.state.i + 1 });
+  //           //   this.state.i = this.state.i + 1;
+  //           console.error("Error: ", err);
+
+  //           return;
+  //         });
+  //     }
+  //   }
+//   async componentDidMount() {
+//     // this.setState({ stats: [] });
+//     // let accesstoRef = d3.select(this.myRef.current);
+
+//     var i;
+//     // var j = 0;
+
+//     this.setState({ i: 0 });
+
+//     for (i = 0; i < this.state.years.length; i++) {
+//       await fetch(
+//         "https://" +
+//           API_IP +
+//           ":8080/api/player/basic?player=" +
+//           this.props.value +
+//           "&year=" +
+//           this.state.years[i] +
+//           "&stage=" +
+//           this.props.stage
+//       )
+//         .then((response) => {
+//           if (!response.ok) {
+//             throw new Error();
+//           }
+//           return response.json();
+//         })
+//         .then((response) => {
+//           console.log(this.props.value);
+//           console.log("found good year" + this.state.years[this.state.i]);
+
+//           this.state.stats = this.state.stats.concat([
+//             {
+//               key: this.state.years[this.state.i],
+//               data: response[this.props.filter],
+//             },
+//           ]);
+//           //   this.state.i = this.state.i + 1;
+//           this.setState({ i: this.state.i + 1 });
+//           return;
+//         })
+//         .catch((err) => {
+//           //   this.state.i = this.state.i + 1;
+//           this.setState({ i: this.state.i + 1 });
+//           console.error("Error: ", err);
+
+//           return;
+//         });
+//     }
+//     // this.process();
+//   }
+
+//   showData(event) {
+//     console.log(this.state.stats);
+
+//     // if (this.state.stats.length > 1) {
+
+//     //   return this.process();
+//     // }
+//     // await this.process();
+//     return (
+//       <div>
+//         <BarChart width={1450} height={350} data={this.state.stats} />
+//       </div>
+//     );
+//   }
+
+//   showGraph(event) {
+//     var x = d3.scaleTime().domain();
+//   }
 
   render() {
+    // this.setState({ i: 0 });
     const { classes, theme } = this.props;
+    console.log(this.props.value);
+
+    // return (
+    //   <div>
+    //     <BarChart width={1450} height={350} data={this.state.stats} />
+
+    //   </div>
+    // );
+    // return this.process();
+    // this.setState({ i: 0 });
+    // const d = this.process();
     return (
-      //   <div>
-      //     {/* {this.props.value}
-      //     {this.props.stage}
-      //     <button onClick={this.showData}>Visualize Trend</button> */}
-      //     {this.showData()}
-      //   </div>
-      //   this.showData()
       <div>
-        <BarChart width={1450} height={350} data={this.state.stats} />
+        <BarChart width={1450} height={350} data={this.props.data} />
       </div>
     );
   }
