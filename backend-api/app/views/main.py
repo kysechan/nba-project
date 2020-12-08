@@ -33,6 +33,12 @@ def index():
 
 @nba_blueprint.route('/api/player/basic', methods=['GET'])
 def get_player():
+    """
+        Main api route used for searching through databases. 
+        Parameters specified include: player, year, and stage.
+        Returns a 404 if player could not be found and if it can, it
+        send the json object back.
+    """
     param_check = required_parameters_check(request, ['player'])
     if param_check != True:
         return param_check
@@ -41,6 +47,7 @@ def get_player():
     year = request.args.get('year')
     stage = request.args.get('stage')
 
+    # Find all information for given player with specified fields.
     result = official_complete.find_player_advanced('advanced_players', player, year, stage)
 
     if not result:
@@ -60,6 +67,9 @@ def get_player():
 
 @nba_blueprint.route('/api/player/stats', methods=['GET'])
 def get_player_stats():
+    """
+        Returns the players game stats for a given player.
+    """
     param_check = required_parameters_check(request, ['player'])
     if param_check != True:
         return param_check
@@ -111,6 +121,8 @@ def retrieve_unique_players():
 
 #############################################################
 # Team searching api endpoints
+# DEPRECIATED: No longer searching teams. Main focus is 
+#       on player data.
 #############################################################
 
 

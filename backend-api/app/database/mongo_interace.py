@@ -123,6 +123,9 @@ class MongoInterface:
         return self.db[collection].find_one({"$text": {"$search":query}}, {'_id': False})
 
     def find_by_year(self, collection, query, year=2019, player=None, team=None):
+        """
+            Test funciton used for degbugging
+        """
         player = "James Harden"
         a = self.db[collection].find_one({"Player": {"$eq": "\"James Harden\""}})
         return a
@@ -130,6 +133,14 @@ class MongoInterface:
 
 
     def mfind_one(self, obj, collection):
+        """
+            Returns top search result specified by the obj in the given collection
+
+            :param obj: Json mongo search object
+            :param collection: collection being searching in
+            :raises Exception: Catch for if pymongo.find_one raises an error
+            :return: Json object of result or None
+        """
         try:
             result=self.db[collection].find_one(obj)
             return result
