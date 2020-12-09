@@ -404,6 +404,8 @@ class Home extends Component {
     console.log(this.state.compare);
     this.compare = this.update_compares();
     this.setState({ compare: this.compare });
+    //console.log(`In update Function ${this.compare}`);
+    //this.props.updateCompare(this.compare);
     this.forceUpdate();
   }
   clear() {
@@ -621,8 +623,7 @@ class Home extends Component {
                       id="year-form"
                       className={classes.yearForm}
                       InputProps={{
-                         ...params.InputProps,
-                        className: classes.autoCompleteTextField
+                        className: classes.autoCompleteTextField,
                         className: classes.yearInput,
                       }}
                       type="search"

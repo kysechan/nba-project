@@ -6,7 +6,7 @@ from app.database.mongo_interace import MongoInterface
 import requests
 
 MONGO_URL = '127.0.0.1:27069'
-API_URL = 'https://0.0.0.0:8080'
+API_URL = 'http://0.0.0.0:8080'
 
 
 class MongoTestFunctions(unittest.TestCase):
@@ -31,7 +31,8 @@ class MongoTestFunctions(unittest.TestCase):
             Checks mongo_interface classes function get_unique_players() to
             get a list of all unique players from database.
         """
-        unique_players = self.test_mongo.get_unique_players()
+        test_mongo_1 = MongoInterface(MONGO_URL, 'official_complete')
+        unique_players = test_mongo_1.get_unique_players()
         print(f"Unique Player Retrieve Sucess: {unique_players['success']}")
         self.assertTrue(unique_players['success']
                         and unique_players['length'] > 0)
@@ -75,7 +76,7 @@ class APITestFunctions(unittest.TestCase):
         """
             Makes sure webserver is up
         """
-        index_test = requests.get(API_URL + '/api', verify=False).json()
+        index_test = requests.get(API_URL + '/api').json()
         print(index_test)
         self.assertEqual(index_test['system'], 'nba-api')
 
@@ -84,25 +85,24 @@ class APITestFunctions(unittest.TestCase):
             API Test for basic player searching.
         """
         resp = requests.get(
-            API_URL + f'/api/player/basic?player={self.player_name}', verify=False).json()
-        print(resp)
-        self.assertEqual(resp['player'], self.player_name)
+            API_URL + f'/api/v2/player/basic?player={self.player_name}&year=undefined&stage=undefined').json()
+        retrieved_player = resp['player']
+        self.assertEqual(retrieved_player, self.player_name)
 
     def test_stats_player(self):
         """
             API Test for getting player stats
         """
         resp = requests.get(
-            API_URL + f'/api/player/stats?player={self.player_name}', verify=False).json()
-        print(resp)
+            API_URL + f'/api/player/stats?player={self.player_name}').json()
         self.assertEqual(resp['player'], self.player_name)
 
     def test_unique_players(self):
         """
             API unit test for getting all unique players to be used in autocomplete.
         """
-        resp = requests.get(API_URL + '/api/player/all', verify=False).json()
-        print(resp['success'])
+        resp = requests.get(API_URL + '/api/player/all').json()
+        print(f"Unique1: {resp}")
         self.assertTrue(resp['success'])
 
 
