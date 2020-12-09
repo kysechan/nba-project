@@ -41,23 +41,35 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { DataGrid } from "@material-ui/data-grid";
-import Toolbar from '@material-ui/core/Toolbar';
-import Container from '@material-ui/core/Container';
+import Toolbar from "@material-ui/core/Toolbar";
+import Container from "@material-ui/core/Container";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import Chart from "./Recharts";
 import dynamicData from "./Recharts.js";
 import SelectStage from "./SelectStage";
 // import Visualize from "./Visualize";
-import distinctColors from 'distinct-colors'
+import distinctColors from "distinct-colors";
 
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 
 import Typography from "@material-ui/core/Typography";
 
-const colorArray = ['#0066cc', '#00b33c', '#9933ff', '#ff0000', '#0099cc', '#ff00ff', '#666699', '#00cc99', '#ffcc00', '#3366ff', '#ffff00'];
-var palette = distinctColors()
-var randomColor = require('randomcolor');
+const colorArray = [
+  "#0066cc",
+  "#00b33c",
+  "#9933ff",
+  "#ff0000",
+  "#0099cc",
+  "#ff00ff",
+  "#666699",
+  "#00cc99",
+  "#ffcc00",
+  "#3366ff",
+  "#ffff00",
+];
+var palette = distinctColors();
+var randomColor = require("randomcolor");
 //console.log(`Pallete: ${JSON.stringify(palette[0].hex())}`)
 const WhiteTextTypography = withStyles({
   root: {
@@ -93,7 +105,7 @@ const styles = (theme) => ({
     display: "flex",
     flexWrap: "wrap",
     backgroundColor: "#212121",
-    height: '100%'
+    height: "100%",
   },
 
   resultsContainer: {
@@ -147,19 +159,19 @@ const styles = (theme) => ({
     backgroundColor: "#0f4c75",
     paddingBottom: "10px",
   },
-  yearInput:{
-    color:'white'
+  yearInput: {
+    color: "white",
   },
 
-  selectEmpty:{
-    color:'white'
+  selectEmpty: {
+    color: "white",
   },
-  filterOptions:{
-    color:'black'
+  filterOptions: {
+    color: "black",
   },
-  homeRoot:{
+  homeRoot: {
     backgroundColor: "#212121",
-    height: '100vh !important',
+    height: "100vh !important",
   },
 
   searchButtons: {
@@ -167,9 +179,9 @@ const styles = (theme) => ({
     backgroundColor: "#1b262c",
     color: "white",
   },
-  autoCompleteTextField:{
-    color:'white'
-  }
+  autoCompleteTextField: {
+    color: "white",
+  },
 });
 
 async function get_autcompete_props() {
@@ -204,6 +216,7 @@ class Home extends Component {
     this.handleStage = this.handleStage.bind(this);
     this.search_player = this.search_player.bind(this);
     this.update = this.update.bind(this);
+    this.update_compares = this.update_compares.bind(this);
     this.clear = this.clear.bind(this);
     this.handleAutoCompleteChange = this.handleAutoCompleteChange.bind(this);
     this.clearAutocomplete = this.clearAutocomplete.bind(this);
@@ -213,6 +226,8 @@ class Home extends Component {
     this.json = "";
     this.clear_search = false;
     this.stats = Array();
+    // this.player_list = this.player_list.bind(this);
+    this.player_list = Array();
     this.i = 0;
     this.show_graph2 = false;
     this.last = "none";
@@ -285,41 +300,39 @@ class Home extends Component {
   };
 
   update_compares() {
-    var compare = Array();
+    var total_compare = {};
     const filter_1 = this.state.filter;
     var i = 0;
-    var iter1 = this.state.player_list;
-    console.log("[;laksjdf;lkja;dfs");
-    console.log(iter1);
-    iter1.forEach(function (arrayItem) {
-      // arr.push({
-      //   key: arrayItem.lower_year_bound.toString(),
-      //   data: arrayItem[filter_1],
-      // });
-      compare.push({
-        key: arrayItem["Season"].split(" ")[0],
-        id: i.toString(),
-        data: arrayItem[filter_1],
+    console.log(this.state.player_list);
+    const p = this.state.player_list;
+    p.forEach(function (arrayItem) {
+      if (!total_compare[arrayItem["Player"]]) {
+        total_compare[arrayItem["Player"]] = Array();
+      } else {
+        total_compare[arrayItem["Player"]].push({
+          key: arrayItem["Season"].split(" ")[0],
+          id: i.toString(),
+          data: arrayItem[filter_1],
+        });
+        i = i + 1;
+      }
+    });
+    // const t = JSON.parse();
+    var temp = Array();
+    for (var k in total_compare.keys) {
+      console.log(k);
+      temp.concat({
+        key: k,
+        data: total_compare[k],
       });
-      i = i + 1;
-    });
-    // this.setState({
-    //   compare: this.state.compare.concat({
-    //     key: this.value,
-    //     data: compare,
-    //   }),
-    // });
-    this.setState({ compare: Array() });
-    this.state.compare = Array();
-    this.setState({
-      compare: this.state.compare.concat({
-        key: this.value,
-        data: compare,
-      }),
-    });
+    }
+    // this.setState({ compare: temp });
+    // this.state.compare = temp;
+    // this.setState({ compare: total_compare });
+    console.log(this.state.compare);
     console.log("printing compare");
-    console.log(compare);
-    // this.compare = compare;
+    console.log(this.state.compare);
+    return temp;
   }
   clearAutocomplete(event, values) {
     values.player = null;
@@ -377,9 +390,16 @@ class Home extends Component {
 
   update() {
     this.setState({ value: this.state.value });
-    // this.setState({  });
-    // this.search_player();
-    this.update_compares();
+
+    // this.player_list = this.state.player_list;
+    // this.state.compare = Array();
+    // this.setState({ compare:  });
+    // this.update_compares();
+
+    console.log(";alskdjf;alsdkjf");
+    console.log(this.state.compare);
+    this.compare = this.update_compares();
+    this.setState({ compare: this.compare });
     this.forceUpdate();
   }
   clear() {
@@ -445,10 +465,11 @@ class Home extends Component {
             start_year: response.year,
             data: tmp_player_list,
             color: randomColor({
-              luminosity: 'light'
-            })
-          })
+              luminosity: "light",
+            }),
+          }),
         });
+        this.compare = this.state.compare;
         console.log(this.state.compare);
         console.log(`stats state: ${JSON.stringify(this.state.stats)}`);
         this.forceUpdate();
@@ -472,29 +493,15 @@ class Home extends Component {
             this.state.stage
         );
       });
-
-    //event.preventDefault();
   }
 
-  // componentDidMount(){
-  //   this.value = "Stephen Curry";
-  //   this.year = "2016";
-  //   this.stage = "regular";
-  //   this.setState({
-  //     value: "Stephen Curry",
-  //     year: "2016",
-  //     stage: "regular",
-  //   });
-  //   this.search_player();
-  //   this.forceUpdate();
-  //   //this.toggleTable();
-
-  // }
-
   render() {
-    console.log(this.stats);
+    console.log("in render");
+    console.log(this.compare);
+    console.log(this.state.compare);
     // this.setState({ stats: this.stats });
     const { classes, theme } = this.props;
+    var comp = this.compare;
 
     // this.props.data = this.data;
     let element;
@@ -502,167 +509,272 @@ class Home extends Component {
       <div className={classes.homeRoot}>
         <ThemeProvider theme={Theme}>
           <div className={classes.root}>
-              <Element
-                className="element"
-                id="containerElement"
-                style={{
-                  width: "100%",
-                  height:'100vh !important',
-                  backgroundColor: "#212121",
-                }}
-              >
-          <Toolbar className={classes.toolbarWrapper}>
-
-            <img className="logo" src={logo} alt="nba icon" />
-            <Typography variant="h6" className={classes.title}>
-              NBA DB
-            </Typography>
-            <Grid
-              container
-              direction="column"
-              justify="center"
-              alignItems="flex-start"
-              
+            <Element
+              className="element"
+              id="containerElement"
+              style={{
+                width: "100%",
+                height: "100vh !important",
+                backgroundColor: "#212121",
+              }}
             >
-            <Grid 
-              className={classes.searchBar}
-              container
-              direction="row"
-              justify="flex-start"
-              alignItems="flex-start"
-            >
-                <Autocomplete
-                  {...this.autocompleteProps}
-                  // id="standard-basic"
-                  className={classes.autocomplete}
-                  autoComplete
-                  type="search"
-                  onChange={this.handleAutoCompleteChange}
-                  InputProps={{
-                    className: classes.autoCompleteTextField
-                  }}
-                  clearOnEscape={true}
-                  clearOnBlur={true}
-                  style={{color: "white"}}
-                  // selectOnFocus="true"
-                  value={this.clear_search ? "" : this.value}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
+              <Toolbar className={classes.toolbarWrapper}>
+                <img className="logo" src={logo} alt="nba icon" />
+                <Typography variant="h6" className={classes.title}>
+                  NBA DB
+                </Typography>
+                <Grid
+                  container
+                  direction="column"
+                  justify="center"
+                  alignItems="flex-start"
+                >
+                  <Grid
+                    className={classes.searchBar}
+                    container
+                    direction="row"
+                    justify="flex-start"
+                    alignItems="flex-start"
+                  >
+                    <Autocomplete
+                      {...this.autocompleteProps}
+                      // id="standard-basic"
+                      className={classes.autocomplete}
+                      autoComplete
+                      type="search"
+                      onChange={this.handleAutoCompleteChange}
                       InputProps={{
-                        ...params.InputProps,
-                        className: classes.autoCompleteTextField
+                        className: classes.autoCompleteTextField,
                       }}
-                      className={classes.autoCompleteTextField}
-                      label="Player Search"
-                      variant="outlined"
-                      style={{color: "white !important"}}
-                    />
-                  )}
-                  renderOption={(option, { inputValue }) => {
-                    const matches = match(option.player, inputValue);
-                    const parts = parse(option.player, matches);
+                      clearOnEscape={true}
+                      clearOnBlur={true}
+                      style={{ color: "white" }}
+                      // selectOnFocus="true"
+                      value={this.clear_search ? "" : this.value}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          InputProps={{
+                            ...params.InputProps,
+                            className: classes.autoCompleteTextField,
+                          }}
+                          className={classes.autoCompleteTextField}
+                          label="Player Search"
+                          variant="outlined"
+                          style={{ color: "white !important" }}
+                        />
+                      )}
+                      renderOption={(option, { inputValue }) => {
+                        const matches = match(option.player, inputValue);
+                        const parts = parse(option.player, matches);
 
-                    return (
-                      <div>
-                        {parts.map((part, index) => (
-                          <span
-                            key={index}
-                            style={{ fontWeight: part.highlight ? 700 : 400 }}
-                          >
-                            {part.text}
-                          </span>
-                        ))}
-                      </div>
-                    );
-                  }}
-                />
-                <TextField
-                  className="year"
-                  // id="standard-basic"
-                  label="Year"
-                  id="year-form"
-                  className={classes.yearForm}
-                  InputProps={{
-                    className: classes.yearInput
-                  }}
-                  type="search"
-                  value={this.state.year}
-                  onChange={this.handleYear}
-                  variant="outlined"
-                />
-                <FormControl
-                  variant="outlined"
-                  required
-                  className={classes.stage_select}
-                  disabled={this.state.disable_filter}
-                  style={{color: "white"}}
-                  style={{marginTop: "0px"}}
-                >
-                  <InputLabel id="stage-select" style={{marginTop: "0px"}}>Stage</InputLabel>
-                  <Select
-                    labelId="stage-select"
-                    id="stage-here"
-                    value={this.state.stage}
-                    onChange={this.handleStage}
-                    className={classes.selectEmpty}
-                    
-                  >
-                    <MenuItem style={{color: "black"}} value={"regular"}>Regular Season</MenuItem>
-                    <MenuItem style={{color: "black"}} value={"playoffs"}>Playoffs</MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl variant="outlined"
-                  required
-                  className={classes.filter_select}
-                  disabled={this.state.disable_filter}
-                  style={{marginTop: "0px"}}
-                >
-                  <InputLabel id="filter-select">Filter</InputLabel>
-                  <Select
-                    labelId="filter-select"
-                    id="filter"
-                    style={{color: "white"}}
-                    value={this.state.filter}
-                    onChange={this.handleFilter}
-                    className={classes.selectEmpty}
-                  >
-                    <MenuItem value={"PTS"} className={classes.filterOptions}>PTS</MenuItem>
-                    <MenuItem value={"AST"} className={classes.filterOptions}>AST</MenuItem>
-                    <MenuItem value={"STL"} className={classes.filterOptions}>STL</MenuItem>
-                    <MenuItem value={"BLK"} className={classes.filterOptions}>BLK</MenuItem>
-                    <MenuItem value={"MIN"} className={classes.filterOptions}>MIN</MenuItem>
-                    <MenuItem value={"FGM"} className={classes.filterOptions}>FGM</MenuItem>
-                    <MenuItem value={"FGA"} className={classes.filterOptions}>FGA</MenuItem>
-                    <MenuItem value={"3PM"} className={classes.filterOptions}>3PM</MenuItem>
-                    <MenuItem value={"3PA"} className={classes.filterOptions}>3PA</MenuItem>
-                    <MenuItem value={"FTM"} className={classes.filterOptions}>FTM</MenuItem>
-                    <MenuItem value={"FTA"} className={classes.filterOptions}>FTA</MenuItem>
-                    <MenuItem value={"TOV"} className={classes.filterOptions}>TOV</MenuItem>
-                    <MenuItem value={"PF"} className={classes.filterOptions}>PF</MenuItem>
-                    <MenuItem value={"REB"} className={classes.filterOptions}>REB</MenuItem>
-                    <MenuItem value={"ORB"} className={classes.filterOptions}>ORB</MenuItem>
-                    <MenuItem value={"DRB"} className={classes.filterOptions}>DRB</MenuItem>
-                    <MenuItem value={"GP"} className={classes.filterOptions}>GP</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid>
-                <div>
-                  <Button variant="contained" className={classes.searchButtons} onClick={this.search_player}>
-                    Player 
-                  </Button>
-                  <Button variant="contained" className={classes.searchButtons} onClick={this.clear}>
-                    Clear
-                  </Button>
-                  <Button variant="contained" className={classes.searchButtons} onClick={this.update}>
-                    Update
-                  </Button>
-                </div>
-              </Grid>
-            </Grid>
-              
-          </Toolbar>
+                        return (
+                          <div>
+                            {parts.map((part, index) => (
+                              <span
+                                key={index}
+                                style={{
+                                  fontWeight: part.highlight ? 700 : 400,
+                                }}
+                              >
+                                {part.text}
+                              </span>
+                            ))}
+                          </div>
+                        );
+                      }}
+                    />
+                    <TextField
+                      className="year"
+                      // id="standard-basic"
+                      label="Year"
+                      id="year-form"
+                      className={classes.yearForm}
+                      InputProps={{
+                        className: classes.yearInput,
+                      }}
+                      type="search"
+                      value={this.state.year}
+                      onChange={this.handleYear}
+                      variant="outlined"
+                    />
+                    <FormControl
+                      variant="outlined"
+                      required
+                      className={classes.stage_select}
+                      disabled={this.state.disable_filter}
+                      style={{ color: "white" }}
+                      style={{ marginTop: "0px" }}
+                    >
+                      <InputLabel
+                        id="stage-select"
+                        style={{ marginTop: "0px" }}
+                      >
+                        Stage
+                      </InputLabel>
+                      <Select
+                        labelId="stage-select"
+                        id="stage-here"
+                        value={this.state.stage}
+                        onChange={this.handleStage}
+                        className={classes.selectEmpty}
+                      >
+                        <MenuItem style={{ color: "black" }} value={"regular"}>
+                          Regular Season
+                        </MenuItem>
+                        <MenuItem style={{ color: "black" }} value={"playoffs"}>
+                          Playoffs
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                    <FormControl
+                      variant="outlined"
+                      required
+                      className={classes.filter_select}
+                      disabled={this.state.disable_filter}
+                      style={{ marginTop: "0px" }}
+                    >
+                      <InputLabel id="filter-select">Filter</InputLabel>
+                      <Select
+                        labelId="filter-select"
+                        id="filter"
+                        style={{ color: "white" }}
+                        value={this.state.filter}
+                        onChange={this.handleFilter}
+                        className={classes.selectEmpty}
+                      >
+                        <MenuItem
+                          value={"PTS"}
+                          className={classes.filterOptions}
+                        >
+                          PTS
+                        </MenuItem>
+                        <MenuItem
+                          value={"AST"}
+                          className={classes.filterOptions}
+                        >
+                          AST
+                        </MenuItem>
+                        <MenuItem
+                          value={"STL"}
+                          className={classes.filterOptions}
+                        >
+                          STL
+                        </MenuItem>
+                        <MenuItem
+                          value={"BLK"}
+                          className={classes.filterOptions}
+                        >
+                          BLK
+                        </MenuItem>
+                        <MenuItem
+                          value={"MIN"}
+                          className={classes.filterOptions}
+                        >
+                          MIN
+                        </MenuItem>
+                        <MenuItem
+                          value={"FGM"}
+                          className={classes.filterOptions}
+                        >
+                          FGM
+                        </MenuItem>
+                        <MenuItem
+                          value={"FGA"}
+                          className={classes.filterOptions}
+                        >
+                          FGA
+                        </MenuItem>
+                        <MenuItem
+                          value={"3PM"}
+                          className={classes.filterOptions}
+                        >
+                          3PM
+                        </MenuItem>
+                        <MenuItem
+                          value={"3PA"}
+                          className={classes.filterOptions}
+                        >
+                          3PA
+                        </MenuItem>
+                        <MenuItem
+                          value={"FTM"}
+                          className={classes.filterOptions}
+                        >
+                          FTM
+                        </MenuItem>
+                        <MenuItem
+                          value={"FTA"}
+                          className={classes.filterOptions}
+                        >
+                          FTA
+                        </MenuItem>
+                        <MenuItem
+                          value={"TOV"}
+                          className={classes.filterOptions}
+                        >
+                          TOV
+                        </MenuItem>
+                        <MenuItem
+                          value={"PF"}
+                          className={classes.filterOptions}
+                        >
+                          PF
+                        </MenuItem>
+                        <MenuItem
+                          value={"REB"}
+                          className={classes.filterOptions}
+                        >
+                          REB
+                        </MenuItem>
+                        <MenuItem
+                          value={"ORB"}
+                          className={classes.filterOptions}
+                        >
+                          ORB
+                        </MenuItem>
+                        <MenuItem
+                          value={"DRB"}
+                          className={classes.filterOptions}
+                        >
+                          DRB
+                        </MenuItem>
+                        <MenuItem
+                          value={"GP"}
+                          className={classes.filterOptions}
+                        >
+                          GP
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid>
+                    <div>
+                      <Button
+                        variant="contained"
+                        className={classes.searchButtons}
+                        onClick={this.search_player}
+                      >
+                        Player
+                      </Button>
+                      <Button
+                        variant="contained"
+                        className={classes.searchButtons}
+                        onClick={this.clear}
+                      >
+                        Clear
+                      </Button>
+                      <Button
+                        variant="contained"
+                        className={classes.searchButtons}
+                        onClick={this.update}
+                      >
+                        Update
+                      </Button>
+                    </div>
+                  </Grid>
+                </Grid>
+              </Toolbar>
               {this.show_table ? (
                 <div>
                   <Grid
@@ -671,14 +783,21 @@ class Home extends Component {
                     justify="flex-start"
                     alignItems="center"
                   >
-                    {this.state.grouped_player_list.length > 0 && this.state.grouped_player_list.map((item, index) =>
-                      <Grid item style={{marginTop: '30px'}}>
-                        <Typography variant="h5" style={{color: item.color}}>
-                          {item.player}
-                        </Typography>
-                        <ResultsTable player_list={item.data} grouped_player_list={item}/>
-                      </Grid>
-                    )}
+                    {this.state.grouped_player_list.length > 0 &&
+                      this.state.grouped_player_list.map((item, index) => (
+                        <Grid item style={{ marginTop: "30px" }}>
+                          <Typography
+                            variant="h5"
+                            style={{ color: item.color }}
+                          >
+                            {item.player}
+                          </Typography>
+                          <ResultsTable
+                            player_list={item.data}
+                            grouped_player_list={item}
+                          />
+                        </Grid>
+                      ))}
                   </Grid>
                   <Center>
                     <h1 style={{ color: "white" }}>{this.state.filter}</h1>
@@ -695,7 +814,7 @@ class Home extends Component {
                           line={<Line strokeWidth={4} />}
                         />
                       }
-                      data={this.state.compare}
+                      data={comp}
                       gridlines={null}
                       xAxis={
                         <LinearXAxis
@@ -703,7 +822,7 @@ class Home extends Component {
                           tickSeries={
                             <LinearXAxisTickSeries
                               line={<LinearXAxisTickLine position="center" />}
-                              label={<LinearXAxisTickLabel padding={3}/>}
+                              label={<LinearXAxisTickLabel padding={3} />}
                             />
                           }
                         />
