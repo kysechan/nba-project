@@ -167,11 +167,14 @@ const styles = (theme) => ({
     backgroundColor: "#1b262c",
     color: "white",
   },
+  autoCompleteTextField:{
+    color:'white'
+  }
 });
 
 async function get_autcompete_props() {
   try {
-    const resp = await fetch("http://localhost:8080/api/player/all");
+    const resp = await fetch("http://" + API_IP + ":8080/api/player/all");
     const data = await resp.json();
     console.log(data.players);
     return data.players;
@@ -534,8 +537,10 @@ class Home extends Component {
                   className={classes.autocomplete}
                   autoComplete
                   type="search"
-                  classes={{ inputRoot: classes.autoCompleteTextField }}
                   onChange={this.handleAutoCompleteChange}
+                  InputProps={{
+                    className: classes.autoCompleteTextField
+                  }}
                   clearOnEscape={true}
                   clearOnBlur={true}
                   style={{color: "white"}}
@@ -545,7 +550,8 @@ class Home extends Component {
                     <TextField
                       {...params}
                       InputProps={{
-                        className: classes.yearInput
+                        ...params.InputProps,
+                        className: classes.autoCompleteTextField
                       }}
                       className={classes.autoCompleteTextField}
                       label="Player Search"
