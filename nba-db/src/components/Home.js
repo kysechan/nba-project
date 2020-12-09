@@ -51,6 +51,9 @@ import SelectStage from "./SelectStage";
 // import Visualize from "./Visualize";
 import distinctColors from 'distinct-colors'
 
+//Custom Graphics
+import NivoLineChart from "./visuals/NivoLineChart";
+
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 
 import Typography from "@material-ui/core/Typography";
@@ -197,6 +200,7 @@ class Home extends Component {
       i: 0,
       compare: [],
       grouped_player_list: [],
+      nivo_data: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleYear = this.handleYear.bind(this);
@@ -417,6 +421,7 @@ class Home extends Component {
         var arr = Array();
         var tmp_player_list = Array();
         var compare = Array();
+        var graph_data = Array();
         var i = 0;
         response.data.forEach(function (arrayItem) {
           arr.push({
@@ -429,10 +434,18 @@ class Home extends Component {
             id: i.toString(),
             data: arrayItem[filter_1],
           });
+          graph_data.push({
+            x: parseInt(arrayItem["Season"].split(" ")[0]),
+            y: parseInt(arrayItem[filter_1]),
+          });
           i = i + 1;
         });
         i = 0;
         console.log(`Array after for loop: ${JSON.stringify(arr)}`);
+        var picked_color = randomColor({
+          luminosity: 'light',
+          format: 'hsl'
+        })
         this.setState({
           stats: arr,
           player_list: this.state.player_list.concat(tmp_player_list),
@@ -441,13 +454,16 @@ class Home extends Component {
             data: compare,
           }),
           grouped_player_list: this.state.grouped_player_list.concat({
-            player: response.player,
-            start_year: response.year,
-            data: tmp_player_list,
-            color: randomColor({
-              luminosity: 'light'
-            })
-          })
+            id: response.player,
+            objects: tmp_player_list,
+            color: picked_color,
+            data: graph_data
+          }),
+          nivo_data:  this.state.nivo_data.concat({
+            id: response.player,
+            data: graph_data,
+            color: picked_color
+          }),
         });
         console.log(this.state.compare);
         console.log(`stats state: ${JSON.stringify(this.state.stats)}`);
@@ -476,20 +492,22 @@ class Home extends Component {
     //event.preventDefault();
   }
 
-  // componentDidMount(){
-  //   this.value = "Stephen Curry";
-  //   this.year = "2016";
-  //   this.stage = "regular";
-  //   this.setState({
-  //     value: "Stephen Curry",
-  //     year: "2016",
-  //     stage: "regular",
-  //   });
-  //   this.search_player();
-  //   this.forceUpdate();
-  //   //this.toggleTable();
+  componentDidMount(){
+    this.value = "Stephen Curry";
+    this.year = "2016";
+    this.stage = "regular";
+    this.filter = "PTS";
+    this.setState({
+      value: "Stephen Curry",
+      year: "2010",
+      stage: "regular",
+      filter: "PTS"
+    });
+    this.search_player();
+    this.forceUpdate();
+    //this.toggleTable();
 
-  // }
+  }
 
   render() {
     console.log(this.stats);
@@ -550,7 +568,7 @@ class Home extends Component {
                     <TextField
                       {...params}
                       InputProps={{
-                        ...params.InputProps,
+                         ...params.InputProps,
                         className: classes.autoCompleteTextField
                       }}
                       className={classes.autoCompleteTextField}
@@ -674,9 +692,9 @@ class Home extends Component {
                     {this.state.grouped_player_list.length > 0 && this.state.grouped_player_list.map((item, index) =>
                       <Grid item style={{marginTop: '30px'}}>
                         <Typography variant="h5" style={{color: item.color}}>
-                          {item.player}
+                          {item.id}
                         </Typography>
-                        <ResultsTable player_list={item.data} grouped_player_list={item}/>
+                        <ResultsTable player_list={item.objects} grouped_player_list={item}/>
                       </Grid>
                     )}
                   </Grid>
