@@ -133,7 +133,7 @@ MongoDB Analytics: `https://cloud.mongodb.com/freemonitoring/cluster/JAK4WVTHJE5
 ## API Documentation
 
 ### Player Data Endpoints
-#### 1. /api/player/basic?player=<player_name>
+#### 1. `/api/v2/player/basic?player=<player_name>&stage=<stage>&year=<year>`
 * Required Parameters:
     1. player (string of player name
     2. year (desired year)
@@ -141,13 +141,13 @@ MongoDB Analytics: `https://cloud.mongodb.com/freemonitoring/cluster/JAK4WVTHJE5
 * Request types: GET
 * Returns: json object of player info
 
-#### 2. /api/player/stats?player=<player_name>
+#### 2. `/api/player/stats?player=<player_name>`
 * Required Parameters:
     1. player (string of player name)
 * Request types: GET
 * Returns: json object of player info
 
-#### 3. /api/player/seasons?player=<player_name>
+#### 3. `/api/player/seasons?player=<player_name>`
 * Required Parameters:
     1. player (string of player name)
 * Request types: GET
@@ -156,13 +156,13 @@ MongoDB Analytics: `https://cloud.mongodb.com/freemonitoring/cluster/JAK4WVTHJE5
 ---
 
 ### [DEPRECATED] Team Data Endpoints
-#### 1. /api/teams/basic?team=<team_name>
+#### 1. `/api/teams/basic?team=<team_name>`
 * Required Parameters:
     1. team (string of team name)
 * Request types: GET
 * Returns: json object of team info
 
-#### 2. /api/teams/players?team=<team_name>
+#### 2. `/api/teams/players?team=<team_name>`
 * Required Parameters:
     1. team (string of team name)
 * Request types: GET
