@@ -50,13 +50,6 @@ import dynamicData from "./Recharts.js";
 import SelectStage from "./SelectStage";
 // import Visualize from "./Visualize";
 import distinctColors from "distinct-colors";
-<<<<<<< HEAD
-=======
-
-//Custom Graphics
-import NivoLineChart from "./visuals/NivoLineChart";
-
->>>>>>> b12cf8032a106bf8284e9775a75930bf5b0a7f11
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 
