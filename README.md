@@ -57,6 +57,18 @@ Make sure you have poetry installed which is what we use for managing dependenci
 To run the backend webserver navigate to `backend-api` and run the script `./dev.sh`
 This will start a webserver running on port 8080 will all endpoints. If you are running locally make sure to also have the mongo database running locally as well on port 27069
 
+## Getting Mongo working with Data [SERVER]:
+1. Download mongo db volume from here:
+    1. https://drive.google.com/file/d/1J7lcHTjlDeZyeXdaP5C21VQUcboC3ide/view?usp=sharing
+    2. Unzip into nba-project dir
+    3. Make sure folder is called nba-mongo
+2. Make sure you have docker installed and running
+3. Run ./start-mongo.sh
+4. Should now be accessible under this uri:
+    1. mongodb://localhost:27069
+5. To view the data using a GUI I would recommend compass:
+    1. https://www.mongodb.com/products/compass
+
 ## Getting Mongo shell working [CLIENT]
 1. With Homebrew:
 
@@ -86,18 +98,6 @@ MongoDB Analytics: `https://cloud.mongodb.com/freemonitoring/cluster/JAK4WVTHJE5
 
 
 
-## Getting Mongo working with Data [SERVER]:
-1. Download mongo db volume from here:
-    1. https://drive.google.com/file/d/1J7lcHTjlDeZyeXdaP5C21VQUcboC3ide/view?usp=sharing
-    2. Unzip into nba-project dir
-    3. Make sure folder is called nba-mongo
-2. Make sure you have docker installed and running
-3. Run ./start-mongo.sh
-4. Should now be accessible under this uri:
-    1. mongodb://localhost:27069
-5. To view the data using a GUI I would recommend compass:
-    1. https://www.mongodb.com/products/compass
-    
 ## Mongo Databases
 
 #### nba-1
