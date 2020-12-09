@@ -10,7 +10,18 @@ import Theme from "./theme";
 import { ThemeProvider } from "@material-ui/core/styles";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
-import { BarChart } from "reaviz";
+import {
+  BarChart,
+  StackedAreaChart,
+  StackedAreaSeries,
+  color,
+  Line,
+  lineStroke,
+  LineChart,
+  LineSeries,
+  LinearXAxis,
+  LinearXAxisTickLabel,
+} from "reaviz";
 
 //Material UI
 import TextField from "@material-ui/core/TextField";
@@ -25,10 +36,9 @@ import Paper from "@material-ui/core/Paper";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
+
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import { DataGrid } from "@material-ui/data-grid";
 
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
@@ -130,6 +140,7 @@ class Home extends Component {
       player_list: [],
       stats: [],
       i: 0,
+      compare: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleYear = this.handleYear.bind(this);
@@ -211,7 +222,7 @@ class Home extends Component {
       );
       this.value = values.player;
     }
-    
+
     // this.process();
     // this.forceUpdate();
   };
@@ -292,8 +303,6 @@ class Home extends Component {
     // this.process();
   }
 
-
-
   update() {
     this.setState({ value: this.state.value });
     this.process();
@@ -321,10 +330,9 @@ class Home extends Component {
         this.state.year +
         "&stage=" +
         this.stage
-      )
+    )
       .then((response) => response.json())
       .then((response) => {
-       
         this.toggleTable();
         //this.state.data = this.state.data.concat(response.data);
         //this.setState({ value: this.state.value });
@@ -334,20 +342,32 @@ class Home extends Component {
         console.log(`Filter: ${filter_1}`);
         var arr = Array();
         var tmp_player_list = Array();
+        var compare = Array();
+        var i = 0;
         response.data.forEach(function (arrayItem) {
-          arr.push(
-            {
-              key: arrayItem.lower_year_bound.toString(),
-              data: arrayItem[filter_1],
-            });
-            tmp_player_list.push(arrayItem);
+          arr.push({
+            key: arrayItem.lower_year_bound.toString(),
+            data: arrayItem[filter_1],
+          });
+          tmp_player_list.push(arrayItem);
+          compare.push({
+            key: arrayItem["Season"].split(" ")[0],
+            id: i.toString(),
+            data: arrayItem[filter_1],
+          });
+          i = i + 1;
         });
+        i = 0;
         console.log(`Array after for loop: ${JSON.stringify(arr)}`);
         this.setState({
           stats: arr,
           player_list: this.state.player_list.concat(tmp_player_list),
+          compare: this.state.compare.concat({
+            key: this.value,
+            data: compare,
+          }),
         });
-
+        console.log(this.state.compare);
         //this.process();
         console.log(`stats state: ${JSON.stringify(this.state.stats)}`);
         this.forceUpdate();
@@ -371,7 +391,7 @@ class Home extends Component {
             this.state.stage
         );
       });
-      
+
     event.preventDefault();
   }
 
@@ -555,11 +575,32 @@ class Home extends Component {
                 </Center>
                 <Center>
                   {/* <Chart data={this.state.data} filter={this.state.filter} /> */}
+                  <LineChart
+                    width={800}
+                    height={350}
+                    scaled={false}
+                    series={
+                      <LineSeries
+                        type="grouped"
+                        line={<Line strokeWidth={4} />}
+                      />
+                    }
+                    data={this.state.compare}
+                    gridlines={null}
+                    xAxis={
+                      <LinearXAxis
+                        type="duration"
+                        // tickSeries={<LinearXAxisTickSeries line={null} />}
+                        vaues={1,2,3}
+                      />
+                    }
+                  />
                 </Center>
                 <div class="space"></div>
                 <Center>
                   <h1 style={{ color: "white" }}>
-                    Past 10 Seasons for {this.state.value} [{this.state.filter}]
+                    Past {this.state.stats.length} Seasons for{" "}
+                    {this.state.value} [{this.state.filter}]
                   </h1>
                 </Center>
                 <Center>
