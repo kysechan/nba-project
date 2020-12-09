@@ -258,6 +258,43 @@ class Home extends Component {
     // this.forceUpdate();
   };
 
+  update_compares() {
+    var compare = Array();
+    const filter_1 = this.state.filter;
+    var i = 0;
+    var iter1 = this.state.player_list;
+    console.log("[;laksjdf;lkja;dfs");
+    console.log(iter1);
+    iter1.forEach(function (arrayItem) {
+      // arr.push({
+      //   key: arrayItem.lower_year_bound.toString(),
+      //   data: arrayItem[filter_1],
+      // });
+      compare.push({
+        key: arrayItem["Season"].split(" ")[0],
+        id: i.toString(),
+        data: arrayItem[filter_1],
+      });
+      i = i + 1;
+    });
+    // this.setState({
+    //   compare: this.state.compare.concat({
+    //     key: this.value,
+    //     data: compare,
+    //   }),
+    // });
+    this.setState({ compare: Array() });
+    this.state.compare = Array();
+    this.setState({
+      compare: this.state.compare.concat({
+        key: this.value,
+        data: compare,
+      }),
+    });
+    console.log("printing compare");
+    console.log(compare);
+    // this.compare = compare;
+  }
   clearAutocomplete(event, values) {
     values.player = null;
   }
@@ -336,15 +373,17 @@ class Home extends Component {
 
   update() {
     this.setState({ value: this.state.value });
-    this.search_player();
+    // this.setState({  });
+    // this.search_player();
+    this.update_compares();
     this.forceUpdate();
   }
   clear() {
     this.player_list = [];
+    this.setState({ compare: Array(), player_list: Array() });
     this.show_table = false;
     this.state.data = [];
     this.state.disable_filter = false;
-    // this.value = null;
     this.state.searchText = "";
     this.clear_search = true;
     this.forceUpdate();
@@ -399,7 +438,6 @@ class Home extends Component {
           }),
         });
         console.log(this.state.compare);
-        //this.process();
         console.log(`stats state: ${JSON.stringify(this.state.stats)}`);
         this.forceUpdate();
       })
@@ -649,6 +687,12 @@ class Home extends Component {
                             align="center"
                             className={classes.tableHeader}
                           >
+                            Blocks
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            className={classes.tableHeader}
+                          >
                             Games Played
                           </TableCell>
                           <TableCell
@@ -735,6 +779,12 @@ class Home extends Component {
                               className={classes.tableText}
                             >
                               {player.AST}
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              className={classes.tableText}
+                            >
+                              {player["BLK"]}
                             </TableCell>
                             <TableCell
                               align="center"
