@@ -1,5 +1,4 @@
-# nba-project
-CSE115
+# NBA Database
 
 ## Deliverables
 * [Initial Presentation Google Slides](https://docs.google.com/presentation/d/1KJkIA6Ai0BZvweWNEKbcW7n_YaEc_zuchxba9BY8W9I/edit?usp=sharing)
