@@ -46,7 +46,7 @@ export default function MenuAppBar() {
           <Typography variant="h6" className={classes.title}>
             NBA DB
           </Typography>
-            <div>
+            {/* <div>
             <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -72,9 +72,8 @@ export default function MenuAppBar() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Players</MenuItem>
-                {/* <MenuItem onClick={handleClose}>Visualize</MenuItem> */}
               </Menu>
-            </div>
+            </div> */}
         </Toolbar>
       </AppBar>
     </div>
