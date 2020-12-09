@@ -103,6 +103,7 @@ const styles = (theme) => ({
   stage_select: {
     margin: theme.spacing(1),
     minWidth: 100,
+    marginRight:'10px',
   },
   filter_select: {
     margin: theme.spacing(1),
@@ -115,6 +116,7 @@ const styles = (theme) => ({
   autocomplete: {
     minWidth: "100px",
     width: '40%',
+    marginRight:'10px',
     // text: "color",
     // background: 'white'
   },
@@ -149,7 +151,21 @@ const styles = (theme) => ({
     marginRight: '10px',
     backgroundColor: '#1b262c',
     color:'white'
+  },
+  autoCompleteTextField:{
+    color:'white'
+  },
+  yearForm:{
+    marginRight:'10px',
+    color:'white',
+  },
+  selectEmpty:{
+    color:'white'
+  },
+  filterOptions:{
+    color:'black'
   }
+
 });
 
 async function get_autcompete_props() {
@@ -488,13 +504,16 @@ class Home extends Component {
                 onChange={this.handleAutoCompleteChange}
                 clearOnEscape={true}
                 clearOnBlur={true}
+                style={{color: "white"}}
                 // selectOnFocus="true"
                 value={this.clear_search ? "" : this.value}
                 renderInput={(params) => (
                   <TextField
                     {...params}
+                    className={classes.autoCompleteTextField}
                     label="Player Search"
                     variant="outlined"
+                    style={{color: "white !important"}}
                   />
                 )}
                 renderOption={(option, { inputValue }) => {
@@ -519,58 +538,66 @@ class Home extends Component {
                 className="year"
                 // id="standard-basic"
                 label="Year"
+                id="year-form"
+                className={classes.yearForm}
                 type="search"
                 value={this.state.year}
                 onChange={this.handleYear}
                 variant="outlined"
               />
               <FormControl
+                variant="outlined"
                 required
                 className={classes.stage_select}
                 disabled={this.state.disable_filter}
+                style={{color: "white"}}
+                style={{marginTop: "0px"}}
               >
-                <InputLabel id="stage-select">Stage</InputLabel>
+                <InputLabel id="stage-select" style={{marginTop: "0px"}}>Stage</InputLabel>
                 <Select
                   labelId="stage-select"
-                  id="stage"
+                  id="stage-here"
                   value={this.state.stage}
                   onChange={this.handleStage}
                   className={classes.selectEmpty}
+                  
                 >
-                  <MenuItem value={"regular"}>Regular Season</MenuItem>
-                  <MenuItem value={"playoffs"}>Playoffs</MenuItem>
+                  <MenuItem style={{color: "black"}} value={"regular"}>Regular Season</MenuItem>
+                  <MenuItem style={{color: "black"}} value={"playoffs"}>Playoffs</MenuItem>
                 </Select>
               </FormControl>
-              <FormControl
+              <FormControl variant="outlined"
                 required
                 className={classes.filter_select}
                 disabled={this.state.disable_filter}
+                style={{marginTop: "0px"}}
               >
                 <InputLabel id="filter-select">Filter</InputLabel>
                 <Select
                   labelId="filter-select"
                   id="filter"
+                  style={{color: "white"}}
                   value={this.state.filter}
                   onChange={this.handleFilter}
                   className={classes.selectEmpty}
                 >
-                  <MenuItem value={"PTS"}>PTS</MenuItem>
-                  <MenuItem value={"AST"}>AST</MenuItem>
-                  <MenuItem value={"STL"}>STL</MenuItem>
-                  <MenuItem value={"BLK"}>BLK</MenuItem>
-                  <MenuItem value={"MIN"}>MIN</MenuItem>
-                  <MenuItem value={"FGM"}>FGM</MenuItem>
-                  <MenuItem value={"FGA"}>FGA</MenuItem>
-                  <MenuItem value={"3PM"}>3PM</MenuItem>
-                  <MenuItem value={"3PA"}>3PA</MenuItem>
-                  <MenuItem value={"FTM"}>FTM</MenuItem>
-                  <MenuItem value={"FTA"}>FTA</MenuItem>
-                  <MenuItem value={"TOV"}>TOV</MenuItem>
-                  <MenuItem value={"PF"}>PF</MenuItem>
-                  <MenuItem value={"REB"}>REB</MenuItem>
-                  <MenuItem value={"ORB"}>ORB</MenuItem>
-                  <MenuItem value={"DRB"}>DRB</MenuItem>
-                  <MenuItem value={"GP"}>GP</MenuItem>
+                  <MenuItem value={"PTS"} className={classes.filterOptions}>PTS</MenuItem>
+                  <MenuItem value={"AST"} className={classes.filterOptions}>AST</MenuItem>
+                  <MenuItem value={"STL"} className={classes.filterOptions}>STL</MenuItem>
+                  <MenuItem value={"BLK"} className={classes.filterOptions}>BLK</MenuItem>
+                  <MenuItem value={"MIN"} className={classes.filterOptions}>MIN</MenuItem>
+                  <MenuItem value={"FGM"} className={classes.filterOptions}>FGM</MenuItem>
+                  <MenuItem value={"FGA"} className={classes.filterOptions}>FGA</MenuItem>
+                  <MenuItem value={"3PM"} className={classes.filterOptions}>3PM</MenuItem>
+                  <MenuItem value={"3PA"} className={classes.filterOptions}>3PA</MenuItem>
+                  <MenuItem value={"FTM"} className={classes.filterOptions}>FTM</MenuItem>
+                  <MenuItem value={"FTA"} className={classes.filterOptions}>FTA</MenuItem>
+                  <MenuItem value={"TOV"} className={classes.filterOptions}>TOV</MenuItem>
+                  <MenuItem value={"PF"} className={classes.filterOptions}>PF</MenuItem>
+                  <MenuItem value={"REB"} className={classes.filterOptions}>REB</MenuItem>
+                  <MenuItem value={"ORB"} className={classes.filterOptions}>ORB</MenuItem>
+                  <MenuItem value={"DRB"} className={classes.filterOptions}>DRB</MenuItem>
+                  <MenuItem value={"GP"} className={classes.filterOptions}>GP</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
