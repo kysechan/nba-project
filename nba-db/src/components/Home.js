@@ -10,8 +10,8 @@ import Theme from "./theme";
 import { ThemeProvider } from "@material-ui/core/styles";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
-import logo from '../images/basketball-player.svg';
-import Grid from '@material-ui/core/Grid';
+import logo from "../images/basketball-player.svg";
+import Grid from "@material-ui/core/Grid";
 import {
   BarChart,
   LinearXAxisTickSeries,
@@ -40,8 +40,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { DataGrid } from "@material-ui/data-grid";
-import Toolbar from '@material-ui/core/Toolbar';
-import Container from '@material-ui/core/Container';
+import Toolbar from "@material-ui/core/Toolbar";
+import Container from "@material-ui/core/Container";
 
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
@@ -112,42 +112,39 @@ const styles = (theme) => ({
   },
   autocomplete: {
     minWidth: "100px",
-    width: '40%',
+    width: "40%",
     // text: "color",
     // background: 'white'
   },
   multilineColor: {
     color: "white",
   },
-  table:{
-    
+  table: {},
+  tableWrapper: {
+    marginTop: "20px",
+    width: "95%",
+    backgroundColor: "transparent",
   },
-  tableWrapper:{
-    marginTop:'20px',
-    width: '95%',
-    backgroundColor: 'transparent',
-  },
-  tableHeader:{
+  tableHeader: {
     fontWeight: "bold",
-    color:'white',
+    color: "white",
   },
-  tableText:{
-    color:'white',
+  tableText: {
+    color: "white",
   },
-  searchBar:{
-    paddingTop: '10px',
-    paddingBottom: '10px'
-
+  searchBar: {
+    paddingTop: "10px",
+    paddingBottom: "10px",
   },
-  toolbarWrapper:{
-    backgroundColor: '#0f4c75',
-    paddingBottom: '10px',
+  toolbarWrapper: {
+    backgroundColor: "#0f4c75",
+    paddingBottom: "10px",
   },
-  searchButtons:{
-    marginRight: '10px',
-    backgroundColor: '#1b262c',
-    color:'white'
-  }
+  searchButtons: {
+    marginRight: "10px",
+    backgroundColor: "#1b262c",
+    color: "white",
+  },
 });
 
 async function get_autcompete_props() {
@@ -337,9 +334,6 @@ class Home extends Component {
     // this.process();
   }
 
-
-
-
   update() {
     this.setState({ value: this.state.value });
     this.search_player();
@@ -428,7 +422,7 @@ class Home extends Component {
             this.state.stage
         );
       });
-      
+
     //event.preventDefault();
   }
 
@@ -457,7 +451,6 @@ class Home extends Component {
     return (
       <ThemeProvider theme={Theme}>
         <Toolbar className={classes.toolbarWrapper}>
-
           <img className="logo" src={logo} alt="nba icon" />
           <Typography variant="h6" className={classes.title}>
             NBA DB
@@ -467,15 +460,14 @@ class Home extends Component {
             direction="column"
             justify="center"
             alignItems="flex-start"
-            
           >
-          <Grid 
-            className={classes.searchBar}
-            container
-            direction="row"
-            justify="flex-start"
-            alignItems="flex-start"
-          >
+            <Grid
+              className={classes.searchBar}
+              container
+              direction="row"
+              justify="flex-start"
+              alignItems="flex-start"
+            >
               <Autocomplete
                 {...this.autocompleteProps}
                 // id="standard-basic"
@@ -574,19 +566,30 @@ class Home extends Component {
             </Grid>
             <Grid>
               <div>
-                <Button variant="contained" className={classes.searchButtons} onClick={this.search_player}>
-                  Player 
+                <Button
+                  variant="contained"
+                  className={classes.searchButtons}
+                  onClick={this.search_player}
+                >
+                  Player
                 </Button>
-                <Button variant="contained" className={classes.searchButtons} onClick={this.clear}>
+                <Button
+                  variant="contained"
+                  className={classes.searchButtons}
+                  onClick={this.clear}
+                >
                   Clear
                 </Button>
-                <Button variant="contained" className={classes.searchButtons} onClick={this.update}>
+                <Button
+                  variant="contained"
+                  className={classes.searchButtons}
+                  onClick={this.update}
+                >
                   Update
                 </Button>
               </div>
             </Grid>
           </Grid>
-            
         </Toolbar>
         <div className={classes.root}>
           <Element
@@ -602,45 +605,185 @@ class Home extends Component {
             {this.show_table ? (
               <div>
                 <Center>
-                  <TableContainer component={Paper} className={classes.tableWrapper}>
+                  <TableContainer
+                    component={Paper}
+                    className={classes.tableWrapper}
+                  >
                     <Table className={classes.table} aria-label="simple table">
                       <TableHead>
                         <TableRow>
-                          <TableCell className={classes.tableHeader}>Player Name</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>Team</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>Season</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>Stage</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>Points Scored</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>Assists</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>Games Played</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>Minutes Played</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>FG Made</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>FG Attempted</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>3-P Made</TableCell>
-                          <TableCell align="center"  className={classes.tableHeader}> 3-P Attempted</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>FT Made</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>FT Attempted</TableCell>
+                          <TableCell className={classes.tableHeader}>
+                            Player Name
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            className={classes.tableHeader}
+                          >
+                            Team
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            className={classes.tableHeader}
+                          >
+                            Season
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            className={classes.tableHeader}
+                          >
+                            Stage
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            className={classes.tableHeader}
+                          >
+                            Points Scored
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            className={classes.tableHeader}
+                          >
+                            Assists
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            className={classes.tableHeader}
+                          >
+                            Games Played
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            className={classes.tableHeader}
+                          >
+                            Minutes Played
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            className={classes.tableHeader}
+                          >
+                            FG Made
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            className={classes.tableHeader}
+                          >
+                            FG Attempted
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            className={classes.tableHeader}
+                          >
+                            3-P Made
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            className={classes.tableHeader}
+                          >
+                            {" "}
+                            3-P Attempted
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            className={classes.tableHeader}
+                          >
+                            FT Made
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            className={classes.tableHeader}
+                          >
+                            FT Attempted
+                          </TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         {this.state.player_list.map((player) => (
                           <TableRow key={player.Player}>
-                            <TableCell component="th" scope="row" className={classes.tableText}>
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              className={classes.tableText}
+                            >
                               {player.Player}
                             </TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.Team}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.Season}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.Stage}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.PTS}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.AST}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.GP}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.MIN}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.FGM}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.FGA}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player["3PM"]}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player["3PA"]}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.FTM}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.FTA}</TableCell>
+                            <TableCell
+                              align="center"
+                              className={classes.tableText}
+                            >
+                              {player.Team}
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              className={classes.tableText}
+                            >
+                              {player.Season}
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              className={classes.tableText}
+                            >
+                              {player.Stage}
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              className={classes.tableText}
+                            >
+                              {player.PTS}
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              className={classes.tableText}
+                            >
+                              {player.AST}
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              className={classes.tableText}
+                            >
+                              {player.GP}
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              className={classes.tableText}
+                            >
+                              {player.MIN}
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              className={classes.tableText}
+                            >
+                              {player.FGM}
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              className={classes.tableText}
+                            >
+                              {player.FGA}
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              className={classes.tableText}
+                            >
+                              {player["3PM"]}
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              className={classes.tableText}
+                            >
+                              {player["3PA"]}
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              className={classes.tableText}
+                            >
+                              {player.FTM}
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              className={classes.tableText}
+                            >
+                              {player.FTA}
+                            </TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -653,8 +796,8 @@ class Home extends Component {
                 <Center>
                   {/* <Chart data={this.state.data} filter={this.state.filter} /> */}
                   <LineChart
-                    width={800}
-                    height={350}
+                    width={1300}
+                    height={500}
                     scaled={false}
                     series={
                       <LineSeries
@@ -664,17 +807,40 @@ class Home extends Component {
                     }
                     data={this.state.compare}
                     gridlines={null}
-                    xAxis={
-                      <LinearXAxis
-                        type="duration"
-                        tickSeries={
-                          <LinearXAxisTickSeries
-                            line={<LinearXAxisTickLine position="center" />}
-                            label={<LinearXAxisTickLabel padding={3}/>}
-                          />
-                        }
-                      />
-                    }
+                    // xAxis={
+                    //   <LinearXAxis
+                    //     type="value"
+                    //     tickSeries={
+                    //       <LinearXAxisTickSeries interval={1} />
+                    //       //       //   <LinearXAxisTickSeries
+                    //       //       //     line={<LinearXAxisTickLine position="center" />}
+                    //       //       //     tickValues={[
+                    //       //       //       2006,
+                    //       //       //       2007,
+                    //       //       //       2008,
+                    //       //       //       2009,
+                    //       //       //       2010,
+                    //       //       //       2011,
+                    //       //       //       2012,
+                    //       //       //       2013,
+                    //       //       //       2014,
+                    //       //       //       2015,
+                    //       //       //       2016,
+                    //       //       //       2017,
+                    //       //       //       2018,
+                    //       //       //       2019,
+                    //       //       //     ]}
+                    //       //       //     // interval={1}
+                    //       //       //     // padding={10}
+                    //       //       //     label={
+                    //       //       //       <LinearXAxisTickLabel
+                    //       //       //         align="inside"
+                    //       //       //         // position="center"
+                    //       //       //       />
+                    //       //       //     }
+                    //       //       //   />
+                    //       // }
+                    //     }
                   />
                 </Center>
                 <div class="space"></div>
@@ -687,8 +853,8 @@ class Home extends Component {
                 <Center>
                   <div style={{ margin: "10px", textAlign: "center" }}>
                     <BarChart
-                      width={800}
-                      height={350}
+                      width={1300}
+                      height={500}
                       data={this.state.stats}
                     />
                   </div>
