@@ -12,11 +12,9 @@ import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
 import {
   BarChart,
-  StackedAreaChart,
-  StackedAreaSeries,
-  color,
+  LinearXAxisTickSeries,
+  LinearXAxisTickLine,
   Line,
-  lineStroke,
   LineChart,
   LineSeries,
   LinearXAxis,
@@ -590,8 +588,12 @@ class Home extends Component {
                     xAxis={
                       <LinearXAxis
                         type="duration"
-                        // tickSeries={<LinearXAxisTickSeries line={null} />}
-                        vaues={1,2,3}
+                        tickSeries={
+                          <LinearXAxisTickSeries
+                            line={<LinearXAxisTickLine position="center" />}
+                            label={<LinearXAxisTickLabel padding={3}/>}
+                          />
+                        }
                       />
                     }
                   />
