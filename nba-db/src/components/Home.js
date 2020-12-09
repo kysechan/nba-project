@@ -1,18 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import { makeStyles } from "@material-ui/core/styles";
 import SearchComponent from "./SearchComponent";
 import ResultsTable from "./ResultsTable";
 import static_players from "./StaticPlayerList";
 import Center from "react-center";
 import { Element } from "react-scroll";
 import Theme from "./theme";
-import { ThemeProvider } from "@material-ui/core/styles";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
 import logo from "../images/basketball-player.svg";
-import Grid from "@material-ui/core/Grid";
 import {
   BarChart,
   LinearXAxisTickSeries,
@@ -25,8 +21,10 @@ import {
 } from "reaviz";
 
 //Material UI
+import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -34,9 +32,11 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import { ThemeProvider } from "@material-ui/core/styles";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
+import Grid from "@material-ui/core/Grid";
 
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -50,10 +50,13 @@ import dynamicData from "./Recharts.js";
 import SelectStage from "./SelectStage";
 // import Visualize from "./Visualize";
 import distinctColors from "distinct-colors";
-
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
-
 import Typography from "@material-ui/core/Typography";
+
+import Cookies from "universal-cookie";
+import { Treemap } from "recharts";
+
+const cookies = new Cookies();
 
 const colorArray = [
   "#0066cc",
@@ -184,6 +187,14 @@ const styles = (theme) => ({
   },
 });
 
+function set_cookie(name, value) {
+  cookies.set(name, JSON.stringify(value), { path: "/" });
+}
+
+function get_cookie(name, value) {
+  return cookies.get(name);
+}
+
 async function get_autcompete_props() {
   try {
     const resp = await fetch("http://" + API_IP + ":8080/api/player/all");
@@ -230,6 +241,7 @@ class Home extends Component {
     this.player_list = Array();
     this.i = 0;
     this.show_graph2 = false;
+    this.unique_names = new Set();
     this.last = "none";
     this.years = [
       "2007",
@@ -272,9 +284,6 @@ class Home extends Component {
   handleFilter(event) {
     this.setState({ filter: event.target.value });
     this.filter = event.target.value;
-    //this.search_player();
-    // this.last = "filter"
-    // if (this.last != "search") this.process();
     this.forceUpdate();
   }
 
@@ -294,56 +303,53 @@ class Home extends Component {
       );
       this.value = values.player;
     }
-
-    // this.process();
-    // this.forceUpdate();
   };
 
-  update_compares() {
-    var total_compare = {};
-    const filter_1 = this.state.filter;
-    var i = 0;
-    console.log(this.state.player_list);
-    const p = this.state.player_list;
-    p.forEach(function (arrayItem) {
-      if (!total_compare[arrayItem["Player"]]) {
-        total_compare[arrayItem["Player"]] = Array();
-      } else {
-        total_compare[arrayItem["Player"]].push({
-          key: arrayItem["Season"].split(" ")[0],
-          id: i.toString(),
-          data: arrayItem[filter_1],
-        });
-        i = i + 1;
+  update_compares(filter) {
+    cookies.remove("graph1_data");
+
+    var unique_names = JSON.parse(get_cookie("unique_names"));
+    var player_data = {};
+    console.log("printing unique names");
+    console.log(unique_names);
+
+    var player_list = this.state.player_list;
+    console.log(player_list);
+
+    player_list.forEach(function (arrayItem) {
+      // console.log(arrayItem)
+      if (!player_data[arrayItem["Player"]]) {
+        player_data[arrayItem["Player"]] = Array();
       }
-    });
-    // const t = JSON.parse();
-    var temp = Array();
-    for (var k in total_compare.keys) {
-      console.log(k);
-      temp.concat({
-        key: k,
-        data: total_compare[k],
+      player_data[arrayItem["Player"]].push({
+        key: arrayItem["Season"].split(" ")[0],
+        data: arrayItem[filter],
       });
-    }
-    // this.setState({ compare: temp });
-    // this.state.compare = temp;
-    // this.setState({ compare: total_compare });
-    console.log(this.state.compare);
-    console.log("printing compare");
-    console.log(this.state.compare);
-    return temp;
+    });
+
+    var final_list = Array();
+    unique_names.forEach((item) => {
+      final_list.push({
+        key: item,
+        data: player_data[item],
+      });
+    });
+
+    // const graph1_data = unique_names.map((player) => {
+    //   "key": player,
+    //   // data: player_data[player],
+    // });
+
+    set_cookie("graph1_data", final_list);
+    // return temp;
   }
   clearAutocomplete(event, values) {
     values.player = null;
   }
 
   async process() {
-    // this.setState({ stats: [] });
-    // let accesstoRef = d3.select(this.myRef.current);
     this.stats = Array();
     var i;
-    // var j = 0;
 
     for (i = 0; i < this.years.length; i++) {
       await fetch(
@@ -388,33 +394,49 @@ class Home extends Component {
     this.setState({ stats: this.stats });
   }
 
-  update() {
+  update(event) {
     this.setState({ value: this.state.value });
+    this.show_table = true;
 
-    // this.player_list = this.state.player_list;
-    // this.state.compare = Array();
-    // this.setState({ compare:  });
-    // this.update_compares();
-
-    console.log(";alskdjf;alsdkjf");
-    console.log(this.state.compare);
-    this.compare = this.update_compares();
-    this.setState({ compare: this.compare });
+    console.log("printing graph1 data in update()...");
+    var graph1_data = get_cookie("graph1_data");
+    this.update_compares(this.state.filter);
+    console.log(graph1_data);
     this.forceUpdate();
   }
   clear() {
-    this.player_list = [];
-    this.setState({ compare: Array(), player_list: Array() });
+    this.setState({
+      compare: Array(),
+      player_list: Array(),
+      compare: Array(),
+      stats: [],
+      data: [],
+      grouped_player_list: [],
+      year: null,
+    });
     this.show_table = false;
+    this.player_list = [];
     this.state.data = [];
     this.state.disable_filter = false;
     this.state.searchText = "";
     this.clear_search = true;
+    this.json = "";
+    this.response = "";
+    this.stage = null;
+    this.filter = null;
+
     this.forceUpdate();
   }
 
   // Get request API player endpoint
   async search_player(event) {
+    if (this.stage == null || this.state.year == null || this.value == null) {
+      alert("Please select more parameters");
+      return;
+    }
+    if (!this.unique_names.has(this.value)) {
+      this.unique_names.add(this.value);
+    }
     await fetch(
       "http://" +
         API_IP +
@@ -470,7 +492,39 @@ class Home extends Component {
           }),
         });
         this.compare = this.state.compare;
-        console.log(this.state.compare);
+        this.player_list = this.state.player_list;
+        this.stats = this.state.stats;
+
+        // set cookie
+        // var player_list_string = JSON.stringify(this.player_list);
+        // set_cookie('player_list', this.player_list[0])
+        // set_cookie('test', ";a;ldsjkf;alsdkjf")
+
+        console.log("setting unique names...");
+        var temp = Array();
+        for (let item of this.unique_names) {
+          temp.push(item);
+        }
+
+        set_cookie("unique_names", JSON.stringify(temp));
+        console.log(temp);
+
+        console.log("setting graph1 data...");
+        set_cookie("graph1_data", this.compare);
+
+        console.log("getting graph1 data...");
+        var graph1_data = JSON.parse(JSON.stringify(get_cookie("graph1_data")));
+        console.log(graph1_data);
+
+        console.log("setting graph2 data...");
+        set_cookie("graph2_data", this.stats);
+        //
+        console.log("getting player list...");
+        var player_list_data = get_cookie("player_list");
+        console.log(player_list_data);
+        // console.log(cookie)
+
+        // console.log(this.state.compare);
         console.log(`stats state: ${JSON.stringify(this.state.stats)}`);
         this.forceUpdate();
       })
@@ -499,12 +553,15 @@ class Home extends Component {
     console.log("in render");
     console.log(this.compare);
     console.log(this.state.compare);
-    // this.setState({ stats: this.stats });
     const { classes, theme } = this.props;
-    var comp = this.compare;
+    const graph1_data = get_cookie("graph1_data");
+    const graph2_data = get_cookie("graph2_data");
 
-    // this.props.data = this.data;
+    console.log("printing graph1 data...");
+    console.log(graph1_data);
+
     let element;
+
     return (
       <div className={classes.homeRoot}>
         <ThemeProvider theme={Theme}>
@@ -777,6 +834,11 @@ class Home extends Component {
               </Toolbar>
               {this.show_table ? (
                 <div>
+                  {/* {this.state.grouped_player_list.map((item, index) => (
+                    <Typography variant="h5" style={{ color: item.color, margin: "10px" }}>
+                      {item.player}
+                    </Typography>
+                  ))} */}
                   <Grid
                     container
                     direction="column"
@@ -814,7 +876,7 @@ class Home extends Component {
                           line={<Line strokeWidth={4} />}
                         />
                       }
-                      data={comp}
+                      data={graph1_data}
                       gridlines={null}
                       xAxis={
                         <LinearXAxis
@@ -838,11 +900,7 @@ class Home extends Component {
                   </Center>
                   <Center>
                     <div style={{ margin: "10px", textAlign: "center" }}>
-                      <BarChart
-                        width={800}
-                        height={350}
-                        data={this.state.stats}
-                      />
+                      <BarChart width={800} height={350} data={graph2_data} />
                     </div>
                   </Center>
                 </div>
