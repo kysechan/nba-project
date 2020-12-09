@@ -50,6 +50,13 @@ import dynamicData from "./Recharts.js";
 import SelectStage from "./SelectStage";
 // import Visualize from "./Visualize";
 import distinctColors from "distinct-colors";
+<<<<<<< HEAD
+=======
+
+//Custom Graphics
+import NivoLineChart from "./visuals/NivoLineChart";
+
+>>>>>>> b12cf8032a106bf8284e9775a75930bf5b0a7f11
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 
@@ -220,6 +227,7 @@ class Home extends Component {
       i: 0,
       compare: [],
       grouped_player_list: [],
+      nivo_data: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleYear = this.handleYear.bind(this);
@@ -459,6 +467,7 @@ class Home extends Component {
         var arr = Array();
         var tmp_player_list = Array();
         var compare = Array();
+        var graph_data = Array();
         var i = 0;
         response.data.forEach(function (arrayItem) {
           arr.push({
@@ -471,10 +480,18 @@ class Home extends Component {
             id: i.toString(),
             data: arrayItem[filter_1],
           });
+          graph_data.push({
+            x: parseInt(arrayItem["Season"].split(" ")[0]),
+            y: parseInt(arrayItem[filter_1]),
+          });
           i = i + 1;
         });
         i = 0;
         console.log(`Array after for loop: ${JSON.stringify(arr)}`);
+        var picked_color = randomColor({
+          luminosity: 'light',
+          format: 'hsl'
+        })
         this.setState({
           stats: arr,
           player_list: this.state.player_list.concat(tmp_player_list),
@@ -548,6 +565,23 @@ class Home extends Component {
         );
       });
   }
+
+  // componentDidMount(){
+  //   this.value = "Stephen Curry";
+  //   this.year = "2016";
+  //   this.stage = "regular";
+  //   this.filter = "PTS";
+  //   this.setState({
+  //     value: "Stephen Curry",
+  //     year: "2010",
+  //     stage: "regular",
+  //     filter: "PTS"
+  //   });
+  //   this.search_player();
+  //   this.forceUpdate();
+  //   //this.toggleTable();
+
+  // }
 
   render() {
     console.log("in render");
@@ -648,6 +682,7 @@ class Home extends Component {
                       id="year-form"
                       className={classes.yearForm}
                       InputProps={{
+                        className: classes.autoCompleteTextField,
                         className: classes.yearInput,
                       }}
                       type="search"

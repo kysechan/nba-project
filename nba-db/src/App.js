@@ -50,13 +50,33 @@ const styles = (theme) => ({
 });
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      compare: [],
+    } 
+    this.updateCompare = this.updateCompare.bind(this);
+    this.getCompare = this.getCompare.bind(this);
+  }
 
+  updateCompare(data) {
+    //const target = event.target;
+    //const value = target.type === 'checkbox' ? target.checked : target.value;
+    //const name = target.name;
+    console.log(`Updating App Compare: ${data}`);
+    this.setState({
+      compare: data
+    });
+  }
+  getCompare(){
+    return this.state.compare;
+  }
   render() {
     const { classes } = this.props;
 
     return (
       <div className={classes.root}>
-        <Home />
+        <Home updateCompare={this.updateCompare} getCompare={this.getCompare} />
       </div>
     );
   }
