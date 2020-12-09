@@ -59,17 +59,24 @@ class ResultsTable extends Component{
                       <TableHead>
                         <TableRow>
                           <TableCell className={classes.tableHeader}>Player Name</TableCell>
+                          <TableCell align="center" className={classes.tableHeader}>Player Name</TableCell>
                           <TableCell align="center" className={classes.tableHeader}>Team</TableCell>
                           <TableCell align="center" className={classes.tableHeader}>Season</TableCell>
                           <TableCell align="center" className={classes.tableHeader}>Stage</TableCell>
                           <TableCell align="center" className={classes.tableHeader}>Points Scored</TableCell>
                           <TableCell align="center" className={classes.tableHeader}>Assists</TableCell>
+                          <TableCell align="center" className={classes.tableHeader}>Blocks</TableCell>
+                          <TableCell align="center" className={classes.tableHeader}>Rebounds</TableCell>
+                          <TableCell align="center" className={classes.tableHeader}>Offensive Rebounds</TableCell>
+                          <TableCell align="center" className={classes.tableHeader}>Defensive Rebounds</TableCell>
                           <TableCell align="center" className={classes.tableHeader}>Games Played</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>Minutes Played</TableCell>
+                          <TableCell align="center" className={classes.tableHeader}>Total Minutes Played</TableCell>
+                          <TableCell align="center" className={classes.tableHeader}>Fouls</TableCell>
+                          <TableCell align="center" className={classes.tableHeader}>Turnovers</TableCell>
                           <TableCell align="center" className={classes.tableHeader}>FG Made</TableCell>
                           <TableCell align="center" className={classes.tableHeader}>FG Attempted</TableCell>
                           <TableCell align="center" className={classes.tableHeader}>3-P Made</TableCell>
-                          <TableCell align="center"  className={classes.tableHeader}> 3-P Attempted</TableCell>
+                          <TableCell align="center"  className={classes.tableHeader}>3-P Attempted</TableCell>
                           <TableCell align="center" className={classes.tableHeader}>FT Made</TableCell>
                           <TableCell align="center" className={classes.tableHeader}>FT Attempted</TableCell>
                         </TableRow>
@@ -85,8 +92,15 @@ class ResultsTable extends Component{
                             <TableCell align="center" className={classes.tableText}>{player.Stage}</TableCell>
                             <TableCell align="center" className={classes.tableText}>{player.PTS}</TableCell>
                             <TableCell align="center" className={classes.tableText}>{player.AST}</TableCell>
+                            <TableCell align="center" className={classes.tableText}>{player.BLK}</TableCell>
+                            <TableCell align="center" className={classes.tableText}>{player.REB}</TableCell>
+                            <TableCell align="center" className={classes.tableText}>{player.ORB}</TableCell>
+                            <TableCell align="center" className={classes.tableText}>{player.DRB}</TableCell>
+                            <TableCell align="center" className={classes.tableText}>{player.BLK}</TableCell>
                             <TableCell align="center" className={classes.tableText}>{player.GP}</TableCell>
                             <TableCell align="center" className={classes.tableText}>{player.MIN}</TableCell>
+                            <TableCell align="center" className={classes.tableText}>{player.PF}</TableCell>
+                            <TableCell align="center" className={classes.tableText}>{player.TOV}</TableCell>
                             <TableCell align="center" className={classes.tableText}>{player.FGM}</TableCell>
                             <TableCell align="center" className={classes.tableText}>{player.FGA}</TableCell>
                             <TableCell align="center" className={classes.tableText}>{player["3PM"]}</TableCell>
