@@ -1,13 +1,8 @@
 # nba-project
 CSE115
 
-## Resources:
-* Any resources that are too large for github can be uploaded here:
-    * https://drive.google.com/drive/folders/1moXjdrTpaoFEKnBINRneiClz7n2kDPku?usp=sharing
-* [NBA Project Shared Folder (gdrive)](https://drive.google.com/drive/folders/0APLV1JIxxMvNUk9PVA)
-* [JIRA (Sprint/Story Management)](https://nbadb.atlassian.net/secure/RapidBoard.jspa?projectKey=NBA)
-* [Release Plan Doc](https://docs.google.com/document/d/1Gi5N25cxH5tdHwD4RcxDuTLrFQG7naUqsnnJQdIfxS8/edit)
-* [Initial Presentation Google Slides](https://docs.google.com/document/d/1Gi5N25cxH5tdHwD4RcxDuTLrFQG7naUqsnnJQdIfxS8/edit)
+## Deliverables
+* [Initial Presentation Google Slides](https://docs.google.com/presentation/d/1KJkIA6Ai0BZvweWNEKbcW7n_YaEc_zuchxba9BY8W9I/edit?usp=sharing)
 * [Sprint 1 Plan](https://docs.google.com/document/d/1vhGEjX9edBMyNXJ1CU2zA4r9vIr3i6M9A2rFQYs-AD8/edit?usp=sharing)
 * [Sprint 1 Report](https://docs.google.com/document/d/1b-AZ1sWr0hPJQJBzr8ktH7feTw9IG9P5ZyXByoQW3g0/edit?usp=sharing)
 * [Sprint 2 Plan](https://docs.google.com/document/d/18SG5_iivvgSS76AtI7EcfZMnXrB4IlHhEpBKrsddRQo/edit?usp=sharing)
@@ -15,6 +10,18 @@ CSE115
 * [Sprint 3 Plan](https://docs.google.com/document/d/1KXc_8nbs-cNGViP5YPqUC7lDmhc00pSWgkuNrT-BJ9I/edit)
 * [Sprint 3 Report](https://docs.google.com/document/d/18Ub32gAbnZThY7ou6OQW-b6G4yuQ51BQShq6zSCOeOs/edit)
 * [Sprint 4 Plan](https://docs.google.com/document/d/1IfShkFGDsBJxwENH3YJHX-mHAv_gbGYDHvGnGnQR3d4/edit?usp=sharing)
+* [System and Unit Test Report](https://docs.google.com/document/d/19iNWw9GU-WnVfngATwTWzFl-NATeYKGq_V1fM_X9JnU/edit?usp=sharing)
+* [Working Prototype Known Problems Report](https://docs.google.com/document/d/1BL6tacdkyNXpswGzXGDWQJXOAEhrJCDLWcVxZQUHUzQ/edit?usp=sharing)
+* [Release Plan](https://docs.google.com/document/d/1Gi5N25cxH5tdHwD4RcxDuTLrFQG7naUqsnnJQdIfxS8/edit?usp=sharing)
+* [Final Presentation](https://docs.google.com/presentation/d/1G1yPB4Nfr-f2MXg1A7PugTBmdJ0h0zLh2Jf_mnJhxJs/edit?usp=sharing)
+
+## Resources:
+* Any resources that are too large for github can be uploaded here:
+    * https://drive.google.com/drive/folders/1moXjdrTpaoFEKnBINRneiClz7n2kDPku?usp=sharing
+* [NBA Project Shared Folder (gdrive)](https://drive.google.com/drive/folders/0APLV1JIxxMvNUk9PVA)
+* [JIRA (Sprint/Story Management)](https://nbadb.atlassian.net/secure/RapidBoard.jspa?projectKey=NBA)
+* [Release Plan Doc](https://docs.google.com/document/d/1Gi5N25cxH5tdHwD4RcxDuTLrFQG7naUqsnnJQdIfxS8/edit)
+
 
 ## Getting Frontend Running
 
