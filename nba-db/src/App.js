@@ -36,6 +36,7 @@ const drawerWidth = 255;
 const styles = (theme) => ({
   root: {
     backgroundColor: "#212121",
+    height: '100vh !important',
   },
   appBar: {
     backgroundColor: "#222D3B",

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core/styles";
 import SearchComponent from "./SearchComponent";
+import ResultsTable from "./ResultsTable";
 import static_players from "./StaticPlayerList";
 import Center from "react-center";
 import { Element } from "react-scroll";
@@ -42,18 +43,22 @@ import Select from "@material-ui/core/Select";
 import { DataGrid } from "@material-ui/data-grid";
 import Toolbar from '@material-ui/core/Toolbar';
 import Container from '@material-ui/core/Container';
-
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import Chart from "./Recharts";
 import dynamicData from "./Recharts.js";
 import SelectStage from "./SelectStage";
 // import Visualize from "./Visualize";
+import distinctColors from 'distinct-colors'
 
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 
 import Typography from "@material-ui/core/Typography";
 
+const colorArray = ['#0066cc', '#00b33c', '#9933ff', '#ff0000', '#0099cc', '#ff00ff', '#666699', '#00cc99', '#ffcc00', '#3366ff', '#ffff00'];
+var palette = distinctColors()
+var randomColor = require('randomcolor');
+//console.log(`Pallete: ${JSON.stringify(palette[0].hex())}`)
 const WhiteTextTypography = withStyles({
   root: {
     color: "#FFFFFF",
@@ -87,6 +92,8 @@ const styles = (theme) => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
+    backgroundColor: "#212121",
+    height: '100%'
   },
 
   resultsContainer: {
@@ -157,11 +164,19 @@ const styles = (theme) => ({
     marginRight:'10px',
     color:'white',
   },
+  yearInput:{
+    color:'white'
+  },
+
   selectEmpty:{
     color:'white'
   },
   filterOptions:{
     color:'black'
+  },
+  homeRoot:{
+    backgroundColor: "#212121",
+    height: '100vh !important',
   }
 
 });
@@ -190,6 +205,7 @@ class Home extends Component {
       stats: [],
       i: 0,
       compare: [],
+      grouped_player_list: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleYear = this.handleYear.bind(this);
@@ -314,28 +330,10 @@ class Home extends Component {
               data: response[this.filter],
             },
           ]);
-          // this.state.stats = this.state.stats.concat([
-          //   {
-          //     key: this.state.years[this.state.i],
-          //     data: response[this.state.filter],
-          //   },
-          // ]);
-          // this.setState({
-          //   stats: this.state.stats.concat([
-          //     {
-          //       key: this.state.years[this.state.i],
-          //       data: response[this.state.filter],
-          //     },
-          //   ]),
-          // });
-          //   this.state.i = this.state.i + 1;
-          // this.setState({ i: this.state.i + 1 });
           this.i = this.i + 1;
           return;
         })
         .catch((err) => {
-          //   this.state.i = this.state.i + 1;
-          // this.setState({ i: this.state.i + 1 });
           this.i = this.i + 1;
           console.error("Error: ", err);
 
@@ -347,10 +345,6 @@ class Home extends Component {
     this.i = 0;
     console.log(this.stats);
     this.setState({ stats: this.stats });
-    // console.log(";lajksdfl;akjsdkl;fjal;skdjfl;aksjdf;lkajsdf");
-    // this.setState({ stats: this.state.stats });
-    // this.stats = this.state.stats;
-    // this.process();
   }
 
 
@@ -419,6 +413,14 @@ class Home extends Component {
             key: this.value,
             data: compare,
           }),
+          grouped_player_list: this.state.grouped_player_list.concat({
+            player: response.player,
+            start_year: response.year,
+            data: tmp_player_list,
+            color: randomColor({
+              luminosity: 'light'
+            })
+          })
         });
         console.log(this.state.compare);
         //this.process();
@@ -471,260 +473,233 @@ class Home extends Component {
     // this.props.data = this.data;
     let element;
     return (
-      <ThemeProvider theme={Theme}>
-        <Toolbar className={classes.toolbarWrapper}>
-
-          <img className="logo" src={logo} alt="nba icon" />
-          <Typography variant="h6" className={classes.title}>
-            NBA DB
-          </Typography>
-          <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="flex-start"
-            
-          >
-          <Grid 
-            className={classes.searchBar}
-            container
-            direction="row"
-            justify="flex-start"
-            alignItems="flex-start"
-          >
-              <Autocomplete
-                {...this.autocompleteProps}
-                // id="standard-basic"
-                className={classes.autocomplete}
-                autoComplete
-                type="search"
-                classes={{ inputRoot: classes.inputRoot }}
-                onChange={this.handleAutoCompleteChange}
-                clearOnEscape={true}
-                clearOnBlur={true}
-                style={{color: "white"}}
-                // selectOnFocus="true"
-                value={this.clear_search ? "" : this.value}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    className={classes.autoCompleteTextField}
-                    label="Player Search"
-                    variant="outlined"
-                    style={{color: "white !important"}}
-                  />
-                )}
-                renderOption={(option, { inputValue }) => {
-                  const matches = match(option.player, inputValue);
-                  const parts = parse(option.player, matches);
-
-                  return (
-                    <div>
-                      {parts.map((part, index) => (
-                        <span
-                          key={index}
-                          style={{ fontWeight: part.highlight ? 700 : 400 }}
-                        >
-                          {part.text}
-                        </span>
-                      ))}
-                    </div>
-                  );
+      <div className={classes.homeRoot}>
+        <ThemeProvider theme={Theme}>
+          <div className={classes.root}>
+              <Element
+                className="element"
+                id="containerElement"
+                style={{
+                  width: "100%",
+                  height:'100vh !important',
+                  backgroundColor: "#212121",
                 }}
-              />
-              <TextField
-                className="year"
-                // id="standard-basic"
-                label="Year"
-                id="year-form"
-                className={classes.yearForm}
-                type="search"
-                value={this.state.year}
-                onChange={this.handleYear}
-                variant="outlined"
-              />
-              <FormControl
-                variant="outlined"
-                required
-                className={classes.stage_select}
-                disabled={this.state.disable_filter}
-                style={{color: "white"}}
-                style={{marginTop: "0px"}}
               >
-                <InputLabel id="stage-select" style={{marginTop: "0px"}}>Stage</InputLabel>
-                <Select
-                  labelId="stage-select"
-                  id="stage-here"
-                  value={this.state.stage}
-                  onChange={this.handleStage}
-                  className={classes.selectEmpty}
-                  
-                >
-                  <MenuItem style={{color: "black"}} value={"regular"}>Regular Season</MenuItem>
-                  <MenuItem style={{color: "black"}} value={"playoffs"}>Playoffs</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl variant="outlined"
-                required
-                className={classes.filter_select}
-                disabled={this.state.disable_filter}
-                style={{marginTop: "0px"}}
-              >
-                <InputLabel id="filter-select">Filter</InputLabel>
-                <Select
-                  labelId="filter-select"
-                  id="filter"
+          <Toolbar className={classes.toolbarWrapper}>
+
+            <img className="logo" src={logo} alt="nba icon" />
+            <Typography variant="h6" className={classes.title}>
+              NBA DB
+            </Typography>
+            <Grid
+              container
+              direction="column"
+              justify="center"
+              alignItems="flex-start"
+              
+            >
+            <Grid 
+              className={classes.searchBar}
+              container
+              direction="row"
+              justify="flex-start"
+              alignItems="flex-start"
+            >
+                <Autocomplete
+                  {...this.autocompleteProps}
+                  // id="standard-basic"
+                  className={classes.autocomplete}
+                  autoComplete
+                  type="search"
+                  classes={{ inputRoot: classes.autoCompleteTextField }}
+                  onChange={this.handleAutoCompleteChange}
+                  clearOnEscape={true}
+                  clearOnBlur={true}
                   style={{color: "white"}}
-                  value={this.state.filter}
-                  onChange={this.handleFilter}
-                  className={classes.selectEmpty}
-                >
-                  <MenuItem value={"PTS"} className={classes.filterOptions}>PTS</MenuItem>
-                  <MenuItem value={"AST"} className={classes.filterOptions}>AST</MenuItem>
-                  <MenuItem value={"STL"} className={classes.filterOptions}>STL</MenuItem>
-                  <MenuItem value={"BLK"} className={classes.filterOptions}>BLK</MenuItem>
-                  <MenuItem value={"MIN"} className={classes.filterOptions}>MIN</MenuItem>
-                  <MenuItem value={"FGM"} className={classes.filterOptions}>FGM</MenuItem>
-                  <MenuItem value={"FGA"} className={classes.filterOptions}>FGA</MenuItem>
-                  <MenuItem value={"3PM"} className={classes.filterOptions}>3PM</MenuItem>
-                  <MenuItem value={"3PA"} className={classes.filterOptions}>3PA</MenuItem>
-                  <MenuItem value={"FTM"} className={classes.filterOptions}>FTM</MenuItem>
-                  <MenuItem value={"FTA"} className={classes.filterOptions}>FTA</MenuItem>
-                  <MenuItem value={"TOV"} className={classes.filterOptions}>TOV</MenuItem>
-                  <MenuItem value={"PF"} className={classes.filterOptions}>PF</MenuItem>
-                  <MenuItem value={"REB"} className={classes.filterOptions}>REB</MenuItem>
-                  <MenuItem value={"ORB"} className={classes.filterOptions}>ORB</MenuItem>
-                  <MenuItem value={"DRB"} className={classes.filterOptions}>DRB</MenuItem>
-                  <MenuItem value={"GP"} className={classes.filterOptions}>GP</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid>
-              <div>
-                <Button variant="contained" className={classes.searchButtons} onClick={this.search_player}>
-                  Player 
-                </Button>
-                <Button variant="contained" className={classes.searchButtons} onClick={this.clear}>
-                  Clear
-                </Button>
-                <Button variant="contained" className={classes.searchButtons} onClick={this.update}>
-                  Update
-                </Button>
-              </div>
-            </Grid>
-          </Grid>
-            
-        </Toolbar>
-        <div className={classes.root}>
-          <Element
-            className="element"
-            id="containerElement"
-            style={{
-              position: "relative",
-              overflow: "hidden",
-              width: "100%",
-              marginTop: "65px",
-            }}
-          >
-            {this.show_table ? (
-              <div>
-                <Center>
-                  <TableContainer component={Paper} className={classes.tableWrapper}>
-                    <Table className={classes.table} aria-label="simple table">
-                      <TableHead>
-                        <TableRow>
-                          <TableCell className={classes.tableHeader}>Player Name</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>Team</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>Season</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>Stage</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>Points Scored</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>Assists</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>Games Played</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>Minutes Played</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>FG Made</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>FG Attempted</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>3-P Made</TableCell>
-                          <TableCell align="center"  className={classes.tableHeader}> 3-P Attempted</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>FT Made</TableCell>
-                          <TableCell align="center" className={classes.tableHeader}>FT Attempted</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {this.state.player_list.map((player) => (
-                          <TableRow key={player.Player}>
-                            <TableCell component="th" scope="row" className={classes.tableText}>
-                              {player.Player}
-                            </TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.Team}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.Season}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.Stage}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.PTS}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.AST}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.GP}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.MIN}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.FGM}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.FGA}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player["3PM"]}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player["3PA"]}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.FTM}</TableCell>
-                            <TableCell align="center" className={classes.tableText}>{player.FTA}</TableCell>
-                          </TableRow>
+                  // selectOnFocus="true"
+                  value={this.clear_search ? "" : this.value}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      className={classes.autoCompleteTextField}
+                      label="Player Search"
+                      variant="outlined"
+                      style={{color: "white !important"}}
+                    />
+                  )}
+                  renderOption={(option, { inputValue }) => {
+                    const matches = match(option.player, inputValue);
+                    const parts = parse(option.player, matches);
+
+                    return (
+                      <div>
+                        {parts.map((part, index) => (
+                          <span
+                            key={index}
+                            style={{ fontWeight: part.highlight ? 700 : 400 }}
+                          >
+                            {part.text}
+                          </span>
                         ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </Center>
-                <Center>
-                  <h1 style={{ color: "white" }}>{this.state.filter}</h1>
-                </Center>
-                <Center>
-                  {/* <Chart data={this.state.data} filter={this.state.filter} /> */}
-                  <LineChart
-                    width={800}
-                    height={350}
-                    scaled={false}
-                    series={
-                      <LineSeries
-                        type="grouped"
-                        line={<Line strokeWidth={4} />}
-                      />
-                    }
-                    data={this.state.compare}
-                    gridlines={null}
-                    xAxis={
-                      <LinearXAxis
-                        type="duration"
-                        tickSeries={
-                          <LinearXAxisTickSeries
-                            line={<LinearXAxisTickLine position="center" />}
-                            label={<LinearXAxisTickLabel padding={3}/>}
-                          />
-                        }
-                      />
-                    }
-                  />
-                </Center>
-                <div class="space"></div>
-                <Center>
-                  <h1 style={{ color: "white" }}>
-                    Past {this.state.stats.length} Seasons for{" "}
-                    {this.state.value} [{this.state.filter}]
-                  </h1>
-                </Center>
-                <Center>
-                  <div style={{ margin: "10px", textAlign: "center" }}>
-                    <BarChart
+                      </div>
+                    );
+                  }}
+                />
+                <TextField
+                  className="year"
+                  // id="standard-basic"
+                  label="Year"
+                  id="year-form"
+                  className={classes.yearForm}
+                  InputProps={{
+                    className: classes.yearInput
+                  }}
+                  type="search"
+                  value={this.state.year}
+                  onChange={this.handleYear}
+                  variant="outlined"
+                />
+                <FormControl
+                  variant="outlined"
+                  required
+                  className={classes.stage_select}
+                  disabled={this.state.disable_filter}
+                  style={{color: "white"}}
+                  style={{marginTop: "0px"}}
+                >
+                  <InputLabel id="stage-select" style={{marginTop: "0px"}}>Stage</InputLabel>
+                  <Select
+                    labelId="stage-select"
+                    id="stage-here"
+                    value={this.state.stage}
+                    onChange={this.handleStage}
+                    className={classes.selectEmpty}
+                    
+                  >
+                    <MenuItem style={{color: "black"}} value={"regular"}>Regular Season</MenuItem>
+                    <MenuItem style={{color: "black"}} value={"playoffs"}>Playoffs</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl variant="outlined"
+                  required
+                  className={classes.filter_select}
+                  disabled={this.state.disable_filter}
+                  style={{marginTop: "0px"}}
+                >
+                  <InputLabel id="filter-select">Filter</InputLabel>
+                  <Select
+                    labelId="filter-select"
+                    id="filter"
+                    style={{color: "white"}}
+                    value={this.state.filter}
+                    onChange={this.handleFilter}
+                    className={classes.selectEmpty}
+                  >
+                    <MenuItem value={"PTS"} className={classes.filterOptions}>PTS</MenuItem>
+                    <MenuItem value={"AST"} className={classes.filterOptions}>AST</MenuItem>
+                    <MenuItem value={"STL"} className={classes.filterOptions}>STL</MenuItem>
+                    <MenuItem value={"BLK"} className={classes.filterOptions}>BLK</MenuItem>
+                    <MenuItem value={"MIN"} className={classes.filterOptions}>MIN</MenuItem>
+                    <MenuItem value={"FGM"} className={classes.filterOptions}>FGM</MenuItem>
+                    <MenuItem value={"FGA"} className={classes.filterOptions}>FGA</MenuItem>
+                    <MenuItem value={"3PM"} className={classes.filterOptions}>3PM</MenuItem>
+                    <MenuItem value={"3PA"} className={classes.filterOptions}>3PA</MenuItem>
+                    <MenuItem value={"FTM"} className={classes.filterOptions}>FTM</MenuItem>
+                    <MenuItem value={"FTA"} className={classes.filterOptions}>FTA</MenuItem>
+                    <MenuItem value={"TOV"} className={classes.filterOptions}>TOV</MenuItem>
+                    <MenuItem value={"PF"} className={classes.filterOptions}>PF</MenuItem>
+                    <MenuItem value={"REB"} className={classes.filterOptions}>REB</MenuItem>
+                    <MenuItem value={"ORB"} className={classes.filterOptions}>ORB</MenuItem>
+                    <MenuItem value={"DRB"} className={classes.filterOptions}>DRB</MenuItem>
+                    <MenuItem value={"GP"} className={classes.filterOptions}>GP</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid>
+                <div>
+                  <Button variant="contained" className={classes.searchButtons} onClick={this.search_player}>
+                    Player 
+                  </Button>
+                  <Button variant="contained" className={classes.searchButtons} onClick={this.clear}>
+                    Clear
+                  </Button>
+                  <Button variant="contained" className={classes.searchButtons} onClick={this.update}>
+                    Update
+                  </Button>
+                </div>
+              </Grid>
+            </Grid>
+              
+          </Toolbar>
+              {this.show_table ? (
+                <div>
+                  <Grid
+                    container
+                    direction="column"
+                    justify="flex-start"
+                    alignItems="center"
+                  >
+                    {this.state.grouped_player_list.length > 0 && this.state.grouped_player_list.map((item, index) =>
+                      <Grid item style={{marginTop: '30px'}}>
+                        <Typography variant="h5" style={{color: item.color}}>
+                          {item.player}
+                        </Typography>
+                        <ResultsTable player_list={item.data} grouped_player_list={item}/>
+                      </Grid>
+                    )}
+                  </Grid>
+                  <Center>
+                    <h1 style={{ color: "white" }}>{this.state.filter}</h1>
+                  </Center>
+                  <Center>
+                    {/* <Chart data={this.state.data} filter={this.state.filter} /> */}
+                    <LineChart
                       width={800}
                       height={350}
-                      data={this.state.stats}
+                      scaled={false}
+                      series={
+                        <LineSeries
+                          type="grouped"
+                          line={<Line strokeWidth={4} />}
+                        />
+                      }
+                      data={this.state.compare}
+                      gridlines={null}
+                      xAxis={
+                        <LinearXAxis
+                          type="duration"
+                          tickSeries={
+                            <LinearXAxisTickSeries
+                              line={<LinearXAxisTickLine position="center" />}
+                              label={<LinearXAxisTickLabel padding={3}/>}
+                            />
+                          }
+                        />
+                      }
                     />
-                  </div>
-                </Center>
-              </div>
-            ) : null}
-          </Element>
-        </div>
-      </ThemeProvider>
+                  </Center>
+                  <div className="space"></div>
+                  <Center>
+                    <h1 style={{ color: "white" }}>
+                      Past {this.state.stats.length} Seasons for{" "}
+                      {this.state.value} [{this.state.filter}]
+                    </h1>
+                  </Center>
+                  <Center>
+                    <div style={{ margin: "10px", textAlign: "center" }}>
+                      <BarChart
+                        width={800}
+                        height={350}
+                        data={this.state.stats}
+                      />
+                    </div>
+                  </Center>
+                </div>
+              ) : null}
+            </Element>
+          </div>
+        </ThemeProvider>
+      </div>
     );
   }
 }
