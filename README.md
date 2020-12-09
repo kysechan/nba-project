@@ -47,9 +47,15 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Running Backend
 
-### `npm run eject`
+### Requirements
+Make sure you have poetry installed which is what we use for managing dependencies
+* Installation guide for poetry can be found here: [poerty](https://python-poetry.org/docs/)
+
+### Running
+To run the backend webserver navigate to `backend-api` and run the script `./dev.sh`
+This will start a webserver running on port 8080 will all endpoints. If you are running locally make sure to also have the mongo database running locally as well on port 27069
 
 ## Getting Mongo shell working [CLIENT]
 1. With Homebrew:
