@@ -11,8 +11,8 @@ import Theme from "./theme";
 import { ThemeProvider } from "@material-ui/core/styles";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
-import logo from '../images/basketball-player.svg';
-import Grid from '@material-ui/core/Grid';
+import logo from "../images/basketball-player.svg";
+import Grid from "@material-ui/core/Grid";
 import {
   BarChart,
   LinearXAxisTickSeries,
@@ -108,7 +108,6 @@ const styles = (theme) => ({
   stage_select: {
     margin: theme.spacing(1),
     minWidth: 100,
-    marginRight:'10px',
   },
   filter_select: {
     margin: theme.spacing(1),
@@ -120,49 +119,33 @@ const styles = (theme) => ({
   },
   autocomplete: {
     minWidth: "100px",
-    width: '40%',
-    marginRight:'10px',
+    width: "40%",
     // text: "color",
     // background: 'white'
   },
   multilineColor: {
     color: "white",
   },
-  table:{
-    
+  table: {},
+  tableWrapper: {
+    marginTop: "20px",
+    width: "95%",
+    backgroundColor: "transparent",
   },
-  tableWrapper:{
-    marginTop:'20px',
-    width: '95%',
-    backgroundColor: 'transparent',
-  },
-  tableHeader:{
+  tableHeader: {
     fontWeight: "bold",
-    color:'white',
+    color: "white",
   },
-  tableText:{
-    color:'white',
+  tableText: {
+    color: "white",
   },
-  searchBar:{
-    paddingTop: '10px',
-    paddingBottom: '10px'
-
+  searchBar: {
+    paddingTop: "10px",
+    paddingBottom: "10px",
   },
-  toolbarWrapper:{
-    backgroundColor: '#0f4c75',
-    paddingBottom: '10px',
-  },
-  searchButtons:{
-    marginRight: '10px',
-    backgroundColor: '#1b262c',
-    color:'white'
-  },
-  autoCompleteTextField:{
-    color:'white'
-  },
-  yearForm:{
-    marginRight:'10px',
-    color:'white',
+  toolbarWrapper: {
+    backgroundColor: "#0f4c75",
+    paddingBottom: "10px",
   },
   yearInput:{
     color:'white'
@@ -177,8 +160,13 @@ const styles = (theme) => ({
   homeRoot:{
     backgroundColor: "#212121",
     height: '100vh !important',
-  }
+  },
 
+  searchButtons: {
+    marginRight: "10px",
+    backgroundColor: "#1b262c",
+    color: "white",
+  },
 });
 
 async function get_autcompete_props() {
@@ -293,6 +281,43 @@ class Home extends Component {
     // this.forceUpdate();
   };
 
+  update_compares() {
+    var compare = Array();
+    const filter_1 = this.state.filter;
+    var i = 0;
+    var iter1 = this.state.player_list;
+    console.log("[;laksjdf;lkja;dfs");
+    console.log(iter1);
+    iter1.forEach(function (arrayItem) {
+      // arr.push({
+      //   key: arrayItem.lower_year_bound.toString(),
+      //   data: arrayItem[filter_1],
+      // });
+      compare.push({
+        key: arrayItem["Season"].split(" ")[0],
+        id: i.toString(),
+        data: arrayItem[filter_1],
+      });
+      i = i + 1;
+    });
+    // this.setState({
+    //   compare: this.state.compare.concat({
+    //     key: this.value,
+    //     data: compare,
+    //   }),
+    // });
+    this.setState({ compare: Array() });
+    this.state.compare = Array();
+    this.setState({
+      compare: this.state.compare.concat({
+        key: this.value,
+        data: compare,
+      }),
+    });
+    console.log("printing compare");
+    console.log(compare);
+    // this.compare = compare;
+  }
   clearAutocomplete(event, values) {
     values.player = null;
   }
@@ -347,20 +372,19 @@ class Home extends Component {
     this.setState({ stats: this.stats });
   }
 
-
-
-
   update() {
     this.setState({ value: this.state.value });
-    this.search_player();
+    // this.setState({  });
+    // this.search_player();
+    this.update_compares();
     this.forceUpdate();
   }
   clear() {
     this.player_list = [];
+    this.setState({ compare: Array(), player_list: Array() });
     this.show_table = false;
     this.state.data = [];
     this.state.disable_filter = false;
-    // this.value = null;
     this.state.searchText = "";
     this.clear_search = true;
     this.forceUpdate();
@@ -423,7 +447,6 @@ class Home extends Component {
           })
         });
         console.log(this.state.compare);
-        //this.process();
         console.log(`stats state: ${JSON.stringify(this.state.stats)}`);
         this.forceUpdate();
       })
@@ -446,7 +469,7 @@ class Home extends Component {
             this.state.stage
         );
       });
-      
+
     //event.preventDefault();
   }
 
