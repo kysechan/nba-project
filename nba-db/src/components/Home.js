@@ -544,6 +544,9 @@ class Home extends Component {
                   renderInput={(params) => (
                     <TextField
                       {...params}
+                      InputProps={{
+                        className: classes.yearInput
+                      }}
                       className={classes.autoCompleteTextField}
                       label="Player Search"
                       variant="outlined"
