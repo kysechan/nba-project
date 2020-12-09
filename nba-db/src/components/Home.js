@@ -10,7 +10,6 @@ import Theme from "./theme";
 import { ThemeProvider } from "@material-ui/core/styles";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
-import { BarChart } from "reaviz";
 import logo from '../images/basketball-player.svg';
 import Grid from '@material-ui/core/Grid';
 import {
