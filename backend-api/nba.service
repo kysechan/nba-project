@@ -1,0 +1,16 @@
+[Unit]
+Description=NBA
+After=multi-user.target
+
+
+[Service]
+WorkingDirectory=/root/nba-project/backend-api
+User=root
+Type=idle
+ExecStart=
+ExecStop=/root/nba-project/clean_containers.sh
+ExecStart=/root/nba-project/backend-api/dev.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
