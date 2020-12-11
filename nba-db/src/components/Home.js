@@ -408,11 +408,10 @@ class Home extends Component {
     console.log(graph1_data);
     this.forceUpdate();
   }
-  clear() {
+  clear(event) {
     this.setState({
       compare: Array(),
       player_list: Array(),
-      compare: Array(),
       stats: [],
       data: [],
       grouped_player_list: [],
@@ -424,8 +423,10 @@ class Home extends Component {
     this.state.disable_filter = false;
     this.state.searchText = "";
     this.clear_search = true;
+    this.compare = null;
     this.json = "";
     this.response = "";
+    this.unique_names = new Set();
     // this.stage = null;
     // this.filter = null;
 
@@ -596,6 +597,8 @@ class Home extends Component {
     console.log(graph1_data);
 
     let element;
+
+
 
     return (
       <div className={classes.homeRoot}>
