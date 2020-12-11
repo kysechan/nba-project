@@ -268,6 +268,10 @@ class Home extends Component {
   handleFilter(event) {
     this.setState({ filter: event.target.value });
     this.filter = event.target.value;
+    if (this.show_table == True) {
+      this.update(event);
+      return;
+    }
     this.forceUpdate();
   }
 
