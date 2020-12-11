@@ -13,6 +13,8 @@
     "@testing-library/user-event": "^12.1.10",
     "autosuggest-highlight": "^3.1.1",
     "data-grid": "^3.0.0",
+    "distinct-colors": "^3.0.0",
+    "randomcolor": "^0.6.2",
     "react": "^17.0.1",
     "react-center": "^1.1.1",
     "react-dom": "^17.0.1",
@@ -22,7 +24,9 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "react-scroll": "^1.8.1",
+    "reaviz": "^9.5.1",
     "recharts": "^1.8.5",
+    "universal-cookie": "^4.0.4",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
