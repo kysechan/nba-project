@@ -92,21 +92,7 @@ let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
 
 const styles = (theme) => ({
-  inputRoot: {
-    // color: "purple",
-    // ".MuiOutlinedInput-notchedOutline": {
-    //   borderColor: "green",
-    // },
-    // ".MuiOutlinedInput-notchedOutline": {
-    //   borderColor: "red",
-    // },
-    // ".MuiOutlinedInput-notchedOutline": {
-    //   borderColor: "purple",
-    // },
-    // ".MuiAutocomplete": {
-    //   color: "black",
-    // },
-  },
+  inputRoot: {},
   root: {
     display: "flex",
     flexWrap: "wrap",
@@ -138,8 +124,6 @@ const styles = (theme) => ({
   autocomplete: {
     minWidth: "100px",
     width: "40%",
-    // text: "color",
-    // background: 'white'
   },
   multilineColor: {
     color: "white",
@@ -241,7 +225,6 @@ class Home extends Component {
     this.json = "";
     this.clear_search = false;
     this.stats = Array();
-    // this.player_list = this.player_list.bind(this);
     this.player_list = Array();
     this.i = 0;
     this.show_graph2 = false;
@@ -262,7 +245,6 @@ class Home extends Component {
       "2018",
       "2019",
     ];
-    //this.player_list = [];
 
     this.autocompleteProps = {
       options: static_players.static_players,
@@ -272,12 +254,10 @@ class Home extends Component {
 
   handleChange(event) {
     this.setState({ value: event.target.value });
-    // this.value = event.target.value;
   }
 
   handleYear(event) {
     this.setState({ year: event.target.value });
-    // this.year = event.target.value;
   }
 
   handleStage(event) {
@@ -321,7 +301,6 @@ class Home extends Component {
     console.log(player_list);
 
     player_list.forEach(function (arrayItem) {
-      // console.log(arrayItem)
       if (!player_data[arrayItem["Player"]]) {
         player_data[arrayItem["Player"]] = Array();
       }
@@ -339,13 +318,7 @@ class Home extends Component {
       });
     });
 
-    // const graph1_data = unique_names.map((player) => {
-    //   "key": player,
-    //   // data: player_data[player],
-    // });
-
     set_cookie("graph1_data", final_list);
-    // return temp;
   }
   clearAutocomplete(event, values) {
     values.player = null;
@@ -415,7 +388,6 @@ class Home extends Component {
       stats: [],
       data: [],
       grouped_player_list: [],
-      // year: null,
     });
     this.show_table = false;
     this.player_list = [];
@@ -427,12 +399,10 @@ class Home extends Component {
     this.json = "";
     this.response = "";
     this.unique_names = new Set();
-    // this.stage = null;
-    // this.filter = null;
 
-    cookies.remove("graph1_data")
-    cookies.remove("graph2_data")
-    cookies.remove("unique_names")
+    cookies.remove("graph1_data");
+    cookies.remove("graph2_data");
+    cookies.remove("unique_names");
 
     this.forceUpdate();
   }
@@ -459,11 +429,8 @@ class Home extends Component {
       .then((response) => response.json())
       .then((response) => {
         this.toggleTable();
-        //this.state.data = this.state.data.concat(response.data);
-        //this.setState({ value: this.state.value });
         console.log(`Response 1: ${response.data}`);
         const filter_1 = this.state.filter;
-        //this.stats = Array();\
         console.log(`Filter: ${filter_1}`);
         var arr = Array();
         var tmp_player_list = Array();
@@ -513,11 +480,6 @@ class Home extends Component {
         this.player_list = this.state.player_list;
         this.stats = this.state.stats;
 
-        // set cookie
-        // var player_list_string = JSON.stringify(this.player_list);
-        // set_cookie('player_list', this.player_list[0])
-        // set_cookie('test', ";a;ldsjkf;alsdkjf")
-
         console.log("setting unique names...");
         var temp = Array();
         for (let item of this.unique_names) {
@@ -536,15 +498,13 @@ class Home extends Component {
 
         console.log("setting graph2 data...");
         set_cookie("graph2_data", this.stats);
-        //
+
         console.log("getting player list...");
         var player_list_data = get_cookie("player_list");
         console.log(player_list_data);
-        // console.log(cookie)
 
-        // console.log(this.state.compare);
         console.log(`stats state: ${JSON.stringify(this.state.stats)}`);
-        // this.forceUpdate();
+
         this.update(event);
       })
       .catch((error) => {
@@ -568,23 +528,6 @@ class Home extends Component {
       });
   }
 
-  // componentDidMount(){
-  //   this.value = "Stephen Curry";
-  //   this.year = "2016";
-  //   this.stage = "regular";
-  //   this.filter = "PTS";
-  //   this.setState({
-  //     value: "Stephen Curry",
-  //     year: "2010",
-  //     stage: "regular",
-  //     filter: "PTS"
-  //   });
-  //   this.search_player();
-  //   this.forceUpdate();
-  //   //this.toggleTable();
-
-  // }
-
   render() {
     console.log("in render");
     console.log(this.compare);
@@ -595,10 +538,7 @@ class Home extends Component {
 
     console.log("printing graph1 data...");
     console.log(graph1_data);
-
     let element;
-
-
 
     return (
       <div className={classes.homeRoot}>
@@ -633,7 +573,6 @@ class Home extends Component {
                   >
                     <Autocomplete
                       {...this.autocompleteProps}
-                      // id="standard-basic"
                       className={classes.autocomplete}
                       autoComplete
                       type="search"
@@ -644,7 +583,6 @@ class Home extends Component {
                       clearOnEscape={true}
                       clearOnBlur={true}
                       style={{ color: "white" }}
-                      // selectOnFocus="true"
                       value={this.clear_search ? "" : this.value}
                       renderInput={(params) => (
                         <TextField
@@ -681,7 +619,6 @@ class Home extends Component {
                     />
                     <TextField
                       className="year"
-                      // id="standard-basic"
                       label="Year"
                       id="year-form"
                       className={classes.yearForm}
@@ -873,11 +810,6 @@ class Home extends Component {
               </Toolbar>
               {this.show_table ? (
                 <div>
-                  {/* {this.state.grouped_player_list.map((item, index) => (
-                    <Typography variant="h5" style={{ color: item.color, margin: "10px" }}>
-                      {item.player}
-                    </Typography>
-                  ))} */}
                   <Grid
                     container
                     direction="column"
@@ -904,14 +836,12 @@ class Home extends Component {
                     <h1 style={{ color: "white" }}>{this.state.filter}</h1>
                   </Center>
                   <Center>
-                    {/* <Chart data={this.state.data} filter={this.state.filter} /> */}
                     <LineChart
                       width={800}
                       height={350}
                       scaled={false}
                       series={
                         <LineSeries
-                          // tooltip={<TooltipArea tooltip={<ChartTooltip />} />}
                           type="grouped"
                           line={<Line strokeWidth={5} />}
                         />
