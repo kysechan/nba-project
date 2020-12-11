@@ -18,6 +18,9 @@ import {
   LineSeries,
   LinearXAxis,
   LinearXAxisTickLabel,
+  TooltipArea,
+  ChartTooltip,
+  TooltipTemplate,
 } from "reaviz";
 
 //Material UI
@@ -482,9 +485,9 @@ class Home extends Component {
         i = 0;
         console.log(`Array after for loop: ${JSON.stringify(arr)}`);
         var picked_color = randomColor({
-          luminosity: 'light',
-          format: 'hsl'
-        })
+          luminosity: "light",
+          format: "hsl",
+        });
         this.setState({
           stats: arr,
           player_list: this.state.player_list.concat(tmp_player_list),
@@ -536,7 +539,8 @@ class Home extends Component {
 
         // console.log(this.state.compare);
         console.log(`stats state: ${JSON.stringify(this.state.stats)}`);
-        this.forceUpdate();
+        // this.forceUpdate();
+        this.update(event);
       })
       .catch((error) => {
         console.error("Error: ", error);
@@ -900,8 +904,9 @@ class Home extends Component {
                       scaled={false}
                       series={
                         <LineSeries
+                          // tooltip={<TooltipArea tooltip={<ChartTooltip />} />}
                           type="grouped"
-                          line={<Line strokeWidth={4} />}
+                          line={<Line strokeWidth={5} />}
                         />
                       }
                       data={graph1_data}
