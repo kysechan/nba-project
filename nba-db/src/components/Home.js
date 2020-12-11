@@ -416,7 +416,7 @@ class Home extends Component {
       stats: [],
       data: [],
       grouped_player_list: [],
-      year: null,
+      // year: null,
     });
     this.show_table = false;
     this.player_list = [];
@@ -426,8 +426,12 @@ class Home extends Component {
     this.clear_search = true;
     this.json = "";
     this.response = "";
-    this.stage = null;
-    this.filter = null;
+    // this.stage = null;
+    // this.filter = null;
+
+    cookies.remove("graph1_data")
+    cookies.remove("graph2_data")
+    cookies.remove("unique_names")
 
     this.forceUpdate();
   }
